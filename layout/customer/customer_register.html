@@ -1,0 +1,167 @@
+
+<!---->
+            {if="$register.status != '' "}
+
+
+            {else}
+
+                <h2>Đăng ký tài khoản</h2>
+
+                <form method="post" action="/ajax/customer_register.php" enctype="multipart/form-data" onsubmit="return check_field();">
+                    <table cellpadding="4" cellspacing="0" id="tb_register" style="width: 100%;">
+                        <tr>
+                            <td colspan="2">Thông tin Đăng nhập</td>
+                        </tr>
+                        <tr>
+                            <td width="150px">Địa chỉ Email</td>
+                            <td>
+                                <input type="text" name="info[email]" value=""/><b style="color: #ff0000;">*</b>
+                                <span id="check_user"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Mật khẩu</td>
+                            <td><input type="password" name="info[password]" size="20" /> <b style="color: #ff0000;">*</b> <span class="explain"></span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Thông tin cá nhân</td>
+                        </tr>
+                        <tr>
+                            <td>Ảnh đại diện (nếu có)</td>
+                            <td><input type="file" name="avatar" id="avatar" class="boxInput" size="40"  value=""/> (dung lượng file tối đa 100KB, ảnh PJG hoặc GIF)</td>
+                        </tr>
+                        <tr>
+                            <td>Họ và tên</td>
+                            <td><input type="text" name="info[name]" size="40" value=""/><b style="color: #ff0000;">*</b></td>
+                        </tr>
+                        <tr>
+                            <td>Giới tính</td>
+                            <td>
+                                <input type="radio" checked="checked" name="info[gender]" value="male" />Nam <input type="radio" name="info[gender]" value="female" />Nữ
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tỉnh/Tp</td>
+                            <td>
+                                <select name="info[province]">
+                                    {loop="register.provinceList"}
+                                    <option value="{$key}">{$value}</option>
+                                    {/loop}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Quận/huyện</td>
+                            <td>
+                                <select name="info[district]">
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Địa chỉ</td>
+                            <td><input type="text" name="info[address]" size="50"  value=""/></td>
+                        </tr>
+                        <tr>
+                            <td>Điện thoại di động</td>
+                            <td><input type="text" name="info[mobile]" size="40"  value=""/></td>
+                        </tr>
+
+                        <!---//Phan dia chi nhan hang: co the khong can phan nay voi nhieu web khi ma thong tin ca nhan
+                         chinh la thong tin nhan hang. Chi dung phan sau neu website can phan nay -->
+                        <tr>
+                            <td colspan="2">Địa chỉ nhận hàng</td>
+                        </tr>
+
+                        <tr>
+                            <td>Tên người nhận</td>
+                            <td><input type="text" name="info[ship_to_name]" size="40"  value=""/><b style="color: #ff0000;">*</b></td>
+                        </tr>
+                        <tr>
+                            <td>Tỉnh/Tp</td>
+                            <td>
+                                <select name="info[ship_to_province]">
+                                    {loop="register.provinceList"}
+                                    <option value="{$key}">{$value}</option>
+                                    {/loop}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Quận/huyện</td>
+                            <td>
+                                <select name="info[ship_to_district]">
+
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Địa chỉ</td>
+                            <td><input type="text" name="info[ship_to_address]" size="50"  value=""/></td>
+                        </tr>
+                        <tr>
+                            <td>Điện thoại</td>
+                            <td><input type="text" name="info[ship_to_tel]" size="40"  value=""/></td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td>
+                                <div><label><input type="checkbox" value="1"> Tôi đồng ý với các điều khoản của website</label> </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input type="hidden" name="return_url" value="{#CURRENT_URL#}" />
+                                <input type="hidden" name="ajax" value="yes" />
+                                <input type="submit" value="Đăng ký" />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+
+            {/if}
+
+
+<script>
+    function sendFormAjax() {
+        var user_email  = $("input[name='info[email]']").val() ;
+        var user_password  = $("input[name='info[password]']").val() ;
+        var user_name   = $("input[name='info[name]']").val() ;
+
+        //kiem tra loi form
+        /*if(!checkForm(user_email, user_name)) {
+            return false;
+        }*/
+
+        var payload = {
+            "name"      : '',
+            "email"     : '',
+            "password"  : '',
+            "tel"       : '',
+            "mobile"    : '',
+            "address"   : '',
+            "district"  : 0,
+            "province"  : 0,
+
+            //shipping info
+            "ship_to_name"      : '',
+            "ship_to_tel"       : '',
+            "ship_to_address"   : '',
+            "ship_to_country"   : '',
+            "ship_to_district"  : 0,
+            "ship_to_province"  : 0,
+
+            //
+            "tax_company"   : '',
+            "tax_address"   : '',
+            "tax_code"      : ''
+        };
+        var ENDPOINT = "/ajax/customer_register.php";
+
+        $.post(ENDPOINT, { ajax : "yes", info : payload }, function (data) {
+            console.log(data);
+        });
+    }
+</script>

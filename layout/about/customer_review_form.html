@@ -1,0 +1,73 @@
+<h1>Góp ý với chúng tôi</h1>
+          
+{if="$send_success=='yes'"}
+
+    <h2>Cảm ơn quý khách đã gửi góp ý.</h2>
+
+    <p>Chúng tôi đã nhận được thông tin</p>
+
+{else}
+
+    
+    <br />
+    <form method="post" enctype="multipart/form-data" action="/ajax/customer_review.php">
+        <table>
+            <tr>
+                <td>Tên của bạn <span class="require">*</span></td>
+                <td><input type="text" size="40" name="user_name" id="user_name" /></td>
+            </tr>
+            <tr>
+                <td>Email <span class="require">*</span></td>
+                <td><input type="text" size="40" name="user_email" id="user_email" /></td>
+            </tr>
+            <tr>
+                <td>Tiêu đề</td>
+                <td><input type="text" size="40" name="title" id="title" /></td>
+            </tr>
+            <tr>
+                <td>Nội dung chi tiết <span class="require">*</span></td>
+                <td><textarea cols="50" rows="8" name="content" id="content"></textarea></td>
+            </tr>
+            <tr>
+                <td>Mã bảo vệ <span class="require">*</span></td>
+                <td><img src="/includes/captcha/captcha.php?v=" id='captchar_holder' /> <a href="javascript:change_captcha('captchar_holder')">đổi mã khác</a> <br /><input type="text" size="10" id='captcha' name="captcha" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <br />
+                    <input type="submit" value="Gửi góp ý" onclick="return check_form();" />
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" value="send" name="action" />
+        <input type="hidden" name="return_url" value="{$return_url}" />
+    </form>
+    
+{/if}
+
+<script type="text/javascript">
+    function check_form(){
+        var error = "";
+        var check_name = document.getElementById('user_name').value;
+        var check_email = document.getElementById('user_email').value;
+        var check_message = document.getElementById('content').value;
+        var check_captcha = document.getElementById('captcha').value;
+  
+        if(check_name.length < 4) error += "- Bạn chưa nhập tên\n";
+        if(check_email.length < 4) error += "- Bạn chưa nhập email\n";
+        if(check_message.length < 4) error += "- Bạn chưa nhập nội dung\n";
+        if(check_captcha.length < 4) error += "- Bạn chưa nhập Mã bảo vệ\n";
+
+        if(error == "") return true;
+        else alert(error);
+        return false;
+    }
+  
+   
+    function change_captcha(holder){
+      var unixtime_ms = new Date().getTime();
+      $("#"+holder).attr("src","/includes/captcha/captcha.php?v="+unixtime_ms);
+    }
+
+</script>

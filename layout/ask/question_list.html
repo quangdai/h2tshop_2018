@@ -1,0 +1,26 @@
+<p><a href="/gui-cau-hoi">Gửi câu hỏi</a></p>
+
+<h1>{$category_info.name}</h1>
+
+<table> 	
+
+{loop="question_list"}
+
+    <tr>
+        <td>
+            <img src="{$value.userAvatar}" /> <br />
+            {$value.userInfo.name} <br /> 
+            <b>{$value.userInfo.question_ask}</b> hỏi - <b>{$value.userInfo.question_answer}</b> trả lời
+        </td>
+        <td>
+            <h3><a href="{$value.url}">{$value.title}</a></h3>
+            <div class='ask-time'>Hỏi lúc: <span>{$value.lastUpdate}</span> / mục : <a href="{$value.categoryUrl}">{$value.categoryInfo.name}</a> / <b>{$value.answer}</b> trả lời / <span>{$value.views}</span> lượt xem</div>
+            <div class='summary'>{$value.content}</div>
+        </td>
+    </tr>
+
+{/loop}
+
+</table>
+
+{$paging}

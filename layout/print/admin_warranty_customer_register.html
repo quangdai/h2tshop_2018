@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>In</title>
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+        <meta content="DOCUMENT" name="RESOURCE-TYPE" />    
+         <style>
+		 	body { font-family:Arial, Helvetica, sans-serif; font-size:12px}
+         	#container { max-width:1200px; margin-left:auto; margin-right:auto}
+			#container h1 {font-size:18px; text-align:center}
+         </style> 
+    </head>
+    <body>
+
+<div id="container">
+    
+		<h1>Khách hàng đăng ký bảo hành</h1>
+    
+        <div style='margin-bottom:6px'>Tổng số bảo hành : <b>{$total_number}</b></div>
+        
+        <table id='tb_padding' cellpadding="4" border="1" bordercolor="#CCC" style="border-collapse:collapse;" width="100%">
+                <tr style="background-color:#EEE; font-weight:bold;">
+                    <td width="40px">STT</td>
+                    <td width="150px">Thông tin khách hàng</td>
+                    <td>Thông tin sản phẩm</td>
+                    <td>Cửa hàng mua</td>
+                    <td>Lỗi sản phẩm</td>
+                    <td width="220px">Cập nhật</td>
+                </tr>
+         {loop="$warranty_list"}
+                <tr id="row_{$value.id}">
+                    <td>{$counter+1}</td>
+                    <td>
+                        - KH: {$value.customer_name} <br />
+                        - Tel: {$value.customer_tel}   <br />
+                        - Địa chỉ: {$value.customer_address}
+                    </td>
+                    <td>
+                        - Mã bảo hành: {$value.warranty_code} <br />
+                        - SP: {$value.product_name} <br />
+                        - Series: {$value.product_series} <br />
+                    </td>
+                    <td>
+                        - Ngày mua:  {$value.product_buy_date} <br />
+                        - Cửa hàng: {$value.shop_buy} <br />
+                        - Địa chỉ: {$value.shop_buy_address} <br />
+                        - Tel: {$value.shop_buy_tel}
+                    </td>
+                    <td>
+                        {$value.error_description}
+                    </td>
+                    <td>
+                        - Tạo bởi: {$value.create_by} ({$value.create_time|show_datetime_from_unix}) <br />
+                        - Cập nhật: {$value.last_update_by}  ({$value.last_update_time|show_datetime_from_unix})
+                    </td>
+                </tr>
+                
+           {/loop}
+		
+        </table>
+
+</div>
+
+<p>&nbsp;</p>
+
+</body>
+</html>

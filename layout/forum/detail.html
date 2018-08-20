@@ -1,0 +1,62 @@
+<div id='create-thread-bt'><a href="post.html?f={$thread_info.forum_id}">Gửi bài vào chuyên mục</a></div>
+
+<!--Start 1  muc forum-->
+<div id="forum-path"><b>Bạn đang xem:</b> {$thread_info.forum_info.path} &raquo; <span>{$thread_info.title}</span></div>
+
+<h1 id="thread-title">{$thread_info.title}</h1>
+             
+            
+<table id='tb-forum' cellpadding="3" cellspacing="0">
+    
+    {if="$current_page_id == 1"}
+         <tr>
+            <td class="forum-user-info">
+                <div>-avatar-</div>
+                <div class="name">{$thread_info.user_info.user_name}</a></div>
+             </td>
+             <td>
+                    <!--Start noi dung-->
+                    <div class="title">Chủ đề: {$thread_info.title}</div>
+                    <div class="forum-post-time">Thời gian: {$thread_info.post_time} </div>
+                    
+                    {$thread_info.content}
+                   
+                    <div class="forum-reply-text"><a href="reply.html?respondTo={$thread_info.id}" title="Trả lời" rel="nofollow">Trả lời</a></div>
+                    
+            </td>
+        </tr>
+	{/if}
+            
+     {loop="$reply_list"}   
+     
+            <tr>
+                <td class="forum-user-info">
+                    <div>-avatar-</div>
+                    <div class="name">{$value.user_info.user_name}</a></div>
+               </td>
+               <td>
+                    <!--Start noi dung-->
+                    <div class="forum-post-time">Thời gian: {$value.post_time} </div>
+                   
+                    {$value.content}
+    
+                    <div class="forum-reply-text"><a href="reply.html?respondTo={$thread_info.id}&amp;reply_to={$value.id}" title="Trả lời">Trả lời</a></div>
+                
+               </td>
+            </tr>
+	
+    {/loop}
+
+   </table>
+               
+   <br /><br />
+
+<script type="text/javascript">
+//make product images description fit to width
+$(document).ready(function() {
+    $('#tb-forum img').addClass("forum-max-width");
+});
+
+</script>
+
+{$paging}

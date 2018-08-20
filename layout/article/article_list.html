@@ -1,0 +1,79 @@
+<div id="breadcrumb">
+    <div itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a href="/" itemprop="url" class="nopad-l">
+            <span itemprop="title">Trang chủ</span>
+        </a> >
+    </div>
+
+    <div itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a href="" itemprop="url">
+            <span itemprop="title">{$category_info.name}</span>
+        </a>
+    </div>
+</div>
+
+<div class="clear"></div>
+
+<div class="article_list">
+
+    <div class="sub-category robot">
+
+        {loop="article_category.article[0]"}<a href="{$value.url}">{$value.title}</a>{/loop}
+        <div class="clear"></div>
+    </div>
+  
+  <!--{if="$category_info.id == 5"}
+  	<div class="subscribe-video">
+        <p>Bạn thích AnhducDigital’s videos?<br/>Bấm để đăng ký nhé!</p>
+        <div class="subscribe-btn">
+          <div class="g-ytsubscribe" data-channelid="UCIdDMl67QQFA4zalKwBy0hg" data-layout="default" data-count="default"></div>
+        </div>
+      </div>{/if}-->
+
+    {loop="article_list"}
+        <div class="item">
+            <a href="{$value.url}" class="txt_b"><h3>{$value.title}</h3></a>
+            <div class="time"><b>Cập nhật :</b> {$value.createDate} - <b>Lượt xem :</b> {$value.visit}</div>
+            <a href="{$value.url}"><img class="img" src="{if="strlen($value.image.thum) > 0"}{$value.image.original}{else}{#IMAGE_PATH#}no_image.jpg{/if}" alt="{$value.title}" /></a>
+            <div class="sum">
+                {|subString:$value.summary,300}
+                <div class="more">
+                    <a href="{$value.url}">Xem chi tiết > </a>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        {else}<div class="space10px">Không có nội dung nào hoặc đang chờ được cập nhật.</div>
+    {/loop}
+	<div class="clear"></div>
+
+    {if="sizeof($paging_collection) > 0"}
+        <div class="clear"></div>
+        <div class="paging">
+            {$paging}
+        </div>
+        {/if}
+
+    <div class="clear"></div>
+</div><!--end-->
+
+<div class="article_right">
+
+    <div class="title robot">Top <span>10</span> xem nhiều nhất</div>
+
+    {loop="top_article_list"}
+        <div class="item{if="$counter > 9"} hide{/if}"><i class="count">{$counter+1}</i>
+            <a href="{$value.url}"><img class="img" src="{if="strlen($value.image.thum) > 0"}{$value.image.original}{else}{#IMAGE_PATH#}no_image.jpg{/if}" alt="{$value.title}" /></a>
+            <div class="time"><b>Cập nhật :</b> {$value.createDate} - <b>Lượt xem :</b> {$value.visit}</div>
+            <a href="{$value.url}" class="txt_b"><h3>{$value.title}</h3></a>
+            <div class="clear"></div>
+        </div>
+    {/loop}
+          
+          <div id="top_more" class="txt_right" style="padding:10px;" onclick="$('.article_right .item.hide').show();$('#top_more').hide();">
+                <a href="javascript:;">Xem thêm + </a>
+            </div>
+
+
+    <div class="clear"></div>
+</div><!--end-->

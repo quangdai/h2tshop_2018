@@ -1,0 +1,232 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 9">
+<meta name=Originator content="Microsoft Word 9">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+  
+    <title>Báo giá {$current_category.name}</title>
+  <!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Print</w:View>
+  <w:DoNotHyphenateCaps/>
+  <w:PunctuationKerning/>
+  <w:DrawingGridHorizontalSpacing>9.35 pt</w:DrawingGridHorizontalSpacing>
+  <w:DrawingGridVerticalSpacing>9.35 pt</w:DrawingGridVerticalSpacing>
+ </w:WordDocument>
+</xml><![endif]-->
+    <style>
+        a{
+            text-decoration: none;
+            color: #003366;
+        }
+        .SubHead {
+            font-family: Arial, Helvetica;
+            font-size: 11px;
+            font-weight: bold;
+            color: #003366;
+        }
+    </style>
+</head>
+<body style="margin: 0;padding: 0;">
+<div style="width: 900px;margin: 0 auto;">
+
+    <table cellspacing="1" cellpadding="0" width="100%" align="center" border="0" id="Table1">
+        <tbody><tr>
+            <td class="articleTable">
+                <table cellspacing="0" cellpadding="3" width="100%" border="0" id="Table2">
+                    <tbody><tr>
+                        <td class="articleContentCell">
+                            <table width="100%" id="Table3">
+                                <tbody>
+
+                                <tr>
+                                    <td colspan="2">
+                                        <table cellspacing="0" cellpadding="0" width="100%" align="center" border="0" id="Table4">
+                                            <tbody><tr>
+                                                <td class="articleTable">
+                                                    <table cellspacing="1" cellpadding="3" width="100%" border="0" id="Table5">
+                                                        <tbody>
+                                                        <!--
+<tr>
+    <td><span class="SubHead"><div>Cám ơn quý khách đã quan tâm đến sản phẩm của chúng tôi! Công ty chúng tôi xin trân trọng gửi tới quý khách hàng báo giá sản phẩm {$current_category.name}.</div>
+</span></td>
+</tr>
+-->
+                                                        <tr>
+                                                            <td class="articleTextCell"><span class="Normal"><br>
+<table style="width: 100%;">
+    <tbody>
+    <tr>
+        <td style="width: 177px;"><img alt="" src="http://capvienthong.hurasoft.com/includes/images/logo.png" style="border-width: 0px; border-style: solid; float: right;margin-right: 20px;"></td>
+        <td style="width: 593px;">
+            <strong style="line-height: 24px; text-align: center;"><span style="color: rgb(0, 0, 128);"><span style="font-family: arial, helvetica, sans-serif;"><span style="font-size: 24px;"><em>BẢNG GIÁ CÁP ĐỒNG TRỤC</em></span></span></span></strong><br>
+
+            <b>Kính gửi: QUÝ KHÁCH HÀNG</b><br>
+
+            Công ty <b>Thiết bị điện Hà Nội</b> xin gửi tới Quý Cơ quan bảng giá các loại sản phẩm
+            <b>{$current_category.name}</b>
+            hiện có như sau:<br>
+
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<table border="1" cellpadding="1" cellspacing="1" rules="all" style="width: 100%;" width="702">
+
+    <tbody>
+
+    <tr height="43">
+        <td style="height: 43px;width: 50px; text-align: center; line-height: 2; background-color: rgb(51, 255, 204);"><span style="font-size:16px;"><strong>STT</strong></span></td>
+
+        <td style="text-align: center; line-height: 2; background-color: rgb(51, 255, 204); width: 319px;"><span style="font-size:16px;"><strong>Danh mục sản phẩm</strong></span></td>
+        <td style="width: 136px; text-align: center; line-height: 2; background-color: rgb(51, 255, 204);"><span style="font-size:16px;"><strong>Hãng SX/Xuất xứ</strong></span></td>
+        <td style="width: 70px; text-align: center; line-height: 2; background-color: rgb(51, 255, 204);"><span style="font-size:16px;"><strong>Đơn vị<br>
+                    tính</strong></span></td>
+        <td style="width: 103px; text-align: center; line-height: 2; background-color: rgb(51, 255, 204);"><span style="font-size:16px;"><strong>Đơn giá<br>
+                    (Chưa có VAT)</strong></span></td>
+
+    </tr>
+
+    {$start_count_product = 0}
+
+        <tr height="38">
+            <td style="height: 38px; text-align: center; line-height: 2; background-color: rgb(255, 255, 153);"><em><span style="font-size:16px;"><strong>1</strong></span></em></td>
+            <td style="width: 319px; line-height: 2; background-color: rgb(255, 255, 153);padding-left: 5px;"><em><span style="font-size:16px;"><strong>{$current_category.name}</strong></span></em></td>
+            <td style="width: 136px; background-color: rgb(255, 255, 153);"></td>
+            <td style="background-color: rgb(255, 255, 153); width: 70px;"></td>
+            <td style="background-color: rgb(255, 255, 153);"></td>
+        </tr>
+
+    {if="sizeof($product_category[$current_category.id]) > 0"}
+
+        {loop="product_category[$current_category.id]"}
+
+            <tr height="38">
+                <td style="height: 38px; text-align: center; line-height: 2; background-color: rgb(255, 255, 153);"><em><span style="font-size:16px;"><strong>{$counter+1}</strong></span></em></td>
+                <td style="width: 319px; line-height: 2; background-color: rgb(255, 255, 153);padding-left: 5px;"><em><span style="font-size:16px;"><strong>{$value.title}</strong></span></em></td>
+                <td style="width: 136px; background-color: rgb(255, 255, 153);"></td>
+                <td style="background-color: rgb(255, 255, 153); width: 70px;"></td>
+                <td style="background-color: rgb(255, 255, 153);"></td>
+            </tr>
+
+        {loop="product_list[$value.id]"}
+        {$start_count_product = $start_count_product + 1}
+            <tr height="44">
+                <td height="44" style="height: 44px; text-align: center; line-height: 2;">{$counter+1}</td>
+                <td style="width: 319px;padding-left: 5px;">
+                    <img width="50" src="{if="strlen($value.productImage.medium) > 0"}http://capvienthong.hurasoft.com{$value.productImage.medium}{else}http://capvienthong.hurasoft.com/includes/images/no_image.jpg{/if}">
+                    {$value.productName}
+                </td>
+                <td style="width: 136px;">
+                    <div style="text-align: center; line-height: 2;">{$product_info.brandName}</div>
+                </td>
+                <td style="text-align: center; line-height: 2; width: 70px;">{$product_info.priceUnit}</td>
+                <td style="text-align: center; line-height: 2;">{$value.priceFormat}</td>
+            </tr>
+        {/loop}
+        {/loop}
+
+    {else}
+
+        {loop="product_list"}
+        {$start_count_product = $start_count_product + 1}
+            <tr height="44">
+                <td height="44" style="height: 44px; text-align: center; line-height: 2;">{$counter+1}</td>
+                <td style="width: 319px;padding-left: 5px;">
+                    <img width="50" src="{if="strlen($value.productImage.medium) > 0"}http://capvienthong.hurasoft.com{$value.productImage.medium}{else}http://capvienthong.hurasoft.com/includes/images/no_image.jpg{/if}">
+                    {$value.productName}
+                </td>
+                <td style="width: 136px;">
+                    <div style="text-align: center; line-height: 2;">{$product_info.brandName}</div>
+                </td>
+                <td style="text-align: center; line-height: 2; width: 70px;">{$product_info.priceUnit}</td>
+                <td style="text-align: center; line-height: 2;">{$value.priceFormat}</td>
+            </tr>
+        {/loop}
+
+    {/if}
+
+
+    </tbody>
+</table>
+
+
+<br>
+<div></div>
+<div>
+    <table border="0" cellpadding="0" cellspacing="0" style="font-family: Arial, Helvetica; width: 715px;" width="715">
+        <tbody>
+        <tr height="24">
+            <td colspan="5" height="24" style="height: 24px; width: 715px;"><u><em><strong>Các điều khoản thương mại:</strong></em></u></td>
+        </tr>
+        <tr height="25">
+            <td colspan="5" height="25" style="height: 25px;"><em>1. Giá trên chưa bao gồm thuế VAT 10%</em></td>
+        </tr>
+        <tr height="25">
+            <td colspan="5" height="25" style="height: 25px;"><em>2. Bảo hành: Hàng hoá chính hãng và được bảo hành 12 tháng&nbsp;</em></td>
+        </tr>
+        <tr height="26">
+            <td colspan="5" height="26" style="height: 26px;"><em>3. Giao hàng: Hàng hoá được giao trong vòng 02 ngày khi nhận được tiền đặt hàng</em></td>
+        </tr>
+        <tr height="27">
+            <td colspan="5" height="27" style="height: 27px;"><em>4. Thanh toán: Khách hàng thanh toán 50% sau khi đặt hàng, 50% còn lại sau khi giao hàng</em></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</span></td>
+                                                        </tr>
+
+                                                        </tbody></table>
+                                                </td>
+                                            </tr>
+                                            </tbody></table>
+                                    </td>
+                                </tr>
+                                </tbody></table>
+                        </td>
+                    </tr>
+                    </tbody></table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div style="border-bottom: 1px solid #ccc;margin-bottom: 20px;"></div>
+
+    <table>
+        <tr>
+            <td style="padding-left: 10px;">
+                HÀ NỘI:<br>
+                Địa chỉ: 69 Hai Bà Trưng, Hòan Kiếm, Hà Nội (Xem bản đồ)<br>
+                Điện thoại: 04 36 286 033 - Fax: 04 39 411 669<br>
+                Email: su@tca.vn - hotline(24/7): 0902.188.722
+
+            </td>
+            <td style="padding-left: 60px;">
+                TP HỒ CHÍNH MINH:<br>
+                Địa chỉ : 365 Điện Biên Phủ, P4, Q.3, Hồ Chí Minh (Xem bản đồ)<br>
+                Điện thoại: 08 38 396 359 - Fax: 08 38 341 217<br>
+                Email: info@toa.vn - hotline(24/7): 0902.188.722
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+
+</body>
+</html>

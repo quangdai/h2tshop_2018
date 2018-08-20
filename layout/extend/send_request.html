@@ -1,0 +1,121 @@
+<style>
+.page_order{background:url(/includes/images/order_bg1.png) no-repeat top right;}
+.page_order_in{background:url(/includes/images/order_bg2.png) no-repeat bottom left;}
+.page_order .b_order{width: 60%;margin: 0 auto;}
+</style>
+
+<div class="main">
+    <div class="main_order">
+        <div class="clear"></div>
+
+        <div class="pro_row">
+            <!---->
+            <div class="leadmhome">
+                Đặt hàng theo yêu cầu
+                <div class="clear"></div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="page_order">
+
+                <div class="page_order_in">
+
+            <div class="sb b_order">
+
+            {if="$send_status!=''"}
+            	
+                {if="$send_status=='ok'"}
+                		<h2>Cảm ơn quý khách đã gửi yêu cầu</h2>
+                        <p>Chúng tôi đã nhận được thông tin và sẽ sớm gửi phản hồi cho quý khách</p>
+                {else}
+                		<h2>Có lỗi phát sinh khi gửi yêu cầu</h2>
+                        <p><a href="/gui-yeu-cau">Vui lòng làm lại</a></p>
+                {/if}
+            	
+            {else}
+
+                    <form method="post" action="/ajax/extend/thanhart/order_request.php" enctype="multipart/form-data" onsubmit="return check_field();">
+            
+                            <div class="txt_1">1. Nội dung yêu cầu</div>
+            
+                            <div>Chọn hình ảnh <input style="width: 220px;" type="file" name="image_file" ></div>
+            
+                            <input onblur="if(this.value=='')this.value='Link hình ảnh...';" onfocus="if(this.value=='Link hình ảnh...')this.value='';" value="Link hình ảnh..." name="img_url">
+            
+                            <input onblur="if(this.value=='')this.value='Tên tranh...';" onfocus="if(this.value=='Tên tranh...')this.value='';" value="Tên tranh..." name="img_name">
+            
+                            <input onblur="if(this.value=='')this.value='Kích thước chiều ngang...';" onfocus="if(this.value=='Kích thước chiều ngang...')this.value='';" value="Kích thước chiều ngang..." name="img_width">
+            
+                            <input onblur="if(this.value=='')this.value='Kích thước chiều dọc...';" onfocus="if(this.value=='Kích thước chiều dọc...')this.value='';" value="Kích thước chiều dọc..." name="img_height">
+            
+                            <div>Khung tranh mỹ thuật :
+                                <input style="width: auto;position: relative;top:2px;" type="radio" name="frame" value="1" checked="checked"> Có
+                                <input style="width: auto;position: relative;top:2px;" type="radio" name="frame" value="0" > Không
+                            </div>
+            
+                            <textarea rows="8" onblur="if(this.value=='')this.value='Yêu cầu...';" onfocus="if(this.value=='Yêu cầu...')this.value='';" value="Yêu cầu..." name="img_note"></textarea>
+            
+                            <div class="txt_1">2. Thông tin liên hệ</div>
+            
+                            <input onblur="if(this.value=='')this.value='Họ và tên';" onfocus="if(this.value=='Họ và tên')this.value='';" value="Họ và tên" name="buyer_name" id="buyer_name">
+            
+                            <input onblur="if(this.value=='')this.value='Email';" onfocus="if(this.value=='Email')this.value='';" value="Email" name="buyer_email">
+            
+                            <input onblur="if(this.value=='')this.value='Điện thoại';" onfocus="if(this.value=='Điện thoại')this.value='';" value="Điện thoại" name="buyer_tel" id="buyer_tel">
+            
+                            <input onblur="if(this.value=='')this.value='Địa chỉ';" onfocus="if(this.value=='Địa chỉ')this.value='';" value="Địa chỉ" name="buyer_address">
+            
+                            <div class="clear"></div>
+            
+                            <div>
+                                 <img src="/includes/captcha/captcha.php?v=" /><br />
+                                 Nhập mã <input type="text" size="10" name="captcha" id="captcha" />
+                            </div>
+            
+                            <div class="clear"></div>
+            
+                            <div class="txt_0">
+                                <input type="hidden" name="return_url" value="/gui-yeu-cau" />
+                                <input class="txt_0" type="submit"  value="Đặt hàng" style="width: auto;color: #fff;">
+                            </div>
+            
+            		</form>
+				
+                {/if}
+                
+            </div>
+            </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <!---->
+            <div class="clear"></div>
+            <!---->
+        </div>
+
+        <!---->
+        <div class="clear"></div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    function check_field() {
+        var error = "";
+        var buyer_name = document.getElementById('buyer_name').value;
+        if (buyer_name.length < 4) error += "- Bạn chưa nhập tên\n";
+        var buyer_tel = document.getElementById('buyer_tel').value;
+        if (buyer_tel.length < 5) error += "- Bạn chưa nhập số điện thoại\n";
+        
+		var captcha = document.getElementById('captcha').value;
+        if (captcha.length < 4) error += "- Bạn chưa nhập mã bảo vệ\n";
+		
+        if (error != "") {
+            alert(error);
+            return false;
+        }
+        return true;
+    }
+</script>

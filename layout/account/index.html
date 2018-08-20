@@ -1,0 +1,72 @@
+<div class="mainsub">
+    <!---->
+    <div class="pagesub3">
+        <div class="lead_sub7">
+            <div class="lead_s2">
+                <span>Tài khoản của bạn</span>
+
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="clear"></div>
+
+        <div class="page_sub7 shadow cor">
+            <div class="page_sub7_in">
+                <style type="text/css">
+                    #tb-account { width:100%; border-collapse:collapse}
+                    h2 { margin:0; padding:0; margin-bottom:15px; font-size:18px; font-weight:normal}
+                    h3 { margin:0; padding:0; margin-bottom:10px; font-size:14px;}
+                    #account-left { width:190px; vertical-align:top}
+                    #account-left dt { font-weight:bold; color:#990000;}
+                    #account-left dd, dt, dl{ margin:0; padding:0}
+                    #account-left dl { margin-bottom:10px}
+                    #account-left a { color:#06C}
+                </style>
+
+                <br />
+            {include="account/header"}
+
+                <table id="tb-account">
+                    <tr>
+                        <td id="account-left">
+                            <dl>
+                                <dt>Đơn hàng đặt mua</dt>
+                                <dd><a href="?view=account-order">Danh sách đơn hàng</a></dd>
+                            </dl>
+
+                            <dl>
+                                <dt>Hoạt động cá nhân</dt>
+                                <dd><a href="?view=account-pro-save">Sản phẩm đang lưu</a></dd>
+
+                            </dl>
+
+                            <dl>
+                                <dt>Thông tin tài khoản</dt>
+                                <dd><a href="?view=account-info">Thông tin cá nhân</a></dd>
+                                <dd><a href="?view=account-change-pass">Thay đổi mật khẩu</a></dd>
+
+                            </dl>
+
+                            <div><a href="/logout.php">Log-out</a></div>
+
+                        </td>
+
+                        <td valign="top">
+
+                        {$account_content}
+
+                        </td>
+                    </tr>
+                </table>
+
+
+            {include="account/footer"}
+
+                <br />
+
+            </div>
+        </div>
+    </div>
+</div>
+

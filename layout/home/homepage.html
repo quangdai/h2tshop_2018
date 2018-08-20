@@ -1,0 +1,143 @@
+
+{if="$settings.popup.activate == 1"}
+<script src="{#INCLUDE_PATH#}popup.js"></script>
+  <div id="popupContact">
+    <div id="popupContactClose" href="javascript:;">
+		<a style="cursor:pointer; font-size:25px;color:white;" onClick="closePop();">[x]</a>
+    </div>
+    <p id="contactArea"><a href="{$settings.popup.url}" target="_blank"><img src="{$settings.popup.file}" style="max-width:90%; max-height:650px;" /></a></p>
+</div>
+<div id="backgroundPopup"></div>
+{/if}
+
+<div class="">
+  <div id="slider">
+    <div style="position:relative">
+      <div id="sync1" class="owl-carousel">
+        {loop="$banner.homepage[1]"}
+        <div class="item"><a href="{$value.desUrl}"><img src="{$value.fileUrl}" alt="{$value.title}" /> </a> </div>
+        {/loop}
+      </div>
+      <div class="btn_slide next_slide"></div>
+      <div class="btn_slide prev_slide"></div>
+    </div>
+    <div id="sync2" class="owl-carousel">
+      {loop="$banner.homepage[1]"}
+      <div class="item">
+        <span>{$value.title}</span>
+      </div>
+      {/loop}
+    </div>
+  </div>
+
+  <div class="space2"></div>
+    <div id="home-product-hot">
+      <div id="title-product-hot" class="title-product-list" style="margin-bottom:0;">
+        <a href="#tab1" class="current"><h2 class="h-title">Sản phẩm khuyến mãi</h2></a>
+        <a href="#tab2"><h2 class="h-title">Sản phẩm mới</h2></a>
+        <a href="#tab3"><h2 class="h-title">Sản phẩm bán chạy</h2></a>
+      </div>
+      <div class="product-list" id="tab1">
+      <ul class="ul owl-carousel">
+        {loop="product_saleoff[0]"}
+        {include="product/product_item"}
+          {/loop}
+        </ul>
+        <!--div class="btn_pl fred-next next_pl_h"></div>
+        <div class="btn_pl fred-prev prev_pl_h"></div-->
+      </div><!--product-list-->
+      <div class="product-list" id="tab2">
+      <ul class="ul owl-carousel">
+        {loop="product_new[0]"}
+        {include="product/product_item"}
+          {/loop}
+        </ul>
+      </div><!--product-list-->
+      <div class="product-list" id="tab3">
+      <ul class="ul owl-carousel">
+        {loop="product_bestsale[0]"}
+        {include="product/product_item"}
+          {/loop}
+        </ul>
+      </div><!--product-list-->
+    </div><!--home-product-hot-->
+  	{if="sizeof($banner.homepage[6]) > 0"}
+  	<div class="banner_bottom_pro">
+  	{loop="$banner.homepage[6]"}
+		{if="$counter < 3"}
+		<div class="item_adv_right"><a href="{$value.desUrl}"><img src="{$value.fileUrl}" alt="{$value.title}"/> </a></div>
+		{/if}
+    {/loop}
+  	</div>
+  	<div class="clear"></div>
+  	{/if}
+
+
+  <section id="content">
+    {loop="$product_category[0]"}
+
+    {if="sizeof($product_hot[$value.id]) > 0"}
+    {$cat_id = $value.id}
+    {$cat_name = $value.title}
+
+    <div class="clear"></div>
+    <div class="title-product-list" style="margin-bottom:0"><h2 class="h-title current" onclick="window.location='{$value.url}'">{$value.title}</h2>
+      <div class="sub-cate-list" id="cate-list-{$value.id}">
+      	{loop="product_category[$value.id]"}
+        {if="$counter < 5"}
+        <a href="#cat{$value.id}" data-url="{$value.url}">{$value.title}</a>
+        {/if}
+        {/loop}
+        <a href="{$value.url}" class="all">Xem toàn bộ ></a>
+      </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="product-list home" id="product-home-{$value.id}">
+      <div class="banner-left-cat" id="banner-left-{$value.id}">
+        {loop="$banner.homepage[3]"}{if="$value.title==$cat_id"}<a href="{$value.desUrl}" title="{$cat_name}"><img src="{$value.fileUrl}" alt="{$cat_name}" /></a>{/if}{/loop}
+      </div>
+
+        <ul class="ul">
+          {loop="product_hot[$value.id]"}
+          {include="product/product_item"}
+          {/loop}
+        </ul>
+      	
+      	{loop="product_category[$value.id]"}
+        {if="$counter < 5"}
+        <ul class="ul" id="cat{$value.id}" style="display:none;">Đang tải dữ liệu...</ul>
+        {/if}
+        {/loop}
+      	<div class="clear"></div>
+      	<div class="banner_bottom_pro">
+          
+          {loop="$banner.homepage[4]"}
+          {if="$value.title==$cat_id"}
+          <div class="item_adv_right"><a href="{$value.desUrl}" title="{$cat_name}"><img src="{$value.fileUrl}" alt="{$cat_name}" /></a></div>
+          {/if}
+          {/if}
+        </div>
+      </div><!--product-list-->	
+      <div class="space2"></div>
+    {/if}{/loop}
+    
+    
+    <div id="list-brand-home">
+      <a href="/brand"><h2 class="h-title title-common" style="border:0;font-size: 20px;font-weight: 300">THƯƠNG HIỆU</h2></a>
+      <div class="content">
+        <ul class="ul owl-carousel-brand">
+          {loop="$banner.homepage[2]"}
+          <li class="item"><div>{$value.display}</div></li>
+          {/loop}
+        </ul>
+        <div class="fred-prev">prev</div>
+        <div class="fred-next">next</div>
+      </div>
+      <div class="clear"></div>
+    </div><!--list-brand-home-->
+    </section>
+    
+</div><!--container-->
+
+<style>.p-hover{display:none !important}.product-list li{border: solid 1px #ddd;}#home-product-hot .item{border:0}</style>

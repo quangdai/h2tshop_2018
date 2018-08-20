@@ -1,0 +1,25 @@
+<h3>Điểm tích lũy thành viên: {$total_point}</h3>
+{if="$total_point > 0"}
+	<table width='100%' border=1 bordercolor='#CCCCCC' style='border-collapse:collapse;' cellpadding=4 cellspacing=0>
+			<tr bgcolor='#FFCC00' style='font-weight:bold;'>
+				<td>STT</td>
+				<td>Số điểm</td>
+				<td>Thông tin</td>
+				<td>Thời gian cập nhật</td>
+			</tr>
+
+    {loop="result_list"}	
+        
+        <tr id='row_{$value.id}'>
+            <td>{$counter+1}</td>
+            <td>{$value.point}</td>
+            <td>{$value.message}</td>
+            <td>{$value.time}</td>
+        </tr>
+                            
+    {/loop}
+	</table>
+    {$paging}
+{else}
+	<p>Hiện bạn chưa có điểm thành viên nào. Hãy tích điểm để đạt được nhiều quyền lợi hơn.</p>
+{/if}

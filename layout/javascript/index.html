@@ -1,0 +1,56 @@
+{$module|print_r}
+
+
+<script src="/javascript/dist/hurastore.js?v=9"> </script>
+
+<!--<script src="http://localhost:8080/dev/hurastore.js"> </script>-->
+
+<script src="{#INCLUDE_PATH#}carousel.js"></script>
+
+<!---//script hien thi tat ca cac trang-->
+{include="javascript/global"}
+
+<!---//script hien thi homepage-->
+{if="$module.name == 'home'"}
+    {include="javascript/homepage"}
+
+<!---//script hien thi cho san pham-->
+{elseif="$module.name == 'product'"}
+
+    <!---//script hien thi danh muc san pham-->
+    {if="$module.view == 'category'"}
+
+        {include="javascript/product_category"}
+
+    <!---//script hien thi chi tiet san pham-->
+    {elseif="$module.view == 'product-detail'"}
+
+        {include="javascript/product_detail"}
+
+    {elseif="$module.view == 'combo'"}
+
+        {include="javascript/combo"}
+
+    {/if}
+
+
+<!---//script hien thi cho tin bai-->
+{elseif="$module.name == 'article'"}
+
+    <!---//script hien thi danh muc -->
+    {if="$module.view == 'category'"}
+
+    <!---//script hien thi chi tiet-->
+    {elseif="$module.view == 'detail'"}
+
+    {/if}
+
+<!---//script hien thi cho gio hang-->
+{elseif="$module.name == 'cart'"}
+
+    {include="javascript/cart"}
+
+<!---//script hien thi cho deal-->
+{elseif="$module.name == 'deal'"}
+    {include="javascript/deal"}
+{/if}

@@ -1,0 +1,36 @@
+
+{if="$ask_product.id > 0"}
+	<p>Hỏi về sản phẩm: <a href="{$ask_product.productUrl}">{$ask_product.productName}</a></p>
+{else}    
+	<h1 id="post-question-title">Gửi câu hỏi</h1>
+{/if}
+
+<form method="post" action="ajax/post_question.php" enctype="multipart/form-data">
+
+<div class="post-question-head">1. Tiêu đề câu hỏi của bạn</div>
+<div><input type="text" name="title" id="title" size="70" maxlength="200" value="{$edit_question.title}"/></div>
+
+<br>
+
+<div class="post-question-head">2. Nội dung chi tiết câu hỏi (tóm tắt súc tích, đầy đủ)</div>
+<div><textarea id="content" name="content" cols="55" rows="10">{$edit_question.content}</textarea></div>
+
+<br>
+<div class="post-question-head">3. Tag (Từ khóa chính)</div>
+<div><input type="text" name="tag_list" id="tag_list" size="70" maxlength="200" value="{$edit_question.tag_list}"/></div>
+
+<br>
+<div class="post-question-head">4. Chọn danh mục cho câu hỏi</div>
+<select name="categoryId" id="categoryId">
+    <option value="0">Chọn danh mục</option>
+    {$category_select}
+</select>
+
+<input type="hidden" name="question_id" value="{$edit_question.id}">
+<input type="hidden" name="return_url" value="{$edit_question.return_url}">
+<input type="hidden" name="product_id" value="{$ask_product.id}">
+
+
+<div><input type="submit" id="post-question-btt" value="Gửi câu hỏi"></div>
+
+</form>

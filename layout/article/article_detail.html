@@ -1,0 +1,103 @@
+<div id="breadcrumb">
+    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a href="/" itemprop="url" class="nopad-l">
+            <span itemprop="title">Trang chủ</span>
+        </a> >
+    </div>
+
+    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a href="" itemprop="url">
+            <span itemprop="title">{$article_detail.title}</span>
+        </a>
+    </div>
+</div><!--breadcrumb-->
+<div class="clear"></div>
+
+<div class="article_list article_detail">
+
+    <div class="sub-category robot">
+
+        {loop="article_category.article[0]"}<a href="{$value.url}">{$value.title}</a>{/loop}
+        <div class="clear"></div>
+    </div>
+
+    <div class="article-name">
+        <h1 class="txt_25 robot" id="name" style="width:680px; font-size:25px;">
+            {$article_detail.title}
+        </h1>
+        <div class="txt_777 space10px">
+            Cập nhật : {$article_detail.createDate} - Lượt xem : {$article_detail.visit}
+        </div>
+
+
+        <div class="network" style="bottom:-6px;">
+            <div class="p_share">
+              <!-- AddThis Button BEGIN -->
+              <div class="addthis_toolbox addthis_default_style addthis_20x20_style" style="margin-top:10px;">
+                <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+   
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+            <a class="addthis_button_tweet"></a>
+              </div>
+              <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5148003b01a03b86"></script>
+              <!-- AddThis Button END -->
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clear space10px"></div>
+    <div class="a_content line_h19 nd">
+        {$article_detail.content}
+    </div><!--end-->
+  	<!---{$article_detail.tag_list|print_r}-->
+	{if="sizeof($article_detail.tag_list) > 0"}
+    <div id="tag_news">
+      <b>Tags:</b>
+      {loop="$article_detail.tag_list"}
+      <a href="{$value.url}">{$value.tag_name}</a>
+      {/loop}
+    </div>
+  	{/if}
+    <div class="clear space10px"></div>
+    <div class="title-general robot"><span>Nhận xét bài viết</span></div>
+  	{include="product/product_detail_review_form"}
+    <div class="fb-comments" data-width="850" data-href="{$current_page_url}" data-numposts="5" data-colorscheme="light"></div>
+
+    <div class="clear space10px"></div>
+    <div class="title-general robot"><span>Tin liên quan</span></div>
+
+  
+    <div class="other_article">
+
+        <ul>
+            {loop="article_other_same_category.new"}<li><a href="{$value.url}">{$value.title}</a> <span class="txt_999">{$value.createDate}</span></li>{/loop}
+            {loop="article_other_same_category.old"}<li><a href="{$value.url}">{$value.title}</a> <span class="txt_999">{$value.createDate}</span></li>{/loop}
+        </ul>
+
+    </div>
+
+
+    <div class="clear"></div>
+</div><!--end-->
+
+<div class="article_right">
+
+    <div class="title robot">Top <span>10</span> xem nhiều nhất</div>
+
+    {loop="top_article_list"}
+        <div class="item{if="$counter > 9"} hide{/if}"><i class="count">{$counter+1}</i>
+            <a href="{$value.url}"><img class="img" src="{if="strlen($value.image.thum) > 0"}{$value.image.original}{else}{#IMAGE_PATH#}no_image.jpg{/if}" alt="{$value.title}" /></a>
+            <div class="time"><b>Cập nhật :</b> {$value.createDate} - <b>Lượt xem :</b> {$value.visit}</div>
+            <a href="{$value.url}" class="txt_b"><h3>{$value.title}</h3></a>
+            <div class="clear"></div>
+        </div>
+    {/loop}
+          
+          <div id="top_more" class="txt_right" style="padding:10px;" onclick="$('.article_right .item.hide').show();$('#top_more').hide();">
+                <a href="javascript:;">Xem thêm + </a>
+            </div>
+
+
+    <div class="clear"></div>
+</div><!--end-->

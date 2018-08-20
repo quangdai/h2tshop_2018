@@ -1,0 +1,304 @@
+
+<div id="container" class="cart">
+
+    <div id="breadcrumb">
+        <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+            <a href="/" itemprop="url" class="nopad-l">
+                <span itemprop="title">Trang chủ</span>
+            </a> ›
+        </div>
+        <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+            <a href="#" itemprop="url">
+                <span itemprop="title">Giỏ hàng</span>
+            </a>
+        </div>
+    </div><!--breadcrumb-->
+
+
+    <textarea cols="60" rows="10">
+        {$cart_items|print_r}
+    </textarea>
+
+    {if="sizeof($cart_items) == 0"}
+    <p style="text-align:center; font-size:15px;">Giỏ hàng có 0 sản phẩm, quý khách vui lòng quay lại trang <a href="/">sản phẩm</a> để đặt hàng</p>
+    {else}
+
+        <div class="left">
+            <div class="title">1. Giỏ hàng</div>
+            <div class="content">
+
+                <div><a href="javascript:void(0)" id="get-cart-content">Xem giỏ hàng (console)</a> | <a href="javascript:void(0)" id="empty-cart-content">Xóa giỏ hàng (console)</a></div>
+
+                <table style="border-collapse:collapse; width:100%; " >
+                    <tr style="background-color:#f5f5f5; font-weight:bold; text-transform:uppercase;">
+                        <td>Tên sản phẩm</td>
+                        <td>Số lượng</td>
+                        <td>Đơn giá</td>
+                        <td>Thành tiền</td>
+                        <td>Xóa</td>
+                    </tr>
+
+                    {if="sizeof($cart_items.product) > 0"}
+                    <tr>
+                        <td colspan="5" style="font-weight: bold">Sản phẩm</td>
+                    </tr>
+                    {/if}
+
+                    {loop="$cart_items.product"}
+                    {$product_id = $value.info.id}
+                    {$product_info = $value.info}
+
+                    <!--Sp co cau hinh-->
+                    {if="$value.info.config_count > 0"}
+
+                        <tr class="js-item-row" data-variant_id="0" data-item_id="{$product_id}" data-item_type="product">
+                            <td colspan="5">
+                                <img src="{$value.info.productImage.small}"/>
+                                <a href="{$value.info.productUrl}"><span class="name">{$value.info.productName}</span></a> <br>
+                            </td>
+                        </tr>
+
+                        {loop="$value.in_cart"}
+                            <tr class="js-item-row" data-variant_id="{$value.id}" data-item_id="{$product_id}" data-item_type="product">
+                                <td>
+                                  - {$value.name}
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)" class="quantity-change" data-value="-1" title="tru">-</a>
+                                    <input class="buy-quantity quantity-change" value='{$value.quantity}' size='5' />
+                                    <a href="javascript:void(0)" class="quantity-change" data-value="1" title="them">+</a>
+                                </td>
+                                <td>
+                                    <input type="hidden" class="bulk_price_config" value='{$product_info.bulk_price|json_encode}'>
+                                    <input type="hidden" class="buy-price" value="{$value.price}">
+                                    <span class="js-show-buy-price">{$value.price|format_price}</span> đ
+                                </td>
+                                <td>
+                                    {$total_price = $value.price * $value.quantity}
+                                    <span class='total-item-price'>{$total_price|format_price}</span> đ
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)" class="delete-from-cart">Xóa</a>
+                                </td>
+                            </tr>
+                        {/loop}
+
+                    <!--Sp ko co cau hinh-->
+                    {else}
+
+                    <tr class="js-item-row" data-variant_id="0" data-item_id="{$product_id}" data-item_type="product">
+                        <td>
+                            <img src="{$value.info.productImage.small}"/>
+                            <a href="{$value.info.productUrl}"><span class="name">{$value.info.productName}</span></a> <br>
+
+
+                            <!--//Kiem tra khuyen mai co lua chon-->
+                            {loop="$value.info.specialOfferGroup"}
+                            {$promotion_group_id = $value.id}
+
+                            {if="$value.type == 'one' "}
+
+                            <div style="font-weight:bold">Chọn 1 khuyến mại trong "{$value.title}": #{$promotion_group_id}</div>
+
+                            {loop="$value.promotion"}
+
+                            <div><label><input type="radio" class="js-promo-select-one" name="product-promotion-{$product_id}-{$promotion_group_id}" data-group="{$promotion_group_id}" value="{$value.id}"> {$value.title} (#{$value.id})</label></div>
+
+                            {/loop}
+
+                            {/if}
+                            {/loop}
+
+                            <!--//Kiem tra add-on co lua chon-->
+                            {if="sizeof($value.info.addon) > 0"}
+                            <br>
+                            <fieldset>
+                                <legend>Dịch vụ mua kèm (tùy chọn)</legend>
+
+                                {loop="$value.info.addon"}
+                                <div><label><input type="checkbox" value="{$value.addon_id}" data-price="{$value.price}" class="js-addon-select"> {$value.title} ({$value.price|format_price} VND)</label></div>
+                                {/loop}
+
+                            </fieldset>
+                            {/if}
+
+                        </td>
+                        <td>
+                            <a href="javascript:void(0)" class="quantity-change" data-value="-1" title="tru">-</a>
+                            <input class="buy-quantity quantity-change" value='{$value.in_cart[0][quantity]}' size='5' />
+                            <a href="javascript:void(0)" class="quantity-change" data-value="1" title="them">+</a>
+                        </td>
+                        <td>
+                            <input type="hidden" class="bulk_price_config" value='{$product_info.bulk_price|json_encode}'>
+                            <input type="hidden" class="buy-price" value="{$value.info.price}">
+                            <span class="js-show-buy-price">{$value.info.price|format_price}</span> đ
+                        </td>
+                        <td>
+                            {$total_price = $value.info.price * $value.in_cart[0][quantity]}
+                            <span class='total-item-price'>{$total_price|format_price}</span> đ
+                        </td>
+                        <td>
+                            <a href="javascript:void(0)" class="delete-from-cart">Xóa</a>
+                        </td>
+                    </tr>
+                    {/if}
+                    {/loop}
+
+                    {if="sizeof($cart_items.deal) > 0"}
+                    <tr>
+                        <td colspan="5" style="font-weight: bold">Deal</td>
+                    </tr>
+                    {/if}
+
+                    {loop="$cart_items.deal"}
+                    {$item_id = $value.info.id}
+                    <tr class="js-item-row" data-item_id="{$item_id}" data-item_type="deal">
+                        <td>
+                            <span class="name">{$value.info.title}</span>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0)" class="quantity-change" data-value="-1" title="tru">-</a>
+                            <input class="buy-quantity quantity-change" value='{$value.in_cart.quantity}' size='5' />
+                            <a href="javascript:void(0)" class="quantity-change" data-value="1" title="them">+</a>
+                        </td>
+                        <td>
+                            <input type="hidden" class="buy-price" value="{$value.info.price}">
+                            <span>{$value.info.price|format_price}</span> đ
+                        </td>
+                        <td>
+                            {$total_price = $value.info.price * $value.in_cart.quantity}
+                            <span class='total-item-price'>{$total_price|format_price}</span> đ
+                        </td>
+                        <td>
+                            <a href="javascript:void(0)" class="delete-from-cart">Xóa</a>
+                        </td>
+                    </tr>
+                    {/loop}
+
+                    {if="sizeof($cart_items.combo) > 0"}
+                    <tr>
+                        <td colspan="5" style="font-weight: bold">Combo</td>
+                    </tr>
+                    {/if}
+
+                    {loop="$cart_items.combo"}
+                    {$item_id = $value.info.id}
+                    <tr class="js-item-row" data-item_id="{$item_id}" data-item_type="combo">
+                        <td>
+                            <span class="name">{$value.info.title}</span> <br>
+                            {loop="$value.info.product_list"}
+                            - {$value.productName} <br>
+                            {/loop}
+                        </td>
+                        <td>
+                            <a href="javascript:void(0)" class="quantity-change" data-value="-1" title="tru">-</a>
+                            <input class="buy-quantity quantity-change" value='{$value.in_cart.quantity}' size='5' />
+                            <a href="javascript:void(0)" class="quantity-change" data-value="1" title="them">+</a>
+                        </td>
+                        <td>
+                            <input type="hidden" class="buy-price" value="{$value.info.sale_price}">
+                            <span>{$value.info.sale_price|format_price}</span> đ
+                        </td>
+                        <td>
+                            {$total_price = $value.info.sale_price * $value.in_cart.quantity}
+                            <span class='total-item-price'>{$total_price|format_price}</span> đ
+                        </td>
+                        <td>
+                            <a href="javascript:void(0)" class="delete-from-cart">Xóa</a>
+                        </td>
+                    </tr>
+                    {/loop}
+
+                    <tr>
+                        <td colspan="5">
+
+                            <br>
+
+                            <div class="total" align="right">
+
+                                <b>Mã voucher: </b> <input id="js_voucher_input" placeholder="Mã voucher" size="20">
+                                <span id="js-voucher-message"></span>
+                                <br>
+
+                                <b>Tổng tiền:</b>
+
+                                <input type="hidden" id="js-total-before-fee-discount" value="0">
+                                <!---mot so bien khac chi de front-end-->
+                                <input type="hidden" id="js-discount-voucher" value="0">
+                                <input type="hidden" id="js-discount-membership" value="0">
+                                <input type="hidden" id="js-fee-shipping" value="0">
+                                <input type="hidden" id="js-fee-cod" value="0">
+                                <!---//mot so bien khac chi de front-end-->
+
+                                <b style="color:red; font-size:18px;"><span id='total-cart-price'></span> đ</b>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="print">
+                <a href="/" class="buy-continues" style="float:right;margin:5px 0 0 10px;">Tiếp tục mua hàng</a>
+                <a href="/print/user.php?view=cart" rel="nofollow" class="bg icon_inbaogia">In báo giá</a>
+            </div>
+            <div class="clear"></div>
+
+
+        </div><!-- left -->
+
+        <div class="right">
+
+            <form method="post" enctype="multipart/form-data" action='/send-cart' onsubmit="return check_field()">
+
+            <div class="title">2. Thông tin thanh toán</div>
+            <div class="content">
+                <div class="label">Họ và tên *</div>
+                <div class="value">
+                    <input type="text" name="user_info[name]" id="buyer_name" value="{$customer_info.name}" placeholder="Họ tên người nhận hàng" />
+                </div><!-- name -->
+                <div class="label">Số điện thoại *</div>
+                <div class="value">
+                    <input type="text" name="user_info[tel]" id="buyer_tel" value="{$customer_info.mobile}" placeholder="Dùng để liên lạc khi giao hàng" />
+                </div><!-- tel -->
+                <div class="label">Email (Vui lòng điền chính xác)*</div>
+                <div class="value">
+                    <input type="text" name="user_info[email]" id="buyer_email" value="{$customer_info.email}" placeholder="Để nhận thông báo đơn hàng" />
+                </div><!-- email -->
+                <div class="label">Địa chỉ *</div>
+                <div class="value">
+                    <input type="text" name="user_info[address]" id="buyer_address" value="{$customer_info.address}" placeholder="Địa chỉ nhận hàng" />
+                </div><!-- address -->
+                <div class="label">Ghi chú</div>
+                <div class="value">
+                    <textarea name="user_info[note]" id="buyer_note" placeholder="Ghi chú khách hàng"></textarea>
+                </div>
+                <div class="label">Hình thức thanh toán</div>
+                <div class="value payment_method">
+                    {loop="payment_method"}
+                    <div class="row">
+                        <input type="radio" name='pay_method' value="{$value.id}" onchange="paymentShow('pay{$counter}')" {if="$counter==0"}checked="checked"{/if} />
+                        <span>{$value.title}</span>
+                        <div class="detail" id="pay{$counter}" style="display: none;">
+                            {$value.detail}
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    {/loop}
+                </div>
+                <div class="submit-form">
+                    <input type="hidden" name="send_order" value="yes" />
+
+                    <input type="hidden" name="coupon_code" value="" id="js_coupon_code">
+
+                    <input type="submit" value="Thanh toán"/>
+                </div>
+            </div>
+
+            </form>
+
+        </div>
+
+
+
+    {/if}
+</div><!--container-->

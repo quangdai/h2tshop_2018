@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <title>{$header.title}</title>
+    <meta content="{$header.keyword}" name="keywords"/>
+    <meta content="{$header.description}" name="description"/>
+    <link href="{#INCLUDE_PATH#}m_style.css?v=4.22" rel="stylesheet"/>
+    <link href="{#INCLUDE_PATH#}m_css.css" rel="stylesheet"/>
+    <link href="{#INCLUDE_PATH#}m_css2.css?v=2.55" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css" type="text/css" />
+    <script src="{#INCLUDE_PATH#}jquery.js"></script>
+  </head>
+  <body>
+    
+    <div class="page-body">
+      {include="other/mobile_header"}
+      {$section_content}
+      {include="other/mobile_footer"}
+    </div>
+   	<script src="{#INCLUDE_PATH#}common.js"></script>
+    <script src="{#INCLUDE_PATH#}slick.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".nenu-index").html($("#menu-main").html());
+            //$("#menu-main-click").removeClass("menu-main-click1");
+            $(".nenu-index .subnav").css(" display: block; position: absolute;");
+            $(".nenu-index .subnav").css({ "display": "block", "margin-top": "10px", "position": "relative" });
+        });
+    </script>
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var withs = $(window).width();
+            if ($(window).width() < 640) {
+                $("body").css({ "width": $(window).width() + "px" });
+                $(".box-modal-bg").css({ "width": $(window).width() + "px" });
+                $(".tabs").css({ "width": $(window).width() + "px" });
+            }
+            else {
+                $("body").css({ "width": "640px" });
+                $(".box-modal-bg").css({ "width": "640px" });
+                $(".tabs").css({ "width": "640px" });
+            }
+            $(window).resize(function () {
+                if ($(window).width() < 640) {
+                    $("body").css({ "width": $(window).width() + "px" });
+                    $(".box-modal-bg").css({ "width": $(window).width() + "px" });
+                    $(".tabs").css({ "width": $(window).width() + "px" });
+                }
+            });
+        });
+      $("body").on("click", ".menu-main-click1", function () {
+        var n = $(this).attr("data-taget");
+        n == 0 ? ($(this).attr("data-taget", "1"), $("#menu-main .subnav").show(), $("#menu-main .bg-menu").show()) : ($(this).attr("data-taget", "0"), $("#menu-main .subnav").hide(), $("#menu-main .bg-menu").hide())
+    });
+    $("body").on("click", "#box-icon-top", function () {
+        $(window).scrollTop(0)
+    });
+      $(function(){
+      	$(".box-toggle .li-footer1").click(function(){
+      		$(this).find("ul").toggle();
+      	});
+      
+      	$(".bg-menu").click(function(){
+      		$("#menu-main-click").click();
+      	});
+      });
+    </script>
+    
+    <!-- Google Code dành cho Thẻ tiếp thị lại --> 
+<!-------------------------------------------------- 
+Không thể liên kết thẻ tiếp thị lại với thông tin nhận dạng cá nhân hay đặt thẻ tiếp thị lại trên các trang có liên quan đến danh mục nhạy cảm. Xem thêm thông tin và hướng dẫn về cách thiết lập thẻ trên: http://google.com/ads/remarketingsetup 
+---------------------------------------------------> 
+<script type="text/javascript"> 
+/* <![CDATA[ */ 
+var google_conversion_id = 865031147; 
+var google_custom_params = window.google_tag_params; 
+var google_remarketing_only = true; 
+/* ]]> */ 
+</script> 
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"> 
+</script> 
+<noscript> 
+<div style="display:inline;"> 
+<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/865031147/?guid=ON&script=0"/> 
+</div> 
+</noscript> 
+   
+      <script type="text/javascript">
+    (function () {
+        var options = {
+            facebook: "116660551721977", // Facebook page ID
+            company_logo_url: "http://tainghe.com.vn/media/banner/logo_logo_logo.png", // URL of company logo (png, jpg, gif)
+            greeting_message: "Xin chào", // Text of greeting message
+            call_to_action: "Chat với Xuân Vũ Audio", // Call to action
+            position: "right", // Position may be 'right' or 'left'
+        };
+        var proto = document.location.protocol, host = "whatshelp.io", url = proto + "//static." + host;
+        var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = url + '/widget-send-button/js/init.js';
+        s.onload = function () { WhWidgetSendButton.init(host, proto, options); };
+        var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
+    })();
+</script>
+    
+  </body>
+</html>

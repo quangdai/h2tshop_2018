@@ -1,0 +1,107 @@
+<script>
+$(function(){
+  $('a').each(function(){
+     if(location.hostname != this.hostname){
+        
+         $(this).attr('target','_blank');
+     }
+  });  
+});
+</script>
+<script type="text/javascript">
+     $(document).ready(function(){
+      	var curr_text = "";
+      	var count_select = 0;
+      	var curr_element="";
+      	$("#text_search").keyup(function(b){
+  			if (b.keyCode != 38 && b.keyCode != 40) {
+                inputString = $(this).val();
+                if(inputString.trim() !=''){
+                  $(".autocomplete-suggestions").show();
+                  $(".autocomplete-suggestions").load("/ajax/get_product_list.php?q="+encodeURIComponent(inputString));
+                }else  {
+                  $(".autocomplete-suggestions").hide();
+                  count_select=0;
+                }
+              }
+      	});
+  		$('body').click(function(){
+  			$(".autocomplete-suggestions").hide();
+  		});
+      });
+</script>
+<div id="menu-main">
+    <div class="bg-menu"></div>
+    <nav class="subnav clearfix" data-taget="0" style="display:none;">
+        <ul class="mobile-sub ">
+            <li>
+                <a href="/" class="active"><img src="{#IMAGE_PATH#}home.png" /></a>
+                <a href="/" class=""><span class="hometext">Trang chủ</span></a>
+            </li>
+          	<li>
+                <a href="/sale-off" class="active"><img src="{#IMAGE_PATH#}khuyenmai.png" /></a>
+              <a href="/sale-off" class="" style="color: #ff0000;font-weight: bold;"><span class="hometext">Khuyến mại hot</span></a>
+            </li>
+          	<li>
+                <a href="/tin-tuc" class="active"><img src="{#IMAGE_PATH#}icon_tintuc.png" /></a>
+                <a href="/tin-khuyen-mai" class=""><span class="hometext">Tin tức</span></a>
+            </li>
+            {loop="$product_category[0]"}
+            <li>
+                <a href="{$value.url}" class="active">
+                  <img src='{if="strlen($value.big_image) > 3 "}{$value.big_image}{else}{#IMAGE_PATH#}no_img.png{/if}' alt="{$value.title}"/>
+                </a>
+                <a href="{$value.url}">{$value.title}<span class="arrow"></span></a>
+            </li>
+            {/loop}
+          
+          	<li>
+                <a href="/brand" class="active">
+                  <img src="{#IMAGE_PATH#}BRAND-512.png" style="" /></a>
+                <a href="/brand" class=""><span class="hometext">Brands</span></a>
+            </li>
+          
+        </ul>
+    </nav>
+</div>
+<div id="header-main">
+    <div id="logo-main">
+        <div id="site_title">
+            <h1>
+                <a href="/"><img class="img-logo" src="{$settings.logo_file}" /></a>
+            </h1>
+        </div>
+    </div>
+    <div id="info-main">
+        <div>
+            <span class="h-infom">Hotline:</span>
+            <span class="h-info-m">Hà Nội:</span>
+            <span class="phone">0973953333</span>
+        </div>
+        <div>
+       
+        </div>
+    </div>
+    <div id="shopping-cart" class="shopping-cart-t">
+      <div class="shopping-cart-title" onclick="location.href='/gio-hang'" style="cursor:pointer;">
+            <i class="sprite sprite-icon_giohang_2015"></i>
+            <div class="shopping-cart-product clearfix">
+                <p class="shopping-cart-tt"> GIỎ HÀNG</p>
+            </div>
+        </div>
+    </div>
+    <div id="menu-main-icon">
+        <div id="menu-main-click" class="menu-main-click1" data-taget="0">
+            <img src="{#IMAGE_PATH#}icon-mobile.png" />
+        </div>
+    </div>
+    <p class="clearfix"></p>
+    <div id="search-main" style="position:relative;">
+        <form method="get" name="searchForm" action="/tim" enctype="multipart/form-data">
+         <input type="text" id="text_search" class="txtSearch" name="q" autocomplete="off" placeholder="Bạn muốn tìm sản phẩm gì ?" />
+        </form>
+        <p class="clearfix"></p>
+      	<div class="autocomplete-suggestions"></div>
+    </div>
+    <p class="clearfix"></p>
+</div>

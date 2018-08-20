@@ -1,0 +1,79 @@
+<div class="expertCatPath">{}</div>
+
+	<div id='question_top'>
+		
+		<h1 id="question-title">{$question_info.title}</h1>
+   		<table>
+    		<tr>
+            	<td>
+                	<img src="{$question_info.userAvatar}" /> <br />
+                    {$question_info.userInfo.name} <br /> 
+                    <b>{$question_info.userInfo.question_ask}</b> hỏi - <b>{$question_info.userInfo.question_answer}</b> trả lời
+                </td>
+                <td>
+                	<div class='ask-time'>Lúc: <span>{$question_info.lastUpdate}</span> / mục: <a href="{$question_info.categoryUrl}">{$question_info.categoryInfo.name}</a></div> 
+                    <p>{$question_info.content}</p>
+                    
+                    {if="$question_info.productInfo.id > 0"}
+                    	<div>Sản phẩm liên quan: <a href="{$question_info.productInfo.productUrl}">{$question_info.productInfo.productName}</a></div>
+                    {/if}
+                    
+                    <!--<div class="answer-stat"><a href="javascript:rate_question('{$question_info.id}', 1)">Hỏi hay</a> | <a href="javascript:rate_question('{$question_info.id}','-1')">Chán</a> </div>-->
+                </td>
+            </tr>
+		</table>
+        
+    
+	
+{if="$question_info.answer > 0"}
+
+	  		<h2 id='question-detail-answer-count'>{$question_info.answer} trả lời</h2>
+	
+    <table>
+    	
+    
+	{loop="answer_list"}
+    		<tr>
+            	<td>
+                	<img src="{$value.userAvatar}" /> <br />
+                    {$value.userInfo.name} <br /> 
+                    <b>{$value.userInfo.question_ask}</b> hỏi - <b>{$value.userInfo.question_answer}</b> trả lời
+                </td>
+                <td>
+                	<div class='ask-time'>Lúc: <span>{$value.postTime}</span></div> 
+                    <p>{$value.content}</p>
+                    <div class="answer-stat"><a href="javascript:rate_answer('{$value.id}', 1)">Rất tốt</a> | <a href="javascript:rate_answer('{$value.id}','-1')">Chán</a></div>
+                </td>
+            </tr>
+            
+     {/loop}           
+		</table>
+    
+	 {$paging}	
+{/if}
+
+	<a name="answerform"></a>
+    <div id='answer_form_title'>Trả lời</div>
+    <form method="post" action="/ajax/post_answer.php" onsubmit="return check_field()">
+    	<input type="hidden" name="question_id" value="{$question_info.id}" />
+        <input type="hidden" name="return_url" value="{$question_info.questionUrl}" />
+        <div><textarea cols="60" rows="8" name="answer" id="answer"></textarea></div>
+        <div><input type='submit' value="Gửi trả lời" {if="$is_customer_login !='yes'"} disabled="disabled" {/if} /> {if="$is_customer_login!='yes'"} Bạn cần <a href="/dang-nhap?return_url={$question_info.questionUrl}">đăng nhập</a> để gửi trả lời {/if}</div>
+    </form>
+<br />
+
+<script>
+	function check_field(){
+		var error = '';
+		var answer = document.getElementById('answer').value;
+		if(answer.length < 2) {
+			error = "Chưa có nội dung";
+		}
+		
+		if(error != '') {
+			alert(error);
+			return false
+		}
+		return true;
+	}
+</script>

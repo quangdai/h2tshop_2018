@@ -1,0 +1,298 @@
+<script>
+$(function(){
+	$(".box-filter-manufactory-dl").click(function(){
+  		$(this).find("ul").toggle();
+  	});
+  	$("#filter-advanced").click(function(){
+  		$(".filter-box").toggle();
+  	});
+});
+</script>
+<div id="content-main">
+<div class="nav-sub">
+    <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a itemprop="url" title="Trang chủ" href="/">
+            <span itemprop="title">Trang chủ </span></a>
+        <strong>›</strong>
+    </span>
+    {loop="$current_category.path"}
+    <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a itemprop="url" title="{$value.name}" href="{$value.url}"><span itemprop="title">{$value.name}</span></a>
+        {if="$counter < sizeof($current_category.path)-1"}<strong>›</strong>{/if}
+    </span>
+    {/loop}
+</div>
+<p class="clearfix"></p>
+
+  
+  {if="sizeof($banner_product_list[5]) > 0"}
+  
+  <div class="banner">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.0.1/css/swiper.css" type="text/css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.0.1/js/swiper.js" defer></script>
+<div class="swiper-container">
+  <div class="swiper-wrapper">
+    {loop="banner_product_list[5]"}
+    <div class="swiper-slide"><a href="{$value.desUrl}"><img src="{$value.fileUrl}" alt="{$value.title}"/> </a></div>
+    {/loop}
+  </div>
+  <div class="swiper-pagination pagination-top"></div>
+</div><!--swiper-container-->
+
+<script>
+  $(window).load(function(){
+  	var swiper = new Swiper('.swiper-container', {
+    pagination: '.pagination-top',
+    paginationClickable: true,
+    autoplay: 2500
+    });
+  });
+</script>
+<style>
+.swiper-container {
+        width: 100%;
+        height: 100%;
+  		margin:5px 0;
+    }
+.swiper-container .swiper-slide img{width:100%;}
+</style>
+    <div class="right-banner">
+        {loop="$banner_homepage[2]"}
+        {$display}
+        {/loop}
+    </div>
+</div>
+   {/if}
+    
+  
+<div class="catorory-top">
+    <div class="product">
+        <div class="header-product">
+            <ul class="ul-header-product">
+                <li class="li-header-product li-header-product-cur">
+                    <h1>{$current_category.name}</h1>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <p class="clearfix"></p>
+
+    <p class="catorory-top-content"></p>
+</div>
+
+<div id="content-box">
+
+  {if="strlen($current_category.summary) > 3"}
+    <div class="summary-cat">{$current_category.summary}</div>
+    {/if}
+
+<div class="filter">
+<input id="CategorySlug" type="hidden"/>
+
+<div class="box-filter-dl">
+  	{if="sizeof($product_category[$current_category.id]) > 0"}
+    <div class="box-filter-manufactory-dl">
+        <div class="box-dl box-dl-2" data-value="0">
+            <label><span class="name">{$current_category.name}</span><i class="fa fa-sort-down"></i></label>
+        </div>
+        <ul class="priceorder priceorder-2">
+            {loop="$product_category[$current_category.id]"}
+          <li class="item-filter"><a href="{$value.url}">{$value.title}</a></li>
+            {/loop}
+        </ul>
+    </div>
+  	{else}
+  	<div class="box-filter-manufactory-dl">
+        <div class="box-dl box-dl-2" data-value="0">
+            <label><span class="name">{$current_category.name}</span><i class="fa fa-sort-down"></i></label>
+        </div>
+        <ul class="priceorder priceorder-2">
+            {loop="$product_category[$current_category.parent_id]"}
+          <li class="item-filter"><a href="{$value.url}">{$value.title}</a></li>
+            {/loop}
+        </ul>
+    </div>
+    {/if}
+  
+    <div class="box-filter-manufactory-dl">
+        <div class="box-dl box-dl-1" data-value="0">
+            <i class="arrdown"></i>
+          	{if="strpos($current_page_url,'sort=price-asc') > 0"}
+          	<label> <span class="name">Giá thấp -> cao</span> <i class="fa fa-sort-down"></i></label>
+          	{elseif="strpos($current_page_url,'price-desc') > 0"}
+          	<label> <span class="name">Giá cao -> thấp</span> <i class="fa fa-sort-down"></i></label>
+          	{else}
+            <label> <span class="name">Sắp xếp theo</span> <i class="fa fa-sort-down"></i></label>
+          	{/if}
+        </div>
+        <ul class="priceorder priceorder-1">
+            {loop="$sort_by_collection"}
+            {if="$value.key=='price-desc' || $value.key=='price-asc'"}
+            <li data-type="1">
+                <a class="even-filter checked" href="{$value.url}">{$value.name}</a>
+            </li>
+            {/if}{/loop}
+        </ul>
+    </div>
+    {if="sizeof($brand_filter_list) > 0"}
+    <div class="box-filter-manufactory-dl">
+        <div class="box-dl box-dl-2" data-value="0">
+            <label><span class="name">Chọn hãng</span><i class="fa fa-sort-down"></i></label>
+        </div>
+        <ul class="priceorder priceorder-2 brand_filter">
+            {loop="$brand_filter_list"}
+            
+          
+            {if="$current_brand.id == $key"}
+          		<li class="act_filter">{$value.display}</li>
+        	{else}
+          			
+          		<li class="item-filter"><input class="" type="checkbox" {if="strpos($current_page_url,'brand') > 0"}checked="checked"{/if} onclick="location.href='{$value.url}'"/> <a href="{$value.url}">{$value.name}</a> ({$value.count})</li>
+          
+        	{/if}
+          
+            {/loop}
+        </ul>
+    </div>
+    {/if}
+    {if="sizeof($price_filter_list) > 0"}
+    <div class="box-filter-manufactory-dl">
+        <div class="box-dl box-dl-2" data-value="0">
+          	{if="$price_filter_list.0.isCurrent==1"}
+          	<label><span class="name">{$price_filter_list.0.name}</span><i class="fa fa-sort-down"></i></label>
+          	{else}
+            <label><span class="name">Chọn giá</span><i class="fa fa-sort-down"></i></label>
+          	{/if}
+        </div>
+        <ul class="priceorder priceorder-2">
+            {loop="$price_filter_list"}
+            <li class="item-filter"><input class="" type="checkbox" {if="$value.isCurrent==1"}checked="checked"{/if} onclick="location.href='{$value.url}'"/> <a href="{$value.url}">{$value.name}</a> <span>({$value.count})</span></li>
+            {/loop}
+        </ul>
+    </div>
+    {/if}
+    {if="sizeof($attribute_filter_list) > 0"}
+    <div class="box-filter-more-dl" id="filter-advanced">
+        <div class="box-dl box-dl-filter" data-value="0" data-type="1">
+            <label>Tìm nâng cao <i class="fa fa-sort-down"></i></label>
+        </div>
+    </div>
+    {/if}
+</div>
+<p class="clearfix"></p>
+{if="sizeof($attribute_filter_list) > 0"}
+<div class="filter-box">
+    {loop="$attribute_filter_list"}
+    {if="$value.attributeName=='Loại sản phẩm'"}
+    <div class="discount">
+        <ul>
+            {loop="$value.filterList"}
+            <li><input class="" type="checkbox" {if="$value.isCurrent==1"}checked="checked"{/if} onclick="location.href='{$value.url}'"/>
+                {if="$value.id==1"}<img src="{#IMAGE_PATH#}icon_in_cat_giamgia.jpg" alt="" />{/if}
+                {if="$value.id==2"}<img src="{#IMAGE_PATH#}icon_in_cat_kmlon.jpg" alt="" />{/if}
+                {if="$value.id==3"}<img src="{#IMAGE_PATH#}icon_in_cat_km.jpg" alt="" />{/if}
+                {if="$value.id==4"}<img src="{#IMAGE_PATH#}icon_in_cat_moi.jpg" alt="" />{/if}
+            </li>
+            {/loop}
+        </ul>
+    </div>
+    <p class="clearfix"></p>
+    {else}
+    <h3>{$value.attributeName}</h3>
+    <ul class="attribute">
+        {loop="$value.filterList"}
+        <li class="item-filter"><input class="" type="checkbox" {if="$value.isCurrent==1"}checked="checked"{/if} onclick="location.href='{$value.url}'"/> <a href="{$value.url}">{$value.name}</a> <span>({$value.count})</span></li>
+        {/loop}
+    </ul>
+    <p class="clearfix"></p>
+    {/if}
+    {/loop}
+</div>
+{/if}
+</div><!--filter-->
+<div class="product">
+<div class="content-product">
+{loop="$product_list"}
+  {include="product/mobile_product_item"}
+{/loop}
+
+<p class="clearfix"></p>
+    <div class="paging">{$paging}</div>
+</div>
+</div>
+</div>
+<p class="clearfix"></p>
+{if="strlen($current_category.static_html) > 3"}
+    <div class="static_html" style="margin-top:10px">
+      <div class="summary">
+      {|subString:$current_category.static_html,400}
+      </div>
+      <div class="content" style="display:none;">
+      {$current_category.static_html}
+      </div>
+      {if="strlen($current_category.static_html) > 400"}
+      <div class="read_continue" style="text-align:right;"><a href="javascript:;">Xem thêm...</a></div>
+      {/if}
+    </div>
+    <style>
+      read_continue a{float: right;font-size: 12px;margin-top: 10px;color: #0484bb}
+    </style>
+    <script>
+      $(function(){
+       
+        $('.read_continue').click(function(){
+            if($(this).hasClass('act')){
+                $(this).removeClass('act');
+      			$(this).find('a').html('Xem thêm...');
+      			$('.static_html .summary').show();
+                $('.static_html .content').hide();
+            }else{
+                $(this).addClass('act');
+                $(this).find('a').html('Hiện thị ngắn gọn');
+                $('.static_html .content').show();
+      			$('.static_html .summary').hide();
+            }
+        });
+      });
+    </script>
+    {/if}
+<p class="clearfix"></p>
+{if="$current_category.is_parent==1"}
+<div class="catorory-child">
+    <ul>
+        {loop="$product_category[$current_category.id]"}
+        <li><a href="{$value.url}">{$value.title}</a></li>
+        {/loop}
+    </ul>
+    <p class="clearfix"></p>
+</div>
+{/if}
+<div class="catogory-new">
+    <h3>Tin mới</h3>
+    <ul>
+        {loop="$new_article_list"}
+      {if="$counter < 5"}
+        <li><a title="{$value.title}"
+               href="{$value.url}">
+            <h4>{$value.title}</h4></a></li>
+      {/if}
+        {/loop}
+    </ul>
+    <p class="clearfix"></p>
+</div>
+<p class="clearfix"></p>
+<div class="banner"></div>
+</div>
+<script>
+  $(document).ready(function(){
+  	$('.brand_filter li.act_filter').parent().addClass('show');
+  	$('.brand_filter li.act_filter').parent().parent().find('.box-dl').hide();
+  });
+</script>
+<style>
+  .priceorder.show{margin-top: 0;border-radius: 3px;width: 47%;background: #efefef;z-index:28;}
+  .priceorder.show li{padding:1px 10px;}
+  .priceorder.show li a{color:#000;}
+</style>

@@ -1,0 +1,104 @@
+<div class="container">
+<div id="breadcrumb">
+    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a href="/" itemprop="url" class="nopad-l">
+        <span itemprop="title">Trang chủ</span>
+      </a> ›
+    </div>
+    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a href="#" itemprop="url">
+        <span itemprop="title">{$tag_info.tag_name}</span>
+      </a>
+    </div>
+  </div><!--breadcrumb-->
+  <div class="title-product-list" style="margin-bottom:10px"><h1 class="h-title current">{$tag_info.tag_name}</h1></div>
+  <div class="clear"></div>
+  <section id="content" class="left">
+    <div class="product-list border_l_r" style="">
+      <ul class="ul">
+        {loop="product_list"}
+        <li class="item">{if="$value.productType.isNew==1"}<i class="new">Mới</i>{/if}
+            {if="$value.marketPrice > $value.price"}
+            {$temp = 100 - $value.price*100/$value.marketPrice;}
+            {$percent = ceil($temp);}
+            <div class="price_off">-{$percent}%</div>
+            {/if}
+          	{if="$value.quantity < 1"}
+            <span class="status_contact">
+              {if="$value.quantity == 0 || $value.quantity==-1"}Tạm hết hàng
+              {elseif="$value.quantity==-2"}Sắp có hàng
+              {elseif="$value.quantity==-3"}Gọi để có giá tốt
+              {elseif="$value.quantity==-4"}Vừa có hàng
+              {elseif="$value.quantity==-6"}Ngừng kinh doanh
+              {/if}
+            </span>
+            {/if}
+          	{if="sizeof($value.specialOffer) > 0"}<div class="is_specialOffer">Quà tặng</div>{/if}
+            <div class="p_container">
+              <a href="{$value.productUrl}" class="p-img">
+                <img src="{$value.productImage.large}" alt="{$value.productName}" />
+              </a>
+              <a href="{$value.productUrl}" class="p-name">{$value.productName}</a>
+              <div class="center price_item">
+              	<span class="p-price">{if="$value.price > 0"}{$value.price|format_price}đ{else}Liên hệ{/if}</span>
+                <span class="p-old-price">{if="$value.marketPrice > $value.price"}{$value.marketPrice|format_price}đ{else}{/if}</span>
+              </div>
+            </div>
+          </li>
+        {/loop}
+      </ul>
+      </div><!--product-list-->	
+    <div class="clear"></div>
+    <div class="paging">{$paging}</div>
+  </section>
+  <div id="right-pro-list">
+    <div class="content-common" style="border-top:solid 1px #ddd; background:#f9f9f9;">
+      <select id="sort-by" onchange="location.href=this.value">
+        <option value="0">Sắp xếp sản phẩm</option>
+        {loop="$sort_by_collection"}
+        {if="$value.key=='price-desc' || $value.key=='price-asc'"}
+        <option value="{$value.url}">{$value.name}</option>
+        {/if}
+        {/loop}
+      </select>
+      <b class="title-filter">Danh mục</b>
+      <ul class="ul list-filter">
+         {loop="$category_collection"}
+        	<li><a href="{$value.urlSearch}">{$value.name}</a></li>
+         {/loop}
+      </ul>
+      {if="sizeof($brand_collection) > 0"}
+      <b class="title-filter">Thương hiệu</b>
+      <ul class="ul list-filter">
+        {loop="$brand_collection"}
+        {if="$value.id > 0"}
+        <li><input class="" type="checkbox" {if="$value.is_selected==1"}checked="checked" onclick="location.href='{$value.url_back}'"{else}onclick="location.href='{$value.urlSearch}'"{/if} /> <a href="{if="$value.is_selected==1"}{$value.url_back}{else}{$value.urlSearch}{/if}">{$value.name} ({$value.productCount})</a></li>
+        {/if}
+        {/loop}
+      </ul>
+      {/if}
+      
+      {if="sizeof($price_filter_list) > 0"}
+      <b class="title-filter">Khoảng giá</b>
+      <ul class="ul list-filter">
+        {loop="$price_filter_list"}
+        <li><input class="" type="checkbox" {if="$value.isCurrent==1"}checked="checked"{/if} onclick="location.href='{$value.url}'"/> <a href="{$value.url}">{$value.name}</a> <span>({$value.count})</span></li>
+        {/loop}
+      </ul>
+      {/if}
+      
+      {if="sizeof($attribute_filter_list) > 0"}
+      {loop="$attribute_filter_list"}
+      {if="$value.attributeName!='Loại sản phẩm'"}
+      <b class="title-filter">{$value.attributeName}</b>
+      <ul class="ul list-filter">
+        {loop="$value.filterList"}
+        <li><input class="" type="checkbox" {if="$value.isCurrent==1"}checked="checked"{/if} onclick="location.href='{$value.url}'"/> <a href="{$value.url}">{$value.name}</a> <span>({$value.count})</span></li>
+        {/loop}
+      </ul>
+      {/if}
+      {/loop}
+      {/if}
+    </div><!--content-->
+  </div><!--col-right-->
+</div><!--container-->

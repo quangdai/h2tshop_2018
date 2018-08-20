@@ -1,0 +1,16 @@
+
+<h1>{$deal_detail.title}</h1>
+
+
+<div class="sub1 txt_20">
+    {$deal_detail.price|format_price} VND
+</div>
+
+<div><input type="button" id="add-deal-to-cart" data-id="{$deal_detail.id}" value="Add To Cart"></div>
+
+<br>
+
+<div>Bắt đầu : <b>{$deal_detail.from_time}</b></div>
+<div>Kết thúc : <b>{$deal_detail.to_time}</b></div>
+
+<div>{$deal_detail.description}</div>

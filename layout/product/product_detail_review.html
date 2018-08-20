@@ -1,0 +1,220 @@
+<form action="/ajax/post_comment.php" method="post" enctype="multipart/form-data"  onsubmit="return check_field()">
+  
+  <input type=hidden name='user_post[item_type]' value='product'/>
+  <input type=hidden name='user_post[item_id]' value='{$product_info.productId}'/>
+  <input type=hidden name='user_post[item_title]' value='{$product_info.productName}'/>
+  <input type=hidden name='user_post[rate]' value='0'/>
+  <input type=hidden name='user_post[title]' value='{$product_info.productName}'/>
+  <input type=hidden name='user_post[user_email]' value='{$customer_info.email}'/>
+  <input type=hidden name='user_post[user_name]' value='{$customer_info.name}'/>
+  <input type=hidden name='user_post[user_avatar]' value='{$customer_info.avatar}'/>
+  
+  <div>
+    <div class="info_comment">
+      <input type="text" id="name" name='user_post[user_name]' placeholder="Nhập tên bạn" value="{$customer_info.name}"/>
+      <input type="hidden" id="email" name='user_post[user_email]' placeholder="Nhập email của bạn" value="email@default.vn"/>
+      <input type=hidden name='user_post[user_avatar]' value='0'/>
+    </div>
+    <textarea name="user_post[content]" style="width: 99%;" cols="60" rows="6"
+              value="Nội dung chi tiết" onfocus="if(this.value=='Nội dung chi tiết')this.value='';"
+              onblur="if(this.value=='')this.value='Nội dung chi tiết';" id="content"></textarea>
+    <ul id="review_rating">
+      <li class="first">Đánh giá sản phẩm: </li>
+      <li><input type="radio" name="user_post[rate]" value="5" checked="checked"/> <img src="{#IMAGE_PATH#}star_5.png" alt="" /></li>
+      <li><input type="radio" name="user_post[rate]" value="4"/> <img src="{#IMAGE_PATH#}star_4.png" alt="" /></li>
+      <li><input type="radio" name="user_post[rate]" value="3"/> <img src="{#IMAGE_PATH#}star_3.png" alt="" /></li>
+      <li><input type="radio" name="user_post[rate]" value="2"/> <img src="{#IMAGE_PATH#}star_2.png" alt="" /></li>
+      <li><input type="radio" name="user_post[rate]" value="1"/> <img src="{#IMAGE_PATH#}star_1.png" alt="" /></li>
+    </ul>
+    <div class="clear"></div>
+    <img id="captchaimg" src="/includes/captcha/captcha.php?v=" /><br />
+    <input type="text" style="width:150px" id="comment-capcha" name="captcha" onkeyup="check_user_captcha(this.value)" placeholder="Nhập mã xác nhận"/> (<a id="change-image" onclick="document.getElementById('captchaimg').src='/includes/captcha/captcha.php?'+Math.random();" href="javascript:;">Xem mã khác</a>)
+  </div><!--div-->
+  <div class="c5"></div>
+  
+  <input type="submit" value="Gửi bình luận" class="btn-cyan"/> 
+  
+  
+  <div class="c5"></div>
+</form>
+<br>
+  {if="sizeof($product_user_review.productReviewList) > 0"}
+  {loop="product_user_review.productReviewList"}
+  <div class="item_comment">
+    <div class="comment_left">
+      {if="strlen($value.user_avatar) < 3"}
+      <img src="{#IMAGE_PATH#}2no-image.jpg" alt="" />
+      {else}
+      <img src="{$value.user_avatar}" alt="" />
+      {/if}
+    </div>
+    <div class="comment_right">
+      {if="$counter > 0"}
+      <div class="line"></div>
+      {/if}
+      <div {if="$value.is_user_admin == 1"}style="font-style:italic; color:#0B5EAE;"{/if}>
+        <span class="font13" style="color:#0B5EAE;">{if="$value.is_user_admin != 1"}Đăng bởi: {/if} {$value.user_name} {if="$value.is_user_admin != 1"} - Thành viên{/if}</span>
+        {if="$value.is_user_admin == 1"} (Admin) - <i class="comment_user_address">{$value.user_note}</i>{/if}
+        {if="$value.is_user_admin != 1"}<img src="{#IMAGE_PATH#}star_{$value.rate}.png" alt="rating" style="display:inline-block;  vertical-align:bottom;"/>{/if}
+      </div>
+      {if="$value.approved == 0 && $value.is_user_admin != 1"}
+      <p><i>Bình luận đang được kiểm duyệt !</i></p>
+      {elseif="$value.is_user_admin == 1 || $value.approved == 1"}
+      <p>{$value.content}</p>
+      {/if}
+      {if="$value.is_user_admin == 1 || $value.approved == 1"}
+      <div class="info_feeback">
+        <a href='javascript:;' onclick="$('#reply_comment_{$value.id}').css('display', 'block')"
+           class="write_reply">Gửi phản hồi ({$value.reply_count})</a>
+        <a href="javascript:;" class="like_comment"
+           onclick="user_like_content({$value.id}, 'comment-like', 'comment_like_{$value.id}')"><img src="{#IMAGE_PATH#}icon_like.png" alt=""/><span>thích (<span id='comment_like_{$value.id}'>{$value.people_like_count}</span>)</span></a>
+        <span>(Lúc: {$value.post_time|show_datetime_from_unix})</span>
+      </div>
+      {/if}
+      <div id='reply_comment_{$value.id}' style="display:none;">
+        <form action="/ajax/post_comment.php" method="post" enctype="multipart/form-data" onsubmit="return check_field{$value.id}()">
+          <input type=hidden name='user_post[reply_to]' value='{$value.id}'/>
+          <input type=hidden name='user_post[rate]' value='0'/>
+          <input type=hidden name='user_post[title]' value='re: {$value.id}'/>
+          <input type=hidden name='user_post[user_email]' value='{$customer_info.email}'/>
+          <input type=hidden name='user_post[user_name]' value='{$customer_info.name}'/>
+          <div>
+            <div class="info_comment">
+              <input type="text" id="name{$value.id}" name='user_post[user_name]' placeholder="Nhập tên bạn" value="{$customer_info.name}"/>
+              <input type="hidden" id="email{$value.id}" name='user_post[user_email]' placeholder="Nhập email của bạn" value="email@default.vn"/>
+              <input type=hidden name='user_post[user_avatar]' value='0'/>
+            </div>
+            <textarea name="user_post[content]" style="width: 99%;" cols="60" rows="6"
+                      value="Nội dung chi tiết" onfocus="if(this.value=='Nội dung chi tiết')this.value='';"
+                      onblur="if(this.value=='')this.value='Nội dung chi tiết';" id="content{$value.id}"></textarea>
+            <ul id="review_rating">
+              <li class="first">Đánh giá sản phẩm: </li>
+              <li><input type="radio" name="user_post[rate]" value="5" checked="checked"/> <img src="{#IMAGE_PATH#}star_5.png" alt="" /></li>
+              <li><input type="radio" name="user_post[rate]" value="4"/> <img src="{#IMAGE_PATH#}star_4.png" alt="" /></li>
+              <li><input type="radio" name="user_post[rate]" value="3"/> <img src="{#IMAGE_PATH#}star_3.png" alt="" /></li>
+              <li><input type="radio" name="user_post[rate]" value="2"/> <img src="{#IMAGE_PATH#}star_2.png" alt="" /></li>
+              <li><input type="radio" name="user_post[rate]" value="1"/> <img src="{#IMAGE_PATH#}star_1.png" alt="" /></li>
+            </ul>
+            <div class="clear"></div>
+            <img id="captchaimg{$value.id}" src="/includes/captcha/captcha.php?v=" /><br />
+            <input type="text" style="width:150px" id="comment-capcha{$value.id}" name="captcha" onkeyup="check_user_captcha{$value.id}(this.value)"  placeholder="Nhập mã xác nhận"/> (<a id="change-image" onclick="document.getElementById('captchaimg{$value.id}').src='/includes/captcha/captcha.php?'+Math.random();" href="javascript:;">Xem mã khác</a>)
+          </div><!--div-->
+          <div class="c5"></div>
+          
+          <input type="submit" value="Gửi bình luận" class="btn-cyan"/> 
+         
+          <input type="hidden" value="" id="check_captcha{$value.id}"/>
+          <script>
+            function check_user_captcha{$value.id}(captcha){
+              $.post("/ajax/check_user.php", {action : 'check-captcha', captcha : captcha}, function(data){
+                  document.getElementById("check_captcha{$value.id}").value = data;
+              });
+            }
+            function check_field{$value.id}(){
+              var error = "";
+              var name = document.getElementById("name{$value.id}").value;
+              var email = document.getElementById("email{$value.id}").value;
+              var content = document.getElementById("content{$value.id}").value;
+              var captcha = document.getElementById('comment-capcha{$value.id}').value;
+            
+              if(name=='') error+= "Bạn chưa nhập tên\n";
+              if(email=='') error+= "Bạn chưa nhập email\n";
+              if(content=='') error+= "Bạn chưa nhập nội dung\n";
+              if(captcha=='') error+="Bạn chưa nhập mã kiểm tra"
+              else {
+                    var check_captcha = $("#check_captcha{$value.id}").val();
+                    if(check_captcha!='') error+=check_captcha;
+               }
+            
+              if(error==''){
+                  alert("Đã gửi thành công, bình luận của bạn sẽ được kiểm duyệt trước khi hiển thị");
+                  return true;
+              }
+              else {
+                  alert(error);
+                  return false;
+              }
+            };
+          </script>
+          <div class="c5"></div>
+        </form>
+      </div>
+      <br>
+        {if="$value.reply_count > 0"}
+        <div style="padding: 3px 10px;margin-left: 20px;">
+          {loop="$value.reply_list"}
+          <div class="comment_left">
+            {if="strlen($value.user_avatar) < 3"}
+            <img src="{#IMAGE_PATH#}2no-image.jpg" alt="" />
+            {else}
+            <img src="{$value.user_avatar}" alt="" />
+            {/if}
+          </div>
+          <div class="comment_right">
+            <div {if="$value.is_user_admin == 1"}style="font-style:italic; color:#0B5EAE;"{/if}>
+              <span class="font13">{if="$value.is_user_admin != 1"}Đăng bởi: {/if}{$value.user_name} {if="$value.is_user_admin != 1"} - Thành viên{/if}</span> {if="$value.is_user_admin == 1"} (Admin) - <i class="comment_user_address">{$value.user_note}</i>{/if}
+              {if="$value.is_user_admin != 1"}<img src="{#IMAGE_PATH#}star_{$value.rate}.png" alt="rating" style="display:inline-block; vertical-align:bottom;"/>{/if}
+            </div>
+            {if="$value.approved == 0 && $value.is_user_admin != 1"}
+            <p><i>Bình luận đang được kiểm duyệt !</i></p>
+            {elseif="$value.is_user_admin == 1 || $value.approved == 1"}
+            <p>{$value.content}</p>
+            {/if}
+            {if="$value.is_user_admin == 1 || $value.approved == 1"}
+            <div class="info_feeback">
+              <a href="javascript:;" class="like_comment"
+                 onclick="user_like_content({$value.id}, 'comment-reply-like', 'comment_reply_like_{$value.id}')"><img src="{#IMAGE_PATH#}icon_like.png"
+                                                                                                                       alt=""/><span>thích (<span id='comment_reply_like_{$value.id}'>{$value.people_like_count}</span>)</span></a>
+              <span>(Lúc: {$value.post_time|show_datetime_from_unix})</span>
+            </div>
+            {/if}
+          </div><!--comment_right-->
+          {/loop}
+        </div>
+        {/if}
+      </div>
+      <!--comment_right-->
+      <div class="clear"></div>
+    </div>
+    <!--item_comment-->
+    {/loop}
+    {else}
+    <p>Hiện tại chưa có ý kiến đánh giá nào về sản phẩm. Hãy là người đầu tiên chia sẻ cảm nhận của bạn.</p>
+    {/if}
+    
+    <input type="hidden" value="" id="check_captcha"/>
+	
+
+    <script>
+      function check_user_captcha(captcha){
+        $.post("/ajax/check_user.php", {action : 'check-captcha', captcha : captcha}, function(data){
+        	document.getElementById("check_captcha").value = data;
+        });
+      }
+      function check_field(){
+      	var error = "";
+      	var name = document.getElementById("name").value;
+      	var email = document.getElementById("email").value;
+      	var content = document.getElementById("content").value;
+      	var captcha = document.getElementById('comment-capcha').value;
+      
+      	if(name=='') error+= "Bạn chưa nhập tên\n";
+      	if(email=='') error+= "Bạn chưa nhập email\n";
+      	if(content=='') error+= "Bạn chưa nhập nội dung\n";
+      	if(captcha=='') error+="Bạn chưa nhập mã kiểm tra"
+        else {
+              var check_captcha = $("#check_captcha").val();
+              if(check_captcha!='') error+=check_captcha;
+         }
+      
+      	if(error==''){
+      		alert("Đã gửi thành công, bình luận của bạn sẽ được kiểm duyệt trước khi hiển thị");
+      		return true;
+      	}
+      	else {
+      		alert(error);
+      		return false;
+      	}
+      };
+    </script>
+    

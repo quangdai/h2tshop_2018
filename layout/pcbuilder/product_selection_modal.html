@@ -1,0 +1,120 @@
+<div class="mask-popup active">
+    <div class="popup-select">
+        <div class="header">
+            <h4>Chọn linh kiện</h4>
+            <form action="">
+                <input type="text" value="{$search_query}" id="buildpc-search-keyword" class="input-search" placeholder="Bạn cần tìm linh kiện gì?">
+                <span class="btn-search"><i class="fas fa-search"></i></span>
+            </form>
+            <span class="close-popup"><i class="fas fa-times"></i></span>
+        </div>
+        <div class="popup-main">
+            <div class="popup-main_filter w-30 float_l">
+                <h4>Lọc sản phẩm theo</h4>
+                <div class="gr-filter">
+                    <h5 class="title-filter">Hãng sản xuất <span class="show-filter"><i class="fas fa-caret-right"></i></span></h5>
+                    <ul style="max-height: 100px; overflow: auto">
+                        {loop="brand_filter_list"}
+                        <li>
+                            <a href="javascript:void(0)" onclick="BuildPCVisual.showProductFilter('{$value.url}')"><span class="value-filter">{$value.name} ({$value.count})</span></a>
+                        </li>
+                        {/loop}
+                    </ul>
+                </div>
+                <div class="gr-filter">
+                    <h5 class="title-filter">Khoảng giá <span class="show-filter"><i class="fas fa-caret-right"></i></span></h5>
+                    <ul style="max-height: 100px; overflow: auto">
+                        {loop="price_filter_list"}
+                        <li>
+                            <a href="javascript:void(0)" onclick="BuildPCVisual.showProductFilter('{$value.url}')"><span class="value-filter">&nbsp;</span> {$value.name}</a> ({$value.count})
+                        </li>
+                        {/loop}
+                    </ul>
+                </div>
+
+                {loop="attribute_filter_list"}
+                <div class="gr-filter">
+                    <h5 class="title-filter">{$value.attributeName} <span class="show-filter"><i class="fas fa-caret-right"></i></span></h5>
+                    <ul style="max-height: 100px; overflow: auto">
+                        {loop="value.filterList"}
+                        <li>
+                            <a href="javascript:void(0)" onclick="BuildPCVisual.showProductFilter('{$value.url}')"><span class="value-filter">{$value.name} ({$value.count})</span></a>
+                        </li>
+                        {/loop}
+                    </ul>
+                </div>
+                {/loop}
+
+            </div>
+            <div class="popup-main_content w-70 float_r">
+                <div class="sort-paging clear">
+                    <div class="sort-block float_l">
+                        <span>Sắp xếp: </span>
+                        <select name="" id="">
+                            <option value="">Tùy chọn</option>
+                            <option value="">Sản phẩm mới nhất</option>
+                            <option value="">Sản phẩm rẻ nhất</option>
+                        </select>
+                    </div>
+                    <div class="paging-block float_r">
+                        <!--<span>Trang <b>1/5</b></span>
+                        <a href=""><i class="fas fa-angle-double-left"></i></a>
+                        <a href="#" class="current">1</a>
+                        <a href="">2</a>
+                        <a href="">3</a>
+                        <a href="">4</a>
+                        <a href="">5</a>
+                        <a href=""><i class="fas fa-angle-double-right"></i></a>-->
+                    </div>
+                </div>
+
+                <div class="list-product-select">
+
+                    {loop="product_list"}
+                        <div class='p-item'>
+                            <a href='{$value.productUrl}' class='p-img'>
+                                {if="strlen($value.productImage.medium) > 4"}
+                                <img src='{$value.productImage.medium}' alt="{$value.productName}" />
+                                {else}
+                                -
+                                {/if}
+                            </a>
+                            <div class='info'>
+                                <a href='{$value.productUrl}' class='p-name'>{$value.productName}</a>
+                                <span class='p-price'>{$value.price|format_price}</span>
+                            </div>
+                            <span class='btn-buy' data-id="{$value.id}">Thêm vào cấu hình <i class='fas fa-angle-right'></i></span>
+                        </div>
+                    {else}
+                        <div>
+                            Không có sản phẩm nào thõa mãn
+                        </div>
+                    {/loop}
+                </div>
+
+                <div>{$paging}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function loadAjaxContent(holder_id, url){
+        BuildPCVisual.showProductFilter(url);
+    }
+
+    function searchKeyword(query) {
+        if(query.length < 2) return ;
+
+        BuildPCVisual.showProductFilter('{$search_url}&q=' + encodeURIComponent(query));
+    }
+
+    $("#buildpc-search-keyword").keypress(function(e) {
+        if(e.which == 13) {
+            e.preventDefault();
+            searchKeyword(this.value);
+        }
+    });
+
+
+</script>

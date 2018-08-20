@@ -1,0 +1,25 @@
+<div class="lead-sub">
+
+{$news_cat_path}
+
+</div>
+
+<div class="page-nd">
+
+<div id="news_detail_title"><h1>{$news_detail.title}</h1></div>
+<div id="news_detail_time">{$news_detail.createDate} </div>
+<div style="clear:both"></div>
+<div id="news_detail_content">{$news_detail.content}</div>
+    
+<br>
+{if="$total_other_news > 0"}
+    <div class="NewsOldNew"><b>XEM TIN KHÁC</b></div>
+    {loop="other_news"}
+        {if="$value.id != $news_detail.id"}
+        <div class="NewsOldNew">
+            <a href="{$value.url}">{$value.title}</a> {$value.createDate} </div>
+        {/if}
+    {/loop}
+{/if}
+
+</div>

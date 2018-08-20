@@ -1,0 +1,412 @@
+<link rel="stylesheet" href="{#INCLUDE_PATH#}product_detail.css?v=3.2">
+
+<div class="container">
+
+  <div id="breadcrumb">
+    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a href="/" itemprop="url" class="nopad-l">
+        <span itemprop="title">Trang chủ</span>
+      </a> ›
+    </div>
+    {loop="$product_info.productPath.0.path"}
+    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a href="{$value.url}" itemprop="url">
+        <span itemprop="title">{$value.name}</span>
+      </a> ›
+    </div>
+    {/loop}
+    {if="$brand_info.id > 0"}
+    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a href="{$brand_info.url}" itemprop="url">
+        <span itemprop="title">Thương hiệu {$brand_info.name}</span>
+      </a> ›
+    </div>
+    {/if}
+    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a href="{$product_info.productUrl}" itemprop="url">
+        <span itemprop="title">{$product_info.productName}</span>
+      </a>
+    </div>
+  </div>
+  
+  <div class="clear"></div>
+  <section id="content">
+  	<div id="img-detail" style="display:none">
+      <div id="img-large">
+        <a class="MagicZoom" id="Zoomer" rel="selectors-effect-speed:0" href="{$product_info.productImage.original}"><img src="{$product_info.productImage.original}" title="{$product_info.productName}" alt="{$product_info.productName}" /></a>
+      </div>
+
+      <ul id="img-thumbs" class="ul">
+        {loop="$product_info.productThumList"}
+        <li class="item"><a class="img_thumb" href="{$value.original}" title="{$product_info.productName}" rel="zoom-id:Zoomer" rev="{$value.original}"><img src="{$value.medium}" alt="{$product_info.productName}" /></a></li>
+        {/loop}
+      </ul>
+    </div>
+
+    <!--img-detail-->
+    {include="product/product_image_block"}
+
+	<div id="overview">
+      <h1 id="detail-name">{$product_info.productName}</h1>
+      
+      
+      
+      <p class="left">{if="strlen($product_info.productSKU) > 2"}Mã hàng: <i>{$product_info.productSKU}</i>{/if}  {if="$brand_info.name!=''"} {if="strlen($product_info.productSKU) > 2"} |{/if} Thương hiệu: <a href="{$brand_info.url}">{$brand_info.name}</a> {/if}   <span id="gotoComment" style="cursor:pointer;">
+        <img {if="$product_info.rating < 4"}src="{#IMAGE_PATH#}star_4.png"{else}src="{#IMAGE_PATH#}star_{$product_info.rating}.png"{/if} alt="rating" style="vertical-align:bottom;"/></span>
+      </p>
+
+
+      <div class="line"></div>
+      <div class="clear"></div>
+      {if="$product_info.productSummary!=''"}
+      <div class="detail-summary">{$product_info.productSummary}</div>
+      <div class="clear line"></div>
+      {/if}
+      <table style="float: left;width: 100%;margin-left: -2px;">
+        <tr>
+          <td width="80">Tình trạng:</td>
+          <td>
+            <span style="color:#0000CD">
+             {if="$product_info.quantity == 0"}Tạm hết hàng
+              {elseif="$product_info.quantity==1 || $product_info.quantity > 1"}Còn hàng
+              {elseif="$product_info.quantity==-1"}Liên hệ
+              {elseif="$product_info.quantity==-2"}Sắp có hàng
+              {elseif="$product_info.quantity==-3"}Gọi để có giá tốt
+              {elseif="$product_info.quantity==-4"}Hàng mới về
+              {elseif="$product_info.quantity==-5"}Hàng tặng không bán
+              {elseif="$product_info.quantity==-6"}Ngừng kinh doanh
+              {/if}</span>
+            
+            {if="sizeof($store_list) > 0 && $product_info.quantity > 0"}
+            <!--{$total = 0}-->
+            <div id="shop-status">
+              <span class="title">Đang có hàng tại <span class="numberShop">{$total}</span> cửa hàng</span>
+              <div class="content">
+                <ul>
+                  {loop="$store_list"}
+                  {$store_code = $value.store_code}
+                  {$inStock = false}
+                  {loop="$product_in_store[$store_code]"}{if="$value.quantity > 0"}{$inStock = true}{/if}{/loop}
+                  
+                  {if="$inStock==true"}
+                  <li>
+                    <!--{$total++}-->
+                    <span class="red">{$value.store_name}</span>
+                    <span class="title-color">Hiện có màu</span>
+                    {loop="$product_in_store[$store_code]"}
+                      {if="$value.quantity > 0"}
+                       <span class="product-in-store" data-sku="{$value.item_sku}">{$value.item_sku}</span> &nbsp;
+                      {/if}
+                    {/loop}
+                  </li>
+                  {/if}
+                  {/loop}
+                </ul>
+              </div>
+            </div>
+            {/if}
+          </td>
+        </tr>
+        {if="$product_info.warranty != 0"}
+        <tr>
+          <td width="80">Bảo hành:</td>
+          <td>{$product_info.warranty}</td>
+        </tr>
+        {else}
+        <tr>
+          <td width="80">Bảo hành:</td>
+          <td>12 tháng</td>
+        </tr>
+        {/if}
+        {if="$product_info.productModel != 0"}
+        <tr>
+          <td width="80">Xuất xứ:</td>
+          <td>{$product_info.productModel}</td>
+        </tr>
+        {/if}
+      </table>
+
+
+      {if="$product_info.accessory"}
+      <div class="accessory_pd">
+        <div class="title" style="margin-bottom: 5px">Sản phẩm bao gồm: {$product_info.accessory}</div>
+      </div>
+      {/if}
+
+      <div class="clear"></div>
+      {if="$product_info.marketPrice > $product_info.price"}
+      <div class="detail-old-price">Giá niêm yết: <span>{$product_info.marketPrice|format_price} đ</span></div>
+      {/if}
+
+      <div class="detail-price">Giá: 
+        <span class="price_config" data-price="{$product_info.price}">{if="$product_info.price > 0"}{$product_info.price|format_price} đ{else}Liên hệ{/if}</span>
+      </div>
+
+
+      <table border="1" style="border-collapse: collapse" cellpadding="5">
+        <tr>
+          <td>Giá bán</td>
+          <td><div id="product-price-holder"></div></td>
+        </tr>
+      </table>
+
+      <!--Thuộc tính lọc-->
+      <div id="config-holder"></div>
+      <!--Thuộc tính danh sách (nếu có)-->
+      <div id="last-attribute-holder"></div>
+      <!--Đặt mua (nếu ko có thuộc tính danh sách)-->
+      <div id="select-variant-holder">
+        Chọn mua: <a href='javascript:;' class='change-quantity' data-operation='decrement'>[-]</a><input class="input-quantity" type='text' size='3' value='0' autocomplete="off"><a href='javascript:;' class='change-quantity' data-operation='increment'>[+]</a>
+      </div>
+      <!--Danh sách đã chọn (tóm tắt)-->
+      <div id="select-to-buy-summary-holder"></div>
+
+
+
+      <fieldset>
+        <legend>Khuyến mại kèm theo</legend>
+
+        {if="sizeof($product_info.specialOffer) > 0"}
+        <div class="detail-offer">
+          {loop="$product_info.specialOffer"}
+          - {$value.title} <br>
+          {/loop}
+        </div>
+        {/if}
+
+        {if="sizeof($product_info.specialOfferGroup) > 0"}
+        <div class="detail-offer">
+          {loop="$product_info.specialOfferGroup"}
+
+          {$group_id = $value.id}
+
+          - <strong>{$value.title} - group #{$group_id}</strong> : <br>
+
+            {if="$value.type == 'one'"}
+
+              {loop="$value.promotion"}
+                <label><input name="promo-group-{$group_id}" class="js-promo-select-one" data-group="{$group_id}" type="radio" value="{$value.id}"> {$value.title} #{$value.id}</label><br>
+              {/loop}
+
+            {else}
+
+              {loop="$value.promotion"}
+              + {$value.title} <br>
+              {/loop}
+
+            {/if}
+
+          {/loop}
+        </div>
+        {/if}
+
+      </fieldset>
+
+
+
+      {if="$product_info.quantity >= 1"}
+      <div style="float:left;margin-top: 9px;"><span>Số lượng: &nbsp;&nbsp;</span><input type="text" value="1" id="quantity" style=""/></div>
+
+      <a id="buyNowConfig" href="javascript:void(0)" data-id="{$product_info.productId}" data-price="{$product_info.price}" class="button-detail buy-now"><i class="icon icon-buy"></i> Mua ngay</a>
+
+      <!--<a id="addCartConfig" href="javascript:void(0)" class="button-detail add-cart"><i class="icon icon-addcart"></i> Cho vào giỏ</a>-->
+
+      {/if}
+
+      <div><a id="delete-cart">Delete Cart</a></div>
+
+
+      <div class="clear"></div>
+
+      {if="sizeof($product_info.addon) > 0"}
+      <br>
+       <fieldset>
+          <legend>Dịch vụ mua kèm (tùy chọn)</legend>
+
+          {loop="$product_info.addon"}
+          <div><label><input type="checkbox" value="{$value.addon_id}" class="js-addon-select"> {$value.title} ({$value.price|format_price} VND)</label></div>
+          {/loop}
+
+        </fieldset>
+      {/if}
+
+
+      <div id="call-buy">
+        <p><i class="icon icon-call"></i> Hotline Hà Nội :  <b>097395 3333</b> (Từ 8h30 - 21h tất cả các ngày trong tuần)</p>
+        <p><i class="icon icon-call"></i> Hotline Hồ Chí Minh :  <b>097844 5555</b> (Từ 8h30 - 21h tất cả các ngày trong tuần)</p>
+      </div>
+    </div><!--overview-->
+    <div class="clear"></div>
+  </section>
+  <div class="clear space2"></div>
+  <div class="clear space2"></div>
+
+
+
+  <div id="pro-detail-left" style="width:850px">
+  	<div id="tab-pro-info">
+      <div class="title-tab-pro tabs" stylle="margin-bottom: 10px">
+        {if="strlen($product_info.productDescription) > 10"}
+        <a href="#tab1" class="active">Mô tả</a>
+        {/if}
+        {if="strlen($product_info.productSpec) > 10"}
+        <a href="#tab2" {if="strlen($product_info.productDescription) < 10"}class="active"{/if}>Thông số</a>
+        {/if}
+        {if="sizeof($relate_article_list.article) > 0"}
+        <a href="#tab3">Bài viết liên quan</a>
+        {/if}
+        {if="sizeof($product_info.video_code) > 0"}
+        <a href="#tab4">Video</a>
+        {/if}
+        <a href="#tab5">Bình luận</a>
+      </div>
+      {if="strlen($product_info.productDescription) > 10"}
+      <div id="tab1" class="content-tab-pro tab-cont" style="">
+        <div class="title_tab_pd"><h2 style="margin:0;font-weight:300">Đặc điểm nổi bật của {$product_info.productName}</h2></div>
+        <div class="nd">{$product_info.productDescription}</div>
+      </div>
+      {/if}
+      {if="sizeof($product_info.tag_list) > 0"}
+      <div style="margin:10px">
+        <b>Tags: </b>{loop="$product_info.tag_list"}{if="$counter > 0"}, {/if}<a href="{$value.url}">{$value.tag_name}</a>{/loop}
+        <div class="clear"></div>
+      </div>
+      {/if}
+      {if="strlen($product_info.productSpec) > 10 || strlen($product_info.productTechnicalTable) > 10"}
+      <div id="tab2" class="content-tab-pro tab-cont" style="">
+        <div class="title_tab_pd"><h2 style="margin:0;font-weight:300">Thông số kỹ thuật của {$product_info.productName}</h2></div>
+        <div class="nd">
+          {$product_info.productTechnicalTable}
+          {$product_info.productSpec}
+        </div>
+      </div>
+      {/if}
+      {if="sizeof($relate_article_list.article) > 0"}
+      <div id="tab3" class="content-tab-pro tab-cont" style="">
+        <div class="title_tab_pd"><h2 style="margin:0;font-weight:300">Bài viết liên quan về {$product_info.productName}</h2></div>
+        <ul class="ul relate_article_list">
+        {loop="$relate_article_list.article"}
+          <li>
+            <img src="{$value.image.original}" alt="{$value.title}"/>
+            <div><a href="{$value.url}" title="{$value.title}">{$value.title}</a></div>
+          </li>
+        {/loop}
+        </ul>
+        <div class="clear"></div>
+      </div>
+      {/if}
+      {if="sizeof($product_info.video_code) > 0"}
+      <div id="tab4" class="content-tab-pro tab-cont" style="">
+        <div class="title_tab_pd"><h2 style="margin:0;font-weight:300">Video về {$product_info.productName}</h2></div>
+        
+        {loop="$product_info.video_code"}
+        
+        <div class="video-wrapper">{$value.html}</div>
+        <br>
+        
+        {/loop}
+        
+      </div>
+      {/if}
+      <div id="tab5" class="content-tab-pro tab-cont" style="">
+        <div class="title_tab_pd"><h2 style="margin:0;font-weight:300">Bình luận về {$product_info.productName}</h2></div>
+        <div class="content-common" style="border:none;padding:0">
+          {include="product/product_detail_review"}
+        </div>
+      </div>
+    </div><!--tab-pro-info-->
+    <div class="clear space2"></div>
+    
+  </div><!--pro-detail-left-->
+  <div id="col-right" style="width:330px">
+
+  <div class="clear"></div>
+
+   {if="sizeof($product_info.productAccessoryList) > 0"}
+    <div class="box-right">
+    <div class="title-product-list-detail"><div class="h-title">Phụ kiện mua thêm</div></div>
+      <div class="content-common pro-right">
+        <ul class="ul">
+          {loop="$product_info.productAccessoryList"}
+          {if="$counter < 5"}
+          <li>
+            {if="$value.marketPrice > $value.price"}
+              {$temp = 100 - $value.price*100/$value.marketPrice;}
+              {$percent = ceil($temp);}
+              <!--div class="price_off" style="left:0;right:auto">-{$percent}%</div-->
+              {/if}
+            {if="$value.quantity < 1"}
+            <span class="status_contact">
+              {if="$value.quantity == 0"}Liên hệ{elseif="$value.quantity==-1"}Liên hệ{elseif="$value.quantity==-2"}Sắp có hàng{elseif="$value.quantity==-3"}Gọi để có giá tốt{elseif="$value.quantity==-4"}Vừa có hàng{/if}
+            </span>
+            {/if}
+            <a href="{$value.productUrl}" class="img"><img src="{$value.productImage.medium}" alt="{$value.productName}"/></a>
+            <div class="p-right">
+              <a href="{$value.productUrl}" class="name">{$value.productName}</a>
+              <span class="p-brand">{$value.brand.name}</span>
+              <span class="p-price">{if="$value.price > 0"}{$value.price|format_price}đ{else}Liên hệ{/if}</span>
+              <span class="p-old-price">{if="$value.marketPrice > $value.price"}{$value.marketPrice}đ{/if}</span>
+            </div>
+          </li>
+          {/if}
+          {/loop}
+        </ul>
+      </div>
+    </div>
+  
+  {/if}
+  {if="sizeof($product_same_price) > 0"}
+  <div class="box-right">
+    <div class="title-product-list-detail"><div class="h-title">Sản phẩm cùng giá</div></div>
+    <div class="content-common pro-right">
+      <ul class="ul">
+        {loop="product_same_price"}
+        {if="$counter < 5"}
+        <li>
+          {if="$value.marketPrice > $value.price"}
+            {$temp = 100 - $value.price*100/$value.marketPrice;}
+            {$percent = ceil($temp);}
+            <!--div class="price_off" style="left:0;right:auto">-{$percent}%</div-->
+            {/if}
+          <a href="{$value.productUrl}" class="img"><img src="{$value.productImage.medium}" alt="{$value.productName}"/></a>
+          <div class="p-right">
+          	<a href="{$value.productUrl}" class="name">{$value.productName}</a>
+            <span class="p-brand">{$value.brand.name}</span>
+            <span class="p-price">{if="$value.price > 0"}{$value.price|format_price}đ{else}Liên hệ{/if}</span>
+            <span class="p-old-price">{if="$value.marketPrice > $value.price"}{$value.marketPrice|format_price}đ{else}{/if}</span>
+          </div>
+        </li>
+        {/if}
+        {/loop}
+      </ul>
+    </div>
+  </div><!--box-right-->
+    {/if}
+    {if="sizeof($product_same_brand) > 0"}
+  <div class="box-right">
+      <div class="title-product-list-detail"><div class="h-title">cùng thương hiệu</div></div>
+      <div class="product-list">
+        <ul class="ul">
+          {loop="$product_same_brand"}
+          {if="$counter < 5"}
+          <li style="width:100%">
+          
+          <a href="{$value.productUrl}" class="img"><img src="{$value.productImage.medium}" alt="{$value.productName}"/></a>
+          <div class="p-right">
+          	<a href="{$value.productUrl}" class="name">{$value.productName}</a>
+            <span class="p-brand">{$value.brand.name}</span>
+            <span class="p-price">{if="$value.price > 0"}{$value.price|format_price}đ{else}Liên hệ{/if}</span>
+            <span class="p-old-price">{if="$value.marketPrice > $value.price"}{$value.marketPrice|format_price}đ{else}{/if}</span>
+          </div>
+        </li>
+          {/if}
+          {/loop}
+        </ul>
+      </div><!--product-list-->
+  </div><!--box-right-->
+    {/if}
+</div><!--col-right-->
+  <div class="clear"></div>
+
+  
+</div><!--container-->

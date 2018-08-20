@@ -1,0 +1,137 @@
+<div class="container">
+<div id="breadcrumb">
+    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a href="/" itemprop="url" class="nopad-l">
+        <span itemprop="title">Trang chủ</span>
+      </a> ›
+    </div>
+    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a href="{$value.url}" itemprop="url">
+        <span itemprop="title">{if="$page_title='Sản phẩm xả hàng, giảm giá'"}Sản phẩm giảm giá{else}{$page_title}{/if}</span>
+      </a>
+    </div>
+  </div><!--breadcrumb-->
+  <div class="title-product-list" style="margin-bottom:10px;">
+      <h1 class="h-title current">{if="$page_title='Sản phẩm xả hàng, giảm giá'"}Sản phẩm giảm giá{else}{$page_title}{/if}</h1>
+      <select id="sort-by" onchange="location.href=this.value" style="float:right; height:26px; margin:6px;">
+        <option value="0">Sắp xếp sản phẩm</option>
+        {loop="$sort_by_collection"}
+        {if="$value.key=='price-desc' || $value.key=='price-asc'"}
+        <option value="{$value.url}">{$value.name}</option>
+        {/if}
+        {/loop}
+      </select>
+      <div class="sapxep_list">
+        <b class="fl" style="padding-right:5px;">Hiển thị:</b>
+        <div class="sapxep">
+          {if="USER_PRODUCT_DISPLAY_OPTION=='grid' || USER_PRODUCT_DISPLAY_OPTION==''"}
+          <a href="?display=grid" class="current"><i class="icon_grid"></i>Lưới / </a>
+          <a href="?display=list"><i class="icon_list"></i>Danh sách</a>
+          {elseif="$display_by=='list'"}
+          <a href="?display=grid"><i class="icon_grid"></i>Lưới / </a>
+          <a href="?display=list" class="current"><i class="icon_list"></i>Danh sách</a>
+          {/if}
+        </div>
+      </div>
+    </div><!--title-product-list-->
+  <div class="clear"></div>
+  <section id="content" class="left">
+    {if="USER_PRODUCT_DISPLAY_OPTION =='grid' || USER_PRODUCT_DISPLAY_OPTION ==''"}
+    <div class="product-list border_l_r">
+      <ul class="ul">
+        {loop="product_list"}
+        {include="product/product_item"}
+        {/loop}
+      </ul>
+      </div><!--product-list-->	
+    {else}
+    <div id="product_page">
+    <table class="pro_item_list">
+      <tbody>
+        {loop="product_list"}
+        <tr>
+          <td class="image_item">
+            <a href="{$value.productUrl}">
+              {if="$value.productImage.medium != ''"}
+              <img src="{$value.productImage.large}" alt="{$value.productName}" class="lazy" />
+              {else}
+              <img src="{#IMAGE_PATH#}noimage.png" alt="{$value.productName}" class="lazy" />
+              {/if}
+            </a>
+          </td>
+          <td class="">
+            <a href="{$value.productUrl}" class="pro_name">{$value.productName}</a>
+            <div class="clear"></div>
+            
+            <div class="line_h22 txt_n">
+              {$value.productSummary}
+            </div>
+            
+          </td>
+          <td class="pro_info">
+            <span class="pro_info_price">{if="$value.price > 0"}{$value.price|format_price} đ{else}Liên hệ{/if}</span>
+            <span class="pro_info_quantity">({if="$value.quantity > 0"}Còn hàng{else}Hết hàng{/if})</span>
+            <span class="pro_info_view"><strong>Lượt xem: </strong>{$value.visit}</span>
+            <a href="javascript:addToShoppingCart('pro','{$value.productId}',1,'{$value.price}')" class="addCart">Cho vào giỏ</a>
+          </td>
+        </tr>
+        {/loop}
+      </tbody>
+    </table>
+    </div>
+    {/if}
+    <div class="clear"></div>
+    <div class="paging">{$paging}</div>
+  </section>
+  <div id="right-pro-list">
+    <div class="content-common" style="border-top:solid 1px #ddd; background:#f9f9f9;">
+      <b class="title-filter">Danh mục</b>
+      
+      <ul class="ul list-filter">
+
+         {loop="$category_collection"}
+        {if="strpos($current_page_url,'/san-pham-hot') > 0"}
+        <li><a href="/san-pham-hot?scat_id={$value.id}">{$value.name}</a> ({$value.productCount})</li>
+        {elseif="strpos($current_page_url,'/san-pham-moi') > 0"}
+        <li><a href="/san-pham-moi?scat_id={$value.id}">{$value.name}</a> ({$value.productCount})</li>
+        {elseif="strpos($current_page_url,'/sale-off') > 0"}
+        <li><a href="/san-pham-xa-hang?scat_id={$value.id}">{$value.name}</a> ({$value.productCount})</li>
+        {/if}
+         {/loop}
+
+      </ul>
+      {if="sizeof($brand_collection) > 0"}
+      <b class="title-filter">Thương hiệu</b>
+      <ul class="ul list-filter">
+        {loop="$brand_collection"}
+        {if="$value.id > 0"}
+        <li><input class="" type="checkbox" {if="$value.is_selected==1"}checked="checked" onclick="location.href='{$value.url_back}'"{else}onclick="location.href='{$value.urlSearch}'"{/if} /> <a href="{if="$value.is_selected==1"}{$value.url_back}{else}{$value.urlSearch}{/if}">{$value.name} ({$value.productCount})</a></li>
+        {/if}
+        {/loop}
+      </ul>
+      {/if}
+      
+      {if="sizeof($price_filter_list) > 0"}
+      <b class="title-filter">Khoảng giá</b>
+      <ul class="ul list-filter">
+        {loop="$price_filter_list"}
+        <li><input class="" type="checkbox" {if="$value.isCurrent==1"}checked="checked"{/if} onclick="location.href='{$value.url}'"/> <a href="{$value.url}">{$value.name}</a> <span>({$value.count})</span></li>
+        {/loop}
+      </ul>
+      {/if}
+      
+      {if="sizeof($attribute_filter_list) > 0"}
+      {loop="$attribute_filter_list"}
+      {if="$value.attributeName!='Loại sản phẩm'"}
+      <b class="title-filter">{$value.attributeName}</b>
+      <ul class="ul list-filter">
+        {loop="$value.filterList"}
+        <li><input class="" type="checkbox" {if="$value.isCurrent==1"}checked="checked"{/if} onclick="location.href='{$value.url}'"/> <a href="{$value.url}">{$value.name}</a> <span>({$value.count})</span></li>
+        {/loop}
+      </ul>
+      {/if}
+      {/loop}
+      {/if}
+    </div><!--content-->
+  </div><!--col-right-->
+</div><!--container-->

@@ -1,0 +1,325 @@
+<link rel="stylesheet" href="http://local.hurastore/template/HN_computer/assets/css/styles.css" type="text/css" />
+
+<main class="custom-pc">
+    <div class="title-page">
+        <h1>Custom PC</h1>
+    </div>
+    <div class="banner-custom_config owl-carousel owl-theme">
+        <div class="item">
+            <a href="#">
+                <img src="http://local.hurastore/template/HN_computer/assets/images/banner.jpg" alt="">
+            </a>
+        </div>
+        <div class="item">
+            <a href="#">
+                <img src="http://local.hurastore/template/HN_computer/assets/images/banner.jpg" alt="">
+            </a>
+        </div>
+        <div class="item">
+            <a href="#">
+                <img src="http://local.hurastore/template/HN_computer/assets/images/banner.jpg" alt="">
+            </a>
+        </div>
+        <div class="item">
+            <a href="#">
+                <img src="http://local.hurastore/template/HN_computer/assets/images/banner.jpg" alt="">
+            </a>
+        </div>
+    </div>
+    <div class="content container">
+        <div class="col-left">
+            <div class="border-col">
+                <h3>Cấu hình PC</h3>
+                <ul class="link-config_pc">
+                    <li><a href="#">Cấu hình Game</a></li>
+                    <li><a href="#">Cấu hình Trạm</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-main center">
+            <div class="product-list">
+
+                {loop="$item_list"}
+                <div class="product-list_item">
+                    <div class="boder-item">
+                        <a href="?option=build&view=product&id={$value.id}" class="p-img">
+                            {if="strlen($value.thumbnail) > 2"}
+                            <img src="/media/build/250_{$value.thumbnail}" alt="">
+                            {/if}
+                        </a>
+                        <a href="?option=build&view=product&id={$value.id}" class="p-name">{$value.title}</a>
+                        <div class="gr-price">
+                            <span class="p-price">{$value.price|format_number}</span>
+                            <span class="p-oldprice">-</span>
+                        </div>
+                        <span class="discount">-14%</span>
+                        <div class="mask-product">
+                            <a href="?option=build&view=product&id={$value.id}" class="m-name">{$value.title}</a>
+                            <span class="m-price">Giá bán: <span>{$value.price|format_number}</span></span>
+                            <span class="m-vat">[Đã bao gồm VAT]</span>
+                            <span class="m-warranty"><b>Bảo hành: </b>BH theo linh kiện</span>
+                            <div class="m-des">
+                                <h3>Mô tả tóm tắt:</h3>
+                                <ul>
+                                    <li>{$value.description}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <span class="add-to-cart">Mua Ngay</span>
+                    </div>
+                </div>
+                {/loop}
+
+                <div class="product-list_item">
+                    <div class="boder-item">
+                        <a href="#" class="p-img">
+                            <img src="http://local.hurastore/template/HN_computer/assets/images/product-1.jpg" alt="">
+                        </a>
+                        <a href="#" class="p-name">PC HNC ADVANCED GAMING A8 G4400/ 8G/ 1050</a>
+                        <div class="gr-price">
+                            <span class="p-price">8.499.</span>
+                            <span class="p-oldprice">9.429.000 VND</span>
+                        </div>
+                        <span class="discount">-14%</span>
+                        <div class="mask-product">
+                            <a href="" class="m-name">PC HNC ADVANCED GAMING A4 G4400/8G/RX550</a>
+                            <span class="m-price">Giá bán: <span>8.199.000</span></span>
+                            <span class="m-vat">[Đã bao gồm VAT]</span>
+                            <span class="m-warranty"><b>Bảo hành: </b>BH theo linh kiện</span>
+                            <div class="m-des">
+                                <h3>Mô tả tóm tắt:</h3>
+                                <ul>
+                                    <li>+ CPU: Intel Core Pentium G4400 3,3G</li>
+                                    <li>+ Bo mạch chủ: Asus H110M - CS ( tray)</li>
+                                    <li>+ Ram: DDRam 4GELL 8GB/2400 C17SC</li>
+                                    <li>+VGA: MSI RX 550 AERO ITX 2G OC</li>
+                                    <li>+ Nguồn: Andyson Venus 500W - Passive PFC Single Rail True Power.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <span class="add-to-cart">Mua Ngay</span>
+                    </div>
+                </div>
+                <div class="product-list_item">
+                    <div class="boder-item">
+                        <a href="#" class="p-img">
+                            <img src="http://local.hurastore/template/HN_computer/assets/images/product-1.jpg" alt="">
+                        </a>
+                        <a href="#" class="p-name">PC HNC ADVANCED GAMING A8 G4400/ 8G/ 1050</a>
+                        <div class="gr-price">
+                            <span class="p-price">8.499.</span>
+                            <span class="p-oldprice">9.429.000 VND</span>
+                        </div>
+                        <span class="discount">-14%</span>
+                        <div class="mask-product">
+                            <a href="" class="m-name">PC HNC ADVANCED GAMING A4 G4400/8G/RX550</a>
+                            <span class="m-price">Giá bán: <span>8.199.000</span></span>
+                            <span class="m-vat">[Đã bao gồm VAT]</span>
+                            <span class="m-warranty"><b>Bảo hành: </b>BH theo linh kiện</span>
+                            <div class="m-des">
+                                <h3>Mô tả tóm tắt:</h3>
+                                <ul>
+                                    <li>+ CPU: Intel Core Pentium G4400 3,3G</li>
+                                    <li>+ Bo mạch chủ: Asus H110M - CS ( tray)</li>
+                                    <li>+ Ram: DDRam 4GELL 8GB/2400 C17SC</li>
+                                    <li>+VGA: MSI RX 550 AERO ITX 2G OC</li>
+                                    <li>+ Nguồn: Andyson Venus 500W - Passive PFC Single Rail True Power.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <span class="add-to-cart">Mua Ngay</span>
+                    </div>
+                </div>
+                <div class="product-list_item">
+                    <div class="boder-item">
+                        <a href="#" class="p-img">
+                            <img src="http://local.hurastore/template/HN_computer/assets/images/product-1.jpg" alt="">
+                        </a>
+                        <a href="#" class="p-name">PC HNC ADVANCED GAMING A8 G4400/ 8G/ 1050</a>
+                        <div class="gr-price">
+                            <span class="p-price">8.499.</span>
+                            <span class="p-oldprice">9.429.000 VND</span>
+                        </div>
+                        <span class="discount">-14%</span>
+                        <div class="mask-product">
+                            <a href="" class="m-name">PC HNC ADVANCED GAMING A4 G4400/8G/RX550</a>
+                            <span class="m-price">Giá bán: <span>8.199.000</span></span>
+                            <span class="m-vat">[Đã bao gồm VAT]</span>
+                            <span class="m-warranty"><b>Bảo hành: </b>BH theo linh kiện</span>
+                            <div class="m-des">
+                                <h3>Mô tả tóm tắt:</h3>
+                                <ul>
+                                    <li>+ CPU: Intel Core Pentium G4400 3,3G</li>
+                                    <li>+ Bo mạch chủ: Asus H110M - CS ( tray)</li>
+                                    <li>+ Ram: DDRam 4GELL 8GB/2400 C17SC</li>
+                                    <li>+VGA: MSI RX 550 AERO ITX 2G OC</li>
+                                    <li>+ Nguồn: Andyson Venus 500W - Passive PFC Single Rail True Power.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <span class="add-to-cart">Mua Ngay</span>
+                    </div>
+                </div>
+                <div class="product-list_item">
+                    <div class="boder-item">
+                        <a href="#" class="p-img">
+                            <img src="http://local.hurastore/template/HN_computer/assets/images/product-1.jpg" alt="">
+                        </a>
+                        <a href="#" class="p-name">PC HNC ADVANCED GAMING A8 G4400/ 8G/ 1050</a>
+                        <div class="gr-price">
+                            <span class="p-price">8.499.</span>
+                            <span class="p-oldprice">9.429.000 VND</span>
+                        </div>
+                        <span class="discount">-14%</span>
+                        <div class="mask-product">
+                            <a href="" class="m-name">PC HNC ADVANCED GAMING A4 G4400/8G/RX550</a>
+                            <span class="m-price">Giá bán: <span>8.199.000</span></span>
+                            <span class="m-vat">[Đã bao gồm VAT]</span>
+                            <span class="m-warranty"><b>Bảo hành: </b>BH theo linh kiện</span>
+                            <div class="m-des">
+                                <h3>Mô tả tóm tắt:</h3>
+                                <ul>
+                                    <li>+ CPU: Intel Core Pentium G4400 3,3G</li>
+                                    <li>+ Bo mạch chủ: Asus H110M - CS ( tray)</li>
+                                    <li>+ Ram: DDRam 4GELL 8GB/2400 C17SC</li>
+                                    <li>+VGA: MSI RX 550 AERO ITX 2G OC</li>
+                                    <li>+ Nguồn: Andyson Venus 500W - Passive PFC Single Rail True Power.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <span class="add-to-cart">Mua Ngay</span>
+                    </div>
+                </div>
+                <div class="product-list_item">
+                    <div class="boder-item">
+                        <a href="#" class="p-img">
+                            <img src="http://local.hurastore/template/HN_computer/assets/images/product-1.jpg" alt="">
+                        </a>
+                        <a href="#" class="p-name">PC HNC ADVANCED GAMING A8 G4400/ 8G/ 1050</a>
+                        <div class="gr-price">
+                            <span class="p-price">8.499.</span>
+                            <span class="p-oldprice">9.429.000 VND</span>
+                        </div>
+                        <span class="discount">-14%</span>
+                        <div class="mask-product">
+                            <a href="" class="m-name">PC HNC ADVANCED GAMING A4 G4400/8G/RX550</a>
+                            <span class="m-price">Giá bán: <span>8.199.000</span></span>
+                            <span class="m-vat">[Đã bao gồm VAT]</span>
+                            <span class="m-warranty"><b>Bảo hành: </b>BH theo linh kiện</span>
+                            <div class="m-des">
+                                <h3>Mô tả tóm tắt:</h3>
+                                <ul>
+                                    <li>+ CPU: Intel Core Pentium G4400 3,3G</li>
+                                    <li>+ Bo mạch chủ: Asus H110M - CS ( tray)</li>
+                                    <li>+ Ram: DDRam 4GELL 8GB/2400 C17SC</li>
+                                    <li>+VGA: MSI RX 550 AERO ITX 2G OC</li>
+                                    <li>+ Nguồn: Andyson Venus 500W - Passive PFC Single Rail True Power.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <span class="add-to-cart">Mua Ngay</span>
+                    </div>
+                </div>
+                <div class="product-list_item">
+                    <div class="boder-item">
+                        <a href="#" class="p-img">
+                            <img src="http://local.hurastore/template/HN_computer/assets/images/product-1.jpg" alt="">
+                        </a>
+                        <a href="#" class="p-name">PC HNC ADVANCED GAMING A8 G4400/ 8G/ 1050</a>
+                        <div class="gr-price">
+                            <span class="p-price">8.499.</span>
+                            <span class="p-oldprice">9.429.000 VND</span>
+                        </div>
+                        <span class="discount">-14%</span>
+                        <div class="mask-product">
+                            <a href="" class="m-name">PC HNC ADVANCED GAMING A4 G4400/8G/RX550</a>
+                            <span class="m-price">Giá bán: <span>8.199.000</span></span>
+                            <span class="m-vat">[Đã bao gồm VAT]</span>
+                            <span class="m-warranty"><b>Bảo hành: </b>BH theo linh kiện</span>
+                            <div class="m-des">
+                                <h3>Mô tả tóm tắt:</h3>
+                                <ul>
+                                    <li>+ CPU: Intel Core Pentium G4400 3,3G</li>
+                                    <li>+ Bo mạch chủ: Asus H110M - CS ( tray)</li>
+                                    <li>+ Ram: DDRam 4GELL 8GB/2400 C17SC</li>
+                                    <li>+VGA: MSI RX 550 AERO ITX 2G OC</li>
+                                    <li>+ Nguồn: Andyson Venus 500W - Passive PFC Single Rail True Power.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <span class="add-to-cart">Mua Ngay</span>
+                    </div>
+                </div>
+                <div class="product-list_item">
+                    <div class="boder-item">
+                        <a href="#" class="p-img">
+                            <img src="http://local.hurastore/template/HN_computer/assets/images/product-1.jpg" alt="">
+                        </a>
+                        <a href="#" class="p-name">PC HNC ADVANCED GAMING A8 G4400/ 8G/ 1050</a>
+                        <div class="gr-price">
+                            <span class="p-price">8.499.</span>
+                            <span class="p-oldprice">9.429.000 VND</span>
+                        </div>
+                        <span class="discount">-14%</span>
+                        <div class="mask-product">
+                            <a href="" class="m-name">PC HNC ADVANCED GAMING A4 G4400/8G/RX550</a>
+                            <span class="m-price">Giá bán: <span>8.199.000</span></span>
+                            <span class="m-vat">[Đã bao gồm VAT]</span>
+                            <span class="m-warranty"><b>Bảo hành: </b>BH theo linh kiện</span>
+                            <div class="m-des">
+                                <h3>Mô tả tóm tắt:</h3>
+                                <ul>
+                                    <li>+ CPU: Intel Core Pentium G4400 3,3G</li>
+                                    <li>+ Bo mạch chủ: Asus H110M - CS ( tray)</li>
+                                    <li>+ Ram: DDRam 4GELL 8GB/2400 C17SC</li>
+                                    <li>+VGA: MSI RX 550 AERO ITX 2G OC</li>
+                                    <li>+ Nguồn: Andyson Venus 500W - Passive PFC Single Rail True Power.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <span class="add-to-cart">Mua Ngay</span>
+                    </div>
+                </div>
+                <div class="product-list_item">
+                    <div class="boder-item">
+                        <a href="#" class="p-img">
+                            <img src="http://local.hurastore/template/HN_computer/assets/images/product-1.jpg" alt="">
+                        </a>
+                        <a href="#" class="p-name">PC HNC ADVANCED GAMING A8 G4400/ 8G/ 1050</a>
+                        <div class="gr-price">
+                            <span class="p-price">8.499.</span>
+                            <span class="p-oldprice">9.429.000 VND</span>
+                        </div>
+                        <span class="discount">-14%</span>
+                        <div class="mask-product">
+                            <a href="" class="m-name">PC HNC ADVANCED GAMING A4 G4400/8G/RX550</a>
+                            <span class="m-price">Giá bán: <span>8.199.000</span></span>
+                            <span class="m-vat">[Đã bao gồm VAT]</span>
+                            <span class="m-warranty"><b>Bảo hành: </b>BH theo linh kiện</span>
+                            <div class="m-des">
+                                <h3>Mô tả tóm tắt:</h3>
+                                <ul>
+                                    <li>+ CPU: Intel Core Pentium G4400 3,3G</li>
+                                    <li>+ Bo mạch chủ: Asus H110M - CS ( tray)</li>
+                                    <li>+ Ram: DDRam 4GELL 8GB/2400 C17SC</li>
+                                    <li>+VGA: MSI RX 550 AERO ITX 2G OC</li>
+                                    <li>+ Nguồn: Andyson Venus 500W - Passive PFC Single Rail True Power.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <span class="add-to-cart">Mua Ngay</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="paging">
+            <a href=""><i class="fas fa-angle-double-left"></i></a>
+            <a href="#" class="current">1</a>
+            <a href="">2</a>
+            <a href="">3</a>
+            <a href="">4</a>
+            <a href="">5</a>
+            <a href=""><i class="fas fa-angle-double-right"></i></a>
+        </div>
+    </div>
+</main>

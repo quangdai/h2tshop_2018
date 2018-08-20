@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>In</title>
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+        <meta content="DOCUMENT" name="RESOURCE-TYPE" />    
+         <style>
+		 	body { font-family:Arial, Helvetica, sans-serif; font-size:12px}
+         	#container { max-width:1200px; margin-left:auto; margin-right:auto}
+			#container h1 {font-size:18px; text-align:center}
+         </style> 
+    </head>
+    <body>
+
+<div id="container">
+    
+		<h1>Danh sách sản phẩm xem nhiều nhất tháng (trong 30 ngày)</h1>
+    
+        <table cellpadding='5' id='tb_padding' border='1' bordercolor='#CCCCCC' style="border-collapse:collapse;">
+            <tr bgcolor='#EEEEEE' style="font-weight:bold;">
+                <td>STT</td>
+                <td>Sản phẩm</td>
+                <td>Url</td>
+                <td>Lượt xem</td>
+             </tr>
+			{loop="product_list"}
+        	<tr>
+                <td>{$counter+1}</td>
+                <td>{$value.productName}</td>
+                <td>{$value.productUrl}</td>
+                <td>{$value.visit}</td>
+            </tr>
+			{/loop}
+		</table>
+
+</div>
+
+<p>&nbsp;</p>
+
+</body>
+</html>

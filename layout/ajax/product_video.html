@@ -1,0 +1,17 @@
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<title>Video sản phẩm {$product_info.productName}</title>
+        <style type="text/css">
+        	body { margin:4px; font-family:Arial, Helvetica, sans-serif; font-size:12px}
+			h1 { font-size:18px; font-weight:normal; color:#06C}
+        </style>
+	</head>
+	<body>
+		<h1>Video sản phẩm: {$product_info.productName}</h1>
+
+        {if="$product_info.has_video == 1"}
+			<div>{$video_code}</div>
+		{/if}
+	</body>
+</html>

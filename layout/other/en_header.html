@@ -1,0 +1,60 @@
+<div id="top">
+    <div class="container">
+        <ul id="menu-top" class="ul">
+            <li class="first home"><a href="/"></a></li>
+            <li><a href="/tin-tuc">News</a></li>
+
+            <li><a href="/lien-he">Contact</a></li>
+            <li><a href="/huong-dan-mua-hang">Buyer Guide</a> </li>
+            <li><a >Opening hours: 8h30 - 21h</a></li>
+        </ul>
+        {if="$customer_info.id > 0"}
+        <a href="/taikhoan" id="customer_h"><i class="icon_login_h"></i>Hi, {$customer_info.name}</a>
+        {else}
+        <a href="/dang-nhap" id="customer_h"><i class="icon_login_h"></i>Register | Login</a>
+        {/if}
+        <div id="cart-header"><i class="icon icon-cart"></i><a href="/cart">Cart (<span id="count_shopping_cart_store"></span>)</a></div>
+    </div>
+</div><!--top-->
+<div class="clear"></div>
+<header>
+    <div class="container">
+        {if="$module.name=='home'"}
+        <a href="/" id="logo">
+            <h1 style="margin:0;">
+                <img src="{$settings.logo_file}" alt="Xuan Vu Audio" />
+            </h1>
+        </a>
+        {else}
+        <a href="/" id="logo"><img src="{$settings.logo_file}" alt="Xuan Vu Audio" /></a>
+        {/if}
+        <div id="services-header">
+            <a href="/chinh-sach-giao-hang"><i class="icon icon-service1"></i><div><b>Giao hàng</b><span>Tận nơi toàn quốc</span></div></a>
+            <a href="/chinh-sach-doi-tra-hang"><i class="icon icon-service2"></i><div><b>15 ngày</b><span>Đổi trả hàng</span></div></a>
+            <a href="/chinh-sach-bao-hanh"><i class="icon icon-service3"></i><div><b>Bảo hành</b><span>Nhanh chóng</span></div></a>
+        </div>
+        <div id="fb_header">
+            <div class="fb-page" data-href="https://www.facebook.com/xuanvuaudio/" data-width="280" data-height="75" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/xuanvuaudio/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/xuanvuaudio/">Xuân Vũ Audio</a></blockquote></div>
+        </div>
+    </div>
+</header><!--header-->
+<div class="clear"></div>
+<nav id="nav-hori">
+    <div class="container">
+        {include="other/en_menu_dropdown"}
+        <div id="search">
+            <form method="get" name="searchForm" action="/tim" enctype="multipart/form-data">
+                <input type="text" id="text_search" class="text-search" name="q" autocomplete="off" placeholder="Bạn muốn tìm gì ?"/>
+                <input type="submit" id="submit-search" value="" class="icon"/>
+            </form>
+            <div class="autocomplete-suggestions"></div>
+        </div><!--search-->
+
+        <ul id="hotline-top" class="ul">
+            <li><i class="icon icon-hotline"></i>Hà Nội: <span>0973953333</span></li>
+            <li><i class="icon icon-hotline"></i>Hồ Chí Minh: <span>0978445555</span></li>
+            <li><i class="icon icon-hotline"></i>CSKH: <span>1900 636 012</span></li>
+        </ul>
+    </div><!--container-->
+</nav>
+<div class="clear"></div>

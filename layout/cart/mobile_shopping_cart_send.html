@@ -1,0 +1,39 @@
+<div class="mainsub">
+  <!---->
+  <div class="pagesub3">
+    
+    <div class="lead-sub">
+      Trang chủ  »  Gửi đơn hàng
+    </div>
+    <div class="clear"></div>
+    
+    <div class="page-nd">
+      
+      {if="$send_order_status=='success'"}
+      
+      
+      
+      <!---->
+      {$clean_shopping_cart}
+      <!---->
+      
+      <h3>CẢM ƠN BẠN ĐÃ ĐẶT HÀNG!</h3>
+      
+<p><b><i>Xuân Vũ Audio</i></b> sẽ gọi lại ngay cho bạn <b><i>{$user_info.name}</i></b>, số điện thoại <b><i>{$user_info.tel}</i></b> trong ít phút để xác nhận đơn hàng <i>(Trong thời gian làm việc từ 8h30 - 21h)</i>.</p>
+<p> Đơn đặt hàng của bạn là <b>"{$order_info.order_id}"</b> </p>
+<p><i>Nếu bạn cần hỗ trợ ngay xin vui lòng gọi 097395 3333</i></p>
+      
+      
+      {else}
+      
+      <h3>Có lỗi xảy ra khi gửi đơn hàng</h3>
+      <p>Đơn hàng của quý khách chưa được gửi. Vui lòng quay lại giỏ hàng để thử gửi lại hoặc liên hệ với chúng tôi để được trợ giúp. </p>
+      <p>Cảm ơn quý khách !</p>
+      <br />
+      
+      {/if}
+      
+    </div>
+  </div>
+</div>
+

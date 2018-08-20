@@ -1,0 +1,150 @@
+<!--
+<script type="text/javascript" src="{#INCLUDE_PATH#}movie.js"></script>
+-->
+<link type="text/css" rel="stylesheet" href="{#INCLUDE_PATH#}movie.css"/>
+
+<td width="199px" valign="top" style="text-align: left;">
+    <div style="width: 199px;">
+
+        <div id="leftMain" class="movie_format" style="padding: 5px 0 0;">
+        <div class="topcat">Danh  mục phim</div>
+        <ul class="listCat">
+
+            {loop="movie_category[0]"}
+            <li><a href="{$value.url}">{$value.title}</a></li>
+            {/loop}
+
+        </ul>
+        </div>
+
+        <div class="space"></div><!--start httt -->
+        <div><img src="{#IMAGE_PATH#}httt.jpg" /></div>
+        <div class="rightColumnBox">
+            <div style="padding:5px">
+                <div style="font-size:15px; text-align:center">Tư vấn âm thanh HI-END: <br> 0165.454.5390 </div>
+                <div style="font-size:15px; text-align:center">Tư vấn phòng xem phim 3D: <br> 0904.855.010 </div>
+                <table cellspacing="4" cellpadding="0">
+                    <tbody><tr>
+                        <td style="font-family:Tahoma; font-size:11px">Điện tử</td>
+                        <td><a href="ymsgr:SendIM?dungvankd1"><img border="0" align="absmiddle" src="http://opi.yahoo.com/online?u=dungvankd1&m=g&t=1&l=us" /></a></td>
+                    </tr>
+                    <tr>
+                        <td style="font-family:Tahoma; font-size:11px">Điện lạnh</td>
+                        <td><a href="ymsgr:SendIM?dungvankd1"><img border="0" align="absmiddle" src="http://opi.yahoo.com/online?u=dungvankd1&m=g&t=1&l=us" /></a></td>
+                    </tr>
+                    <tr>
+                        <td style="font-family:Tahoma; font-size:11px">Viễn thông</td>
+                        <td><a href="ymsgr:SendIM?dungvankd1"><img border="0" align="absmiddle" src="http://opi.yahoo.com/online?u=dungvankd1&m=g&t=1&l=us" /></a></td>
+                    </tr>
+                    <tr>
+                        <td style="font-family:Tahoma; font-size:11px">Gia dụng</td>
+                        <td><a href="ymsgr:SendIM?dungvankd1"><img border="0" align="absmiddle" src="http://opi.yahoo.com/online?u=dungvankd1&m=g&t=1&l=us" /></a></td>
+                    </tr>
+                    <tr>
+                        <td style="font-family:Tahoma; font-size:11px">Vi tính</td>
+                        <td><a href="ymsgr:SendIM?dungvankd1"><img border="0" align="absmiddle" src="http://opi.yahoo.com/online?u=dungvankd1&m=g&t=1&l=us" /></a></td>
+                    </tr></tbody>
+                </table>
+                <div>
+                    <img src="{#IMAGE_PATH#}phone.jpg"></div>
+                <div style="font-size:18px; text-align:center">033.3.849989</div>
+            </div>
+        </div>
+        <div><img src="{#IMAGE_PATH#}botL.jpg" /></div>
+        <div class="space"></div>
+    </div>
+</td>
+<td width="6px">&nbsp;</td>
+<td valign="top">
+    <div class='movie_body movie_format'>
+
+        <div class="topList"><a href="/" title="Trang chủ">Trang chủ</a> <span class="fontsize20 colorRed">»</span> <a href="/phim" title="phim">Phim</a></div>
+        <div class="page marT5 bgF">
+
+            <div class="flRight">
+                {$paging}
+            </div>
+
+            <div class="clearFix"></div>
+        </div>
+        <div class="bgF padT20 marT5">
+            <ul class="proFilm">
+                {loop="movie_list"}
+                    <li class="css-pro block-cover tooltip {if="$counter % 4 == 3 "}marR0{/if}" id="{$value.id}" title="{$value.summary}" onclick="filmList('{$value.id}','{$value.movie_size}', '{$value.name}', '{$value.subtitle}', '{$value.resolution}', '{$value.image.large}')">
+                        <span id="filmId{$value.id}" class="actFilmAll">&nbsp;</span>
+                        <p><a href="javascript:;" class="choose-film"><img alt="{$value.name}" src="{$value.image.large}" height="230" width="180"><span class="choosed"></span></a> <input value="{$value.id}#{$value.movie_size}" class="hdd-film-capacity" type="hidden"></p>
+                        <p class="padT10" align="left"><a href="{$value.url}" class="fontsize14">{$value.name}</a></p>
+                        <p class="fontsize11 padT5" align="left">Phụ đề: {$value.subtitle}</p>
+                        <p class="fontsize11" align="left">Dung lượng: {$value.movie_size} MB</p>
+                        <p class="detailBtn"><a href="{$value.url}" class="colorRed fontsize12">Chi tiết</a></p>
+                    </li>
+                    <div id="data_{$value.id}" class="hidden-tip" style="display: none; ">
+                        <div class="protip-title">
+                            <span class="cssName">{$value.name}</span>
+                        </div>
+                        <div class="protip-content">
+                            <div class="protip-left">
+                                <img alt="{$value.name}" src="{$value.image.large}" />
+                            </div>
+                            <div class="protip-right">
+                                <p class="cssSummary">
+                                    <b>Nội dung phim</b><br />
+                                    {$value.summary}
+                                </p>
+                                <p class="cssSub">Phụ đề: <b>{$value.subtitle}</b></p>
+                                <p class="fontSize">Dung lượng: <b>{$value.movie_size} MB</b></p>
+                                <p class="fontResolution">Thời lượng: <b>{$value.movie_time}</b></p>
+                                <p class="fontResolution">Độ phân giải: <b>{$value.resolution}</b></p>
+                            </div>
+                            <div class="clear"></div>
+                       </div>
+                   </div>
+                    
+                {/loop}
+            </ul>
+            <div class="clearFix"></div>
+        </div>
+        <div class="page marT5 bgF">
+            <div class="flRight">
+                {$paging}
+            </div>
+            <div class="clearFix"></div>
+        </div>
+
+        <div class="clear"></div>
+    </div>
+</td>
+
+<!--movie_order-->
+
+<div id="wrap-order-film" class="movie_order movie_format">
+    <div class="draw-films-capacitys">
+        <div style="width: 0px;" class="draw-order-capacitys">
+        </div>
+    </div>
+    <ul class="wrap-order-level">
+        <li><span>0</span> 1TB</li>
+        <li>2TB</li>
+        <li>3TB</li>
+    </ul>
+    <div class="clear">
+    </div>
+    <div style="height: 5px;" class="clear">
+    </div>
+    <ul class="wrap-order-status">
+        <li>
+            <p class="status">
+                Bạn đã chọn <span class="count-order-film-capacitys colorRed"><b class="colorRed" id="filmSize">0</b> MB | <b class="colorRed" id="filmCount">0</b> phim</span>
+                - Liên hệ - <span style="font-size: 18px;color: #f00;">0988.893.373</span>
+            </p>
+        </li>
+        <li>
+            <a href="javascript:loadPopup();"  class="chooseok nyroModal">Chọn xong</a>
+            <input type="submit" onclick="filmDelAll()" value="Xóa bỏ" id="btnResetChooseFilm">
+        </li>
+    </ul>
+    <div class="clear">
+    </div>
+</div>
+
+<div id="filmPopup"></div>

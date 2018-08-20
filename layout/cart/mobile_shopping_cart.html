@@ -1,0 +1,267 @@
+<script src="{#INCLUDE_PATH#}configPro.js?V=2.6"></script>
+<script>
+  	function reCountTotal() {
+        var b = "";
+        var a = document.getElementById("item_update_quantity").value;
+        all_item_array = a.split(",");
+        var e = 0;
+        combo_array = new Array();
+        for (var d = 0; d < all_item_array.length; d++) {
+            item_id = all_item_array[d];
+            if (item_id.length > 0) {
+                unformat_price = document.getElementById("sell_price_" + item_id.replace("-", "_")).innerHTML;
+                while (unformat_price.indexOf(".") > 0) {
+                    unformat_price = unformat_price.replace(".", "")
+                }
+                item_price = parseInt(unformat_price);
+                item_quantity = parseInt(document.getElementById("quantity_" + item_id.replace("-", "_")).value);
+                b += "," + item_id + "-" + item_quantity + "-" + item_price;
+                e += item_price * item_quantity
+            }
+        }
+        hura_create_cookie("shopping_cart_store", b, 1);
+        document.getElementById("total_value").innerHTML = writeStringToPrice(e + "");
+        document.getElementById("total_cart_value").value = e;
+        var c = document.getElementById("total_shopping_cart_store");
+        if (c != "undefined" && c != null) {
+            c.innerHTML = writeStringToPrice(e + "")
+        }
+    }
+</script>
+<div id="content-main">
+<div class="nav-sub">
+    <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a itemprop="url" title="Trang chủ" href="/">
+            <span itemprop="title">Trang chủ </span></a>
+        <strong>›</strong>
+    </span>
+    <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a itemprop="url" title="" href="#"><span itemprop="title">Giỏ hàng</span></a>
+    </span>
+</div>
+<p class="clearfix"></p>
+ {if="$shopping_cart_total==0"}
+<div class="col-right" style="width:100%;">
+    <div class="content-top" style="text-align:center;">
+        <div class="box_module update_prod text_c">
+            <h2 style="margin-bottom: 30px;">Giỏ hàng của bạn không hiện không có sản phẩm nào.</h2>
+        </div>
+    </div><!--end span-->
+</div>
+  {else}
+<table style="margin: 0;width: 100%;border-collapse: collapse;" id='table-shopping-cart' cellpadding='5' border='1' bordercolor='#CCCCCC'>
+    {$start_counter = 0}
+      {loop="shopping_cart_item"}
+      {$item_type = $key}
+      {loop="shopping_cart_item[$item_type]"}
+        <tr>
+            <td>{$start_counter += 1}</td>
+          	<td width="50"><img src="{$value.image}" alt="{$value.name}" style="width:50px"/></td>
+            <td><a href="{$value.url}"><b>{$value.name}</b></a>
+              {if="strpos($value.id,'_') > 0"}
+              <div class="clear"></div>
+                <div id="pro-config{$value.id}" class="tbl_config"></div>
+                <script>
+                  function deleteShoppingCartItemConfig(e,t){
+                  	removeShoppingCartItem(e,t);
+                  }
+                  
+                  var id = "{$value.id}";
+                  var product_id = id.split("_")[0];
+                  var config_id = id.split("_")[1];
+                  $("#pro-config{$value.id}").attr("data-id_selected",config_id);
+   
+
+                  var linkConfig = "/ajax/get_json.php?action=product-config&productId="+product_id;
+                  configPro('pro-config{$value.id}',1,linkConfig,product_id,'{$value.price}',config_id);               
+                </script>
+                {/if}
+              <div class="clear"></div>
+              Giá bán: <span id='sell_price_{$item_type}_{$value.id}'>{$value.price|format_price}</span> 
+                                      VND 
+                  <br/>Số lượng mua: <input name='quantity_{$item_type}_{$value.id}' id='quantity_{$item_type}_{$value.id}' value='{$value.quantity}' onchange="updatePrice('{$item_type}','{$value.id}',this.value)" size='10' style="width: 50px" />
+                  <br/>Thành tiền: <span id='price_{$item_type}_{$value.id}'>{$value.totalPrice|format_price}</span> VND
+            </td>
+                  
+
+            <td><a href="javascript:deleteShoppingCartItem('{$item_type}','{$value.id}','{$value.quantity}','{$value.price}')">Xóa</a></td>
+        </tr>
+    {/loop}
+    {/loop}
+    </table>
+    <br><b>Tổng giá trị : </b> <b><span id='total_value'>{$shopping_cart_total|format_price}</span> VND</b>
+
+    <div class='spacer'></div>
+    <br /><br />
+    <h4>Thông tin thanh toán</h4>
+    <form method="post" enctype="multipart/form-data" action='/gui-don-hang' onsubmit="return check_field()"> 
+    <table style="margin: 0;" id="tbl_frm_cart">
+        <tr>
+            <td>Họ tên</td><td><input type="text" size="30" name="user_info[name]" id="buyer_name" value="{$customer_info.name}"  /></td>
+        </tr>
+        <tr>
+            <td>Địa chỉ Email</td><td><input type="text" size="30" name="user_info[email]" id="buyer_email" value='{$customer_info.email}' /></td>
+        </tr>
+        <tr>
+            <td>Điện thoại </td><td><input type="text" size="30" name="user_info[tel]" id="buyer_tel"  value='{$customer_info.tel}'/></td>
+        </tr>
+        <tr>
+            <td>Địa chỉ</td><td><textarea cols="30" rows="2" name="user_info[address]" id="buyer_address"></textarea></td>
+        </tr>
+        <tr>
+            <td>Yêu cầu thêm</td><td><textarea cols="30" rows="5" name="user_info[note]" id="buyer_note"></textarea></td>
+        </tr>
+    </table>
+      <div style="padding:10px;">
+      <h4>Hình thức thanh toán</h4>
+              	<div class="value payment_method" style="padding-left:10px;">
+                  	{loop="payment_method"}
+                  	<div class="row">
+                      <input type="radio" name='pay_method' value="{$value.id}" onchange="paymentShow('pay{$counter}')" {if="$counter==0"}checked="checked"{/if} />  
+                        <span>{$value.title}</span>
+                      	<div class="detail" id="pay{$counter}" style="display: none;">
+                          	{$value.detail}
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    {/loop}
+                </div>
+      </div>
+    <br /><br />
+    <input type="hidden" name="item_update_quantity" id="item_update_quantity" value="{$shopping_cart_id}" />
+                    <input type="hidden" name="update_quantity" value="yes" />
+                    <input type="hidden" name="total_cart_value" id="total_cart_value" value="{$shopping_cart_total}" />
+      <input type="hidden" name="send_order" value="yes" />
+    <div align="left"><input type="submit" value="Gửi đơn hàng" /></div>
+      </form>
+
+      {/if}
+    <br />
+   <script type="text/javascript">
+    function validateEmail(sEmail) {
+            var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+            if (filter.test(sEmail)) {
+            	return true;
+            	}
+            	else {
+             return false;
+            	}
+            
+            	}
+    function check_field(){
+  		var number_regex1 = /^[0]\d{9}$/i;
+  		var number_regex2 = /^[0]\d{10}$/i;
+        var error = "";
+        var check_name = document.getElementById('buyer_name').value;
+        if(check_name.length < 2) error += "- Bạn chưa nhập tên\n";
+        var check_email = document.getElementById('buyer_email').value;
+        if(check_email.length < 4) {
+  			error += "- Bạn chưa nhập email\n";
+  		}	
+  		if(check_email.length > 4){
+        	if(validateEmail(check_email)==false) error += "- Email không hợp lệ\n";
+        }
+        var check_add = document.getElementById('buyer_address').value;
+        if(check_add.length < 10) error += "- Bạn chưa nhập địa chỉ\n";
+        var check_tel = document.getElementById('buyer_tel').value;
+        if(check_tel.length < 4) error += "- Bạn chưa nhập SĐT\n";
+  		else{
+  			if(number_regex1.test(check_tel) == false && number_regex2.test(check_tel) == false) error += "- Số điện thoại chưa chính xác\n";
+  		}
+        if(error != "") {
+            alert(error); return false;
+        }
+        return true;
+    }
+</script>
+      <style>.payment_method{color:#428bca}</style>
+</div>
+  
+<script>
+$(".configInfo").each(function(){
+  	var str = $(this).html();
+  	var color = str.match(/#[A-Fa-f0-9]{6}/gi);
+  
+  	var str2 = str.replace(/#[A-Fa-f0-9]{6}/gi,"<span style='background-color:"+color+"' class='color'></span>");
+	$(this).html(str2);  
+});
+$(window).load(function(){
+	$(".mau_sac_config .config-selected").click(function(){
+        $(this).parent().find(".content").toggle();  
+    });  
+});
+</script>
+<script>
+  $(window).load(function(){
+    $(".item-attribute-config").each(function(){
+    	if($(this).hasClass("selected") || $(this).hasClass("disable")) $(this).hide();
+    });
+    $(".item-attribute-config").click(function(){
+    
+      var current_id = $(this).parents(".tbl_config").attr("data-id_selected");
+      var selected_id = $(this).parents(".tbl_config").attr("data-id");
+      var product_id = $(this).parents(".tbl_config").attr("data-product-id");
+      var idConfig = product_id +"_"+ selected_id;
+      var priceConfig = $(this).parents(".tbl_config").attr("data-price");
+    
+    
+      if(selected_id!=current_id){
+        console.log(selected_id+"----"+idConfig +"---"+ priceConfig);
+        if(idConfig!='underfined' && priceConfig!='underfined'){
+          deleteShoppingCartItemConfig('pro',product_id+"_"+current_id,'','');
+          addToShoppingCartStop('pro',idConfig,1,priceConfig); location.reload();
+      }
+  }
+    });
+  });	  
+</script>  
+<style>
+.mau_sac_config .item-attribute-config {
+    height: 22px;
+    display: block;
+    margin: 2px 0;
+    font-size: 13px;
+    border: none;
+    line-height: 17px;
+}
+  p.mau_sac_config .config-selected:after {
+    content: '';
+    border: solid 4px transparent;
+    width: 0;
+    height: 0;
+    border-top-color: #666;
+    float: right;
+    margin-top: 8px;
+}
+p.mau_sac_config .config-selected {
+    display: block;
+    min-width: 80px;
+  	padding:0 5px;
+  	cursor:pointer;
+}
+.mau_sac_config .item-attribute-config i{font-style:normal;}
+.item-attribute-config.selected {
+    color:#e00;
+}
+.item-config .title {float: left;width: auto !important;margin-right: 10px; line-height:20px;}
+
+p.mau_sac_config {
+    height: 20px;
+    line-height: 20px;
+    position: relative;
+  	border: solid 1px #ccc;
+}
+p.mau_sac_config .content {
+    background: #fff;
+    border: solid 1px #ccc;
+    position: absolute;
+    left: -1px;
+    min-width: 90px;
+    display: none;
+  	z-index:999;
+}
+#tbl_frm_cart input[type="text"],#tbl_frm_cart textarea {
+    width: 100%; border:solid 1px #aaa;
+}
+#tbl_frm_cart{margin: 0 2px !important;}
+</style>

@@ -1,0 +1,77 @@
+
+<h3>Yêu cầu báo giá</h3>
+
+        {if="$send_status == 'ok'"}
+            
+                    <h2>Cảm ơn quý khách đã gửi yêu cầu</h2>
+                    <p>Chúng tôi đã nhận được thông tin và sẽ sớm gửi phản hồi cho quý khách</p>
+            
+        {else}
+
+            <form method="post" enctype="multipart/form-data" onsubmit="return check_field();">
+    
+    			<table>
+                	<tr>
+                    	<td>Họ tên</td>
+                        <td><input type="text" size="40" name="user_info[fullname]" id="buyer_name"></td>
+                    </tr>
+                	<tr>
+                    	<td>Email</td>
+                        <td><input type="text" size="40" name="user_info[email]"></td>
+                    </tr>
+                	<tr>
+                    	<td>Điện thoại</td>
+                        <td><input type="text" size="40" name="user_info[tel]" id="buyer_tel"></td>
+                    </tr>
+                	<tr>
+                    	<td>Địa chỉ</td>
+                        <td><input type="text" size="40" name="user_info[address]"></td>
+                    </tr>
+                 	<tr>
+                    	<td>Công ty</td>
+                        <td><input type="text" size="40" name="user_info[company]"></td>
+                    </tr>
+                	<tr>
+                    	<td>Ghi chú</td>
+                        <td><textarea cols="50" rows="8" name="user_info[note]"></textarea></td>
+                    </tr>
+                	<tr>
+                    	<td>File đính kèm</td>
+                        <td><input type="file" name="upload_file"> (chấp nhận word hoặc excel)</td>
+                    </tr>
+                    <tr>
+                    	<td>Mã bảo vệ</td>
+                        <td><img id="captchaimg" src="/includes/captcha/captcha.php?v=" /><br />
+                            <input type="text" size="10" name="captcha" id="captcha" />  (<a id="change-image" onclick="document.getElementById('captchaimg').src='/includes/captcha/captcha.php?'+Math.random();" href="javascript:;">Xem mã khác</a>)</td>
+                    </tr>
+                	<tr>
+                    	<td></td>
+                        <td><input type="submit" value="Gửi yêu cầu"><input type="hidden" name="send" value="yes"></td>
+                    </tr>
+                </table>
+                    
+    
+            </form>
+        
+        {/if}
+        
+ 
+
+<script type="text/javascript">
+    function check_field() {
+        var error = "";
+        var buyer_name = document.getElementById('buyer_name').value;
+        if (buyer_name.length < 4) error += "- Bạn chưa nhập tên\n";
+        var buyer_tel = document.getElementById('buyer_tel').value;
+        if (buyer_tel.length < 5) error += "- Bạn chưa nhập số điện thoại\n";
+        
+		var captcha = document.getElementById('captcha').value;
+        if (captcha.length < 4) error += "- Bạn chưa nhập mã bảo vệ\n";
+		
+        if (error != "") {
+            alert(error);
+            return false;
+        }
+        return true;
+    }
+</script>

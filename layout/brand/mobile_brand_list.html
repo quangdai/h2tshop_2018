@@ -1,0 +1,71 @@
+<!---brand_list-{$brand_list}---->
+<div class="container">
+  
+  <div id="content-main">
+<div class="nav-sub">
+    <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a itemprop="url" title="Trang chủ" href="/">
+            <span itemprop="title">Trang chủ </span></a>
+        <strong>›</strong>
+    </span>
+    <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a itemprop="url" title="{$value.name}" href="{$value.url}"><span itemprop="title">Thương hiệu</span></a>
+       
+    </span>
+</div>
+<p class="clearfix"></p>
+  
+    <p class="clearfix"></p>
+<div class="banner"></div>
+<div class="catorory-top">
+    <div class="product">
+        <div class="header-product">
+            <ul class="ul-header-product">
+                <li class="li-header-product li-header-product-cur">
+                    <h1>Thương hiệu</h1>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <p class="clearfix"></p>
+
+    <p class="catorory-top-content"></p>
+</div>
+
+<div id="content-box">
+  
+  
+  
+</div>
+    
+  <div class="clear"></div>
+  <section id="full">
+    <div id="list_brand_home" class="product_list brand">
+        <ul>
+          {loop="brand_list"}
+            {$letter = $key}
+            {loop="brand_list[$letter]"}
+            <li>
+              <div class="">
+                <a href="{$value.url}" class="p_img">{if="strlen($value.image) > 2"}{$value.image}{else}<img src="{#IMAGE_PATH#}no_image.jpg" alt="{$value.name}" />{/if}</a>
+                <a href="{$value.url}" class="p_name">{$value.name}</a>
+              </div>
+            </li>
+            {/loop}
+          {/loop}
+        </ul>
+    </div>
+    <div class="clear"></div>
+    <div class="paging">{$paging}</div>
+  </section>
+    
+    </div>
+    
+</div><!--container-->
+<script>
+$("#list_brand_home li .p_img img").each(function(){
+	$(this).attr("width","");  
+});
+</script>

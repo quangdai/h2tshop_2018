@@ -1,0 +1,41 @@
+<table id='tb-forum' cellpadding="3" cellspacing="0">
+	
+	{loop="$all_forum[0]"}
+    
+			<tr class="forum-head-row">
+				<td class="cols_I" colspan='2'><a href="{$value.url}">{$value.name}</a></td>
+				<td class="cols_II ">Chủ đề</td>
+				<td class="cols_III ">Trả lời</td>
+				<td class="cols_IV ">Mới nhất</td>
+			</tr>
+			
+		{if="$value.isParent == 1"}
+			{loop="$all_forum[$value.id]"}	
+					<tr>
+						<td class='forum-icon'>&nbsp;</td>
+						<td>
+							<div class='sub-forum-name'><a href="{$value.url}">{$value.name}</a></div>
+							<div class='sub-forum-summary'>{$value.summary}</div>
+						</td>
+						<td>
+							<b>{$value.post_count}</b>
+						</td>
+						<td>
+							<b>{$value.reply_count}</b>
+						</td>
+						<td>
+							{if="$value.last_post_id > 0"}
+								<a href="{$value.last_post_url}">{$value.last_post_title}</a>
+                                <br/>
+								{$value.last_post_user_name} /  {$value.last_post_time} 
+							{/if}
+						</td>
+					</tr>
+				
+			{/loop}	
+            
+		{/if}
+		
+	{/loop}
+	
+</table>

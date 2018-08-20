@@ -1,0 +1,145 @@
+<h2>Thể loại Form thu thập thông tin</h2>
+
+<p>Url: tenmien/?option=collect_form&view=form&type=<span style="background-color: #FFCC00">yeu-cau-dat-hang</span></p>
+<p>Admin Danh sách: tenmien/admin/?opt=collect_form&type=<span style="background-color: #FFCC00">yeu-cau-dat-hang</span></p>
+
+{if="$send_status != ''"}
+    <p>Gửi thành công</p>
+{else}
+
+<form method="post" enctype="multipart/form-data"  onsubmit="return checkForm()" action="/ajax/collect_form.php">
+    <table class="tbl-common">
+        <tr>
+            <td>Họ tên</td>
+            <td>
+                <input type="text" size="40" name="info[fullname]" id="buyer_name" class="inputText"/>
+            </td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>
+                <input type="text" size="40" name="info[email]" class="inputText" />
+            </td>
+        </tr>
+        <tr>
+            <td>Điện thoại</td>
+            <td>
+                <input type="text" size="40" name="info[tel]" id="buyer_tel" class="inputText" />
+            </td>
+        </tr>
+        <tr>
+            <td>Địa chỉ</td>
+            <td>
+                <input type="text" size="40" name="info[address]" class="inputText" />
+            </td>
+        </tr>
+        <tr>
+            <td>Công ty</td>
+            <td>
+                <input type="text" size="40" name="info[company]" class="inputText" />
+            </td>
+        </tr>
+        <tr>
+            <td>Nội dung yêu cầu</td>
+            <td>
+                <textarea cols="50" rows="8" name="info[content]"></textarea>
+            </td>
+        </tr>
+
+        <!--
+         <tr>
+            <td>Nội dung khác</td>
+            <td>
+                <input type="text" size="40" name="info[key-name]" class="inputText" />
+            </td>
+        </tr>
+        <tr>
+            <td>Nội dung khác</td>
+            <td>
+                <input type="text" size="40" name="info[key-name]" class="inputText" />
+            </td>
+        </tr>
+        -->
+
+        <tr>
+            <td>File đính kèm</td>
+            <td>
+                <div id="display_file_upload_list">
+                    <!--
+                    Upload thành công: file-name-1
+                    Upload thành công: file-name-2
+                    ...
+                    -->
+                </div>
+                <div id="all_file_upload_url">
+                    <!--
+                    <input type="hidden"  name="info[files][]" value="file-url-1"/>
+                    <input type="hidden"  name="info[files][]" value="file-url-2"/>
+                    ...
+                    -->
+                </div>
+                <input id="fileupload" type="file" name="files[]" multiple />(chấp nhận word hoặc excel)
+                <div id="progress_1" class="progress">
+                    <div class="progress-bar progress-bar-success"></div>
+                </div>
+                <div id="files" class="files"></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align:center;">
+                <input type="hidden" name="content_type" value="{$content_type}">
+                <input type="submit" value="Gửi yêu cầu" class="btn btn-blue" />
+                <input type="hidden" name="send" value="yes" />
+            </td>
+        </tr>
+    </table>
+</form>
+
+<!--upload utility-->
+<script src="/includes/jqupload/js/vendor/jquery.ui.widget.js"></script>
+<script src="/includes/jqupload/js/jquery.iframe-transport.js"></script>
+<script src="/includes/jqupload/js/jquery.fileupload.js"></script>
+<script>
+    function checkForm() {
+        return true;
+    }
+
+    function submitForm() {
+        Form.setHandle("/ajax/collect_form.php");
+        Form.submitForm.call(this, '', {  }, showPop );
+        $("#btn-submit-holder").css("display", "none");
+    }
+
+    //files will be upload to /media/user_upload/
+    //make sure the dir exists and rewritable
+    function initUploadFile(file_input_id) {
+        var UPLOAD_API_DOMAIN = "";//http://upload.domain.com
+        var UPLOAD_API = UPLOAD_API_DOMAIN + '/includes/jqupload/server/php/';
+        var $result_holder = $('#all_file_upload_url');
+
+        $('#'+file_input_id).fileupload({
+            url: UPLOAD_API,
+            dataType: 'json',
+            done: function (e, data) {
+                $.each(data.result.files, function (index, file) {
+                    $('<p/>').html("<b>Thành công:</b> "+file.name).appendTo('#display_file_upload_list');
+                    //console.log("File Name = " + file.name + ", File Url = " + JSON.stringify(file) );
+                    //$("#fileUpload1").hide();
+                    if(file.url != undefined) $result_holder.append('<input type="hidden"  name="info[files][]" value="'+ UPLOAD_API_DOMAIN + file.url+'"/>');
+
+                });
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#progress_1 .progress-bar').css( 'width', progress + '%' );
+            }
+        }).prop('disabled', !$.support.fileInput)
+          .parent().addClass($.support.fileInput ? undefined : 'disabled');
+    }
+
+    $(function () {
+        initUploadFile('fileupload');
+    });
+</script>
+
+{/if}

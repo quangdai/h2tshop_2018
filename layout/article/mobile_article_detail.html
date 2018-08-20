@@ -1,0 +1,240 @@
+<div id="content-main">
+<div class="nav-sub">
+    <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a itemprop="url" title="Trang chủ" href="/">
+            <span itemprop="title">Trang chủ </span></a>
+        <strong>›</strong>
+    </span>
+    <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a itemprop="url" title="" href="/tin-tuc"><span itemprop="title">Tin tức</span></a>
+      	<strong>›</strong>
+    </span>
+  	<span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a itemprop="url" title="" href="#"><span itemprop="title">{$article_detail.categoryInfo.name}</span></a>
+    </span>
+</div>
+<p class="clearfix"></p>
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 10px;">
+    <tr>
+        <td width="">
+        </td>
+        <td class="list_cat_news" valign="top">
+          <select onchange="location.href=this.value" style="height:23px; border:solid 1px #ddd; margin:5px 0;">
+            <option>Danh mục tin</option>
+            {loop="$article_category.article.0"}
+            <option value="{$value.url}">{$value.title}</option>
+            {/loop}
+          </select>
+        </td>
+        <td width="">
+        </td>
+    </tr>
+</table>
+<div class="news_content">
+    <!-- News info start -->
+    <div class="clearfix">
+      <div class="nl_info_detail">
+        <div class="nl_title">
+          {$article_detail.title}
+        </div>
+        <div class="nl_date">
+          {$article_detail.createDate}
+        </div>
+      </div>
+    </div>
+  	<!-- AddThis Button BEGIN -->
+              <div class="addthis_toolbox addthis_default_style addthis_20x20_style" style="margin-top:10px;">
+                <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+            <a class="addthis_button_tweet"></a>
+              </div>
+              <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5148003b01a03b86"></script>
+              <!-- AddThis Button END -->
+    <!-- News info end -->
+    <div class="nl_content_detail nd">
+      {$article_detail.content}
+    </div>
+  	<div id="comment_news" style="padding:10px;">
+    <h4 class="h2_title">Nhận xét bài viết</h4>
+    <div class="space2"></div>
+    <form action="/ajax/post_comment.php" method="post" enctype="multipart/form-data">
+        <input type=hidden name='user_post[item_type]' value='article'>
+        <input type=hidden name='user_post[item_id]' value='{$article_detail.id}'>
+        <input type=hidden name='user_post[item_title]' value='{$article_detail.title}'>
+        <input type=hidden name='user_post[rate]' value='0'>
+        <input type=hidden name='user_post[title]' value='{$article_detail.title}'>
+        <input type=hidden name='user_post[user_email]' value='{$customer_info.email}'>
+        <input type=hidden name='user_post[user_name]' value='{$customer_info.name}'>
+        <input type=hidden name='user_post[user_avatar]' value='{$customer_info.avatar}'>
+
+        <div>
+            <div class="info_comment">
+                <input type="text" name='user_post[user_name]' placeholder="Nhập tên bạn" value="{$customer_info.name}"/>
+                <input type="text" name='user_post[user_email]' placeholder="Nhập email của bạn" value="{$customer_info.email}"/>
+                <input type=hidden name='user_post[user_avatar]' value='0'>
+            </div>
+            <textarea name="user_post[content]" style="width: 98%;" cols="60" rows="6"
+                      value="Nội dung chi tiết" onfocus="if(this.value=='Nội dung chi tiết')this.value='';"
+                      onblur="if(this.value=='')this.value='Nội dung chi tiết';"></textarea>
+        </div>
+          <img id="captchaimg" src="/includes/captcha/captcha.php?v=" /><br />
+                		<input type="text" style="width:150px" name="captcha"  placeholder="Nhập mã xác nhận"/> (<a id="change-image" onclick="document.getElementById('captchaimg').src='/includes/captcha/captcha.php?'+Math.random();" href="javascript:;">Xem mã khác</a>)
+        <div class="c5"></div>
+        {if="$is_customer_login == 'yes'"}
+
+
+        <input type="hidden" name="approved" value="0" />
+
+        <input type="submit" value="Gửi bình luận" class="btn_orange"/>
+        {else}
+        <input type="submit" value="Gửi bình luận" class="btn_orange"/>
+       
+        {/if}
+        <div class="c5"></div>
+    </form>
+    <br>
+    {if="sizeof($comment_list) > 0"}
+    {loop="comment_list"}
+    <div class="item_comment">
+        <div class="comment_left">
+            {if="strlen($value.user_avatar) < 3"}
+            <img src="{#IMAGE_PATH#}2no-image.jpg" alt="" />
+            {else}
+            <img src="{$value.user_avatar}" alt="" />
+            {/if}
+        </div>
+        <div class="comment_right">
+            {if="$counter > 0"}
+            <div class="line"></div>
+            {/if}
+            <div {if="$value.is_user_admin == 1"}style="font-style:italic; color:#0B5EAE;"{/if}>
+            <span class="font13" style="color:#0B5EAE;">{if="$value.is_user_admin != 1"}Đăng bởi: {/if} {$value.user_name} {if="$value.is_user_admin != 1"} - Thành viên{/if}</span>
+            {if="$value.is_user_admin == 1"} (Admin) - <i class="comment_user_address">{$value.user_note}</i>{/if}
+        </div>
+        {if="$value.approved == 0 && $value.is_user_admin != 1"}
+        <p><i>Bình luận đang được kiểm duyệt !</i></p>
+        {elseif="$value.is_user_admin == 1 || $value.approved == 1"}
+        <p>{$value.content}</p>
+        {/if}
+        {if="$value.is_user_admin == 1 || $value.approved == 1"}
+        <div class="info_feeback">
+            <a href='javascript:;' onclick="$('#reply_comment_{$value.id}').css('display', 'block')"
+               class="write_reply">Gửi phản hồi ({$value.reply_count})</a>
+            <a href="javascript:;" class="like_comment"
+               onclick="user_like_content({$value.id}, 'comment-like', 'comment_like_{$value.id}')"><img src="{#IMAGE_PATH#}icon_like.png" alt=""/><span>thích (<span id='comment_like_{$value.id}'>{$value.people_like_count}</span>)</span></a>
+            <span>(Lúc: {$value.post_time|show_datetime_from_unix})</span>
+        </div>
+        {/if}
+        <div id='reply_comment_{$value.id}' style="display:none;">
+            <form action="/ajax/post_comment.php" method="post" enctype="multipart/form-data">
+                <input type=hidden name='user_post[reply_to]' value='{$value.id}'>
+                <input type=hidden name='user_post[rate]' value='0'>
+                <input type=hidden name='user_post[title]' value='re: {$value.id}'>
+                <input type=hidden name='user_post[user_email]' value='{$customer_info.email}'>
+                <input type=hidden name='user_post[user_name]' value='{$customer_info.name}'>
+                <div>
+                    <div class="info_comment">
+                        <input type="text" name='user_post[user_name]' placeholder="Nhập tên bạn" value="{$customer_info.name}"/>
+                        <input type="text" name='user_post[user_email]' placeholder="Nhập email của bạn" value="{$customer_info.email}"/>
+                        <input type=hidden name='user_post[user_avatar]' value='0'>
+                    </div>
+                    <textarea name="user_post[content]" style="width: 98%;" cols="60" rows="6"
+                              value="Nội dung chi tiết" onfocus="if(this.value=='Nội dung chi tiết')this.value='';"
+                              onblur="if(this.value=='')this.value='Nội dung chi tiết';"></textarea>
+                    
+
+                </div><!--div-->
+                  <img id="captchaimg2" src="/includes/captcha/captcha.php?v=" /><br />
+                                          <input type="text" style="width:150px" name="captcha"  placeholder="Nhập mã xác nhận"/> (<a id="change-image" onclick="document.getElementById('captchaimg2').src='/includes/captcha/captcha.php?'+Math.random();" href="javascript:;">Xem mã khác</a>)
+                <div class="c5"></div>
+
+                {if="$is_customer_login == 'yes'"}
+
+                <input type="hidden" name="approved" value="0" />
+
+                <input type="submit" value="Gửi phản hồi" class="btn_orange"/>
+                {else}
+                <input type="submit" value="Gửi bình luận" class="btn_orange"/>
+               
+                {/if}
+
+
+                <div class="c5"></div>
+            </form>
+        </div>
+        <br>
+        {if="$value.reply_count > 0"}
+        <div style="padding: 3px 10px;margin-left: 20px;">
+            {loop="$value.reply_list"}
+            <div class="comment_left">
+                {if="strlen($value.user_avatar) < 3"}
+                <img src="{#IMAGE_PATH#}2no-image.jpg" alt="" />
+                {else}
+                <img src="{$value.user_avatar}" alt="" />
+                {/if}
+            </div>
+            <div class="comment_right">
+                <div {if="$value.is_user_admin == 1"}style="font-style:italic; color:#0B5EAE;"{/if}>
+                <span class="font13">{if="$value.is_user_admin != 1"}Đăng bởi: {/if}{$value.user_name} {if="$value.is_user_admin != 1"} - Thành viên{/if}</span> {if="$value.is_user_admin == 1"} (Admin) - <i class="comment_user_address">{$value.user_note}</i>{/if}
+            </div>
+            {if="$value.approved == 0 && $value.is_user_admin != 1"}
+            <p><i>Bình luận đang được kiểm duyệt !</i></p>
+            {elseif="$value.is_user_admin == 1 || $value.approved == 1"}
+            <p>{$value.content}</p>
+            {/if}
+            {if="$value.is_user_admin == 1 || $value.approved == 1"}
+            <div class="info_feeback">
+                <a href="javascript:;" class="like_comment"
+                   onclick="user_like_content({$value.id}, 'comment-reply-like', 'comment_reply_like_{$value.id}')"><img src="{#IMAGE_PATH#}icon_like.png"
+                                                                                                                         alt=""/><span>thích (<span id='comment_reply_like_{$value.id}'>{$value.people_like_count}</span>)</span></a>
+                <span>(Lúc: {$value.post_time|show_datetime_from_unix})</span>
+            </div>
+            {/if}
+        </div><!--comment_right-->
+        {/loop}
+    </div>
+    {/if}
+</div>
+<!--comment_right-->
+<div class="clear"></div>
+</div>
+<!--item_comment-->
+{/loop}
+{else}
+<p>Hiện tại chưa có ý kiến đánh giá nào về bài viết này. Hãy là người đầu tiên chia sẻ cảm nhận của bạn.</p>
+{/if}
+
+<div class="space2"></div>
+<div class="fb-comments" data-href="{$current_page_url}" data-width="100%" data-numposts="5" data-colorscheme="light"></div>
+</div><!--comment_news-->
+  </div>
+  <div class="news_related clearfix">
+    <!-- News related box start -->
+    <div class="nr_box">
+      <div class="nr_label">TIN KHÁC</div>
+      <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 10px;">
+        <tr>
+          <td valign="top">
+            <ul class="nr_items">
+              {loop="$article_other_same_category.old"}
+              <li class="clearfix" style="padding-left:8px; box-shadow:none; margin-bottom:1px;">
+                <a href="{$value.url}" title="{$value.title}" style="color:#333;">{$value.title}</a>
+                <span class="nr_date">({$value.createDate})</span>
+              </li>
+              {/loop}
+              {loop="$article_other_same_category.new"}
+              <li class="clearfix" style="padding-left:8px; box-shadow:none; margin-bottom:1px;">
+                <a href="{$value.url}" title="{$value.title}" style="color:#333;">{$value.title}</a>
+                <span class="nr_date">({$value.createDate})</span>
+              </li>
+              {/loop}
+            </ul>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <!-- News related box end -->
+  </div>
+
+  <div class="clearfix"></div>
+</div>

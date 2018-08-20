@@ -1,0 +1,353 @@
+
+<link rel="stylesheet" href="{#INCLUDE_PATH#}show_product.css" type="text/css" />
+<link rel="stylesheet" href="/includes/buildpc/v2/css/owl.carousel.min.css">
+<link rel="stylesheet" href="/includes/buildpc/v2/css/owl.theme.default.min.css">
+<link rel="stylesheet" href="/includes/buildpc/v2/css/styles.css" type="text/css" />
+
+
+<style type="text/css">
+    .tab-block {
+        margin-bottom: 15px;
+    }
+
+    .group-block {
+        margin-bottom: 25px;
+    }
+
+    .group-block .child-parent {
+        font-weight: bold;
+        font-size: 16px;
+        color: red;
+    }
+</style>
+
+<main class="custom-pc">
+    <div class="content container">
+        <div class="content-main float_l w-70">
+            <div class="img-detail float_l w-60">
+                <img src="/media/build/{$product_info.thumbnail}" style="width: 100px; max-height: 100px" alt="">
+            </div>
+            <div class="overview float_l w-40">
+                <h1 class="detail-name">{$product_info.title}</h1>
+                <div class="detail-price">Giá ban đầu: <span id="js-show-current-price">{$product_info.price}</span></div>
+                <div class="detail-price">Giá hiện tại: <span id="js-show-new-price">{$product_info.price}</span></div>
+                <div>Khuyen mai: {$product_info.promotion}</div>
+            </div><!--overview-->
+            <div id="tab-pro-info">
+
+                <div class="title-tab-pro">
+                    <span data-tab='tab-basic' class="active">1. Cấu hình cơ bản</span>
+                    <span data-tab='tab-accessory'>2. Phụ kiện</span>
+                    <span data-tab='tab-extra'>3. Tiện ích</span>
+                </div>
+
+                <div id="js-config-block" class="content-tab-pro">
+                    <!--Danh sach cau hinh tai day-->
+                </div>
+
+            </div>
+        </div>
+        <div class="content-sidebar float_r w-30">
+            <div class="product-info">
+                <h4>PC HNC ADVANCED GAMING A4 G4400/8G/RX550</h4>
+                <span class="price">Giá chính hãng: <span>8.684.000 đ</span></span>
+                <span class="unprice">Giá khuyến mãi: <span>8.199.000 đ</span></span>
+                <div class="center">
+                    <span>Giao hàng miễn phí </span>
+                    <span>Trong bán kính 20m cho đơn hàng >500.000 đ</span>
+                </div>
+            </div>
+            <div class="contact-support">
+                <h4>Bạn cần trợ giúp ?</h4>
+                <div class="suport-phone">
+                    <span>Yêu cầu gọi lại</span>
+                    <a href="tel:0123456789">GỌI NGAY</a>
+                </div>
+                <div class="suport-mail">
+                    <span>Gửi e-mail cho Hanoicomputer</span>
+                    <a href="mailto:baohanhhnc@hanoicomputer.com">baohanhhnc@hanoicomputer.com</a>
+                </div>
+            </div>
+            <div class="action-product">
+                <h4>Bạn muốn làm gì với máy tính này?</h4>
+
+                <div><input type="button" value="Save Config" onclick="saveCustomBuild()"></div>
+
+                <div><input type="button" value="add To Cart" onclick="addToCartCustomBuild()"></div>
+
+                <div><input type="button" value="Chuyen sang xay cau hinh" onclick="changeCustomBuildToBuildPC()"></div>
+
+                <!--thuc hien mua
+                <form method="post" enctype="multipart/form-data" action="?option=build&view=buy">
+                    <input type="hidden" id="js-buy-id" name="buy_id" value="{$product_info.id}">
+                    <input type="hidden" id="js-buy-config" name="buy_config" value="">
+
+                    <table>
+                        <tr>
+                            <td>Ten khach hang</td>
+                            <td><input type="text" name="buyer_info[name]" size="30"></td>
+                        </tr>
+                        <tr>
+                            <td>So dien thoai</td>
+                            <td><input type="text" name="buyer_info[tel]" size="30"></td>
+                        </tr>
+                        <tr>
+                            <td>Dia chi</td>
+                            <td><input type="text" name="buyer_info[address]" size="30"></td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td><input type="text" name="buyer_info[email]" size="30"></td>
+                        </tr>
+                    </table>
+
+                    <input type="submit" value="Mua ngay">
+                </form>
+                -->
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<div id="js-modal-popup"> </div>
+
+<script src="/includes/js/ShowBuildProduct.js"></script>
+<script>
+    var BUILD_ID = '{$product_info.id}';
+    var CURRENT_CONFIG = '{$config}';
+    var user_load_config;
+
+    var $config_block_node = $("#js-config-block");
+    //console.log(JSON.stringify(JSON.parse(CURRENT_CONFIG), true, 4));
+    var $modal_container = $("#js-modal-popup");
+
+    //get config saved on ready
+    $(function () {
+
+        if(CURRENT_CONFIG != '') {
+            user_load_config = JSON.parse(CURRENT_CONFIG);
+            //console.log("user_load_config = " + JSON.stringify(user_load_config, true, 4));
+
+            //if user has saved a build, find the build and load it
+            Hura.User.getInfo("custom_build", function (save_build) {
+                var find_build = findItemInArray(save_build, "id", BUILD_ID);
+                //console.log("config save = " + JSON.stringify(save_build, true, 4));
+                console.log("find_build = " + JSON.stringify(find_build, true, 4));
+
+                //rebuild the layout, add or select products in the find_build
+                if(find_build) {
+                    var tab_info, category_id, product_id, has_product_selected, new_product;
+                    for (var tab_index in user_load_config) {
+                        tab_info = user_load_config[tab_index];
+                        tab_info.child.forEach(function (group) {
+                            group.child.forEach(function (category, category_index) {
+                                category_id = category.read_id;
+                                has_product_selected = false;
+                                category.suggest_list.forEach(function (product, product_index) {
+                                    if(findItemInArray(find_build.product_list, "id", product.real_id)) {
+                                        has_product_selected = true;
+                                        //set selection
+                                        category.suggest_list[product_index]["is_default"] = 1;
+                                    }
+                                })
+
+                                //if no product currently in recommended config
+                                if(!has_product_selected) {
+                                    new_product = findItemInArray(find_build.product_list, "category_id", category.read_id);
+                                    if(new_product) {
+                                        category.suggest_list.push({
+                                            "title"     : new_product.title,
+                                            "price"     : new_product.price,
+                                            "quantity"  : new_product.quantity,
+                                            "real_id"   : new_product.id,
+                                            "is_default": "1"
+                                        })
+                                    }
+                                }
+                            })
+                        })
+                    }
+                    //console.log("user_load_config rebuild = " + JSON.stringify(user_load_config, true, 4));
+                }
+
+                _showLayout(user_load_config);
+
+            } );
+
+
+            function _showLayout(user_load_config) {
+                //hien thi layout html
+                ShowBuild.setConfig(user_load_config);
+                $config_block_node.html( ShowBuild.buildLayout());
+                //hien thi tab mac dinh
+                ShowBuild.showTab('tab-basic');
+
+                //hien thi mac dinh cac sp da duoc chon
+                var product_selected = ShowBuild.getAllSelectedProduct();
+                //$("#js-show-current-price").html(writeStringToPrice(product_selected.total_price)); //gia ban dau
+                $("#js-show-new-price").html(writeStringToPrice(product_selected.total_price)); //gia moi
+                //$("#js-buy-config").val(JSON.stringify(product_selected.product_list)); //cau hinh de gui dat hang
+
+                //add  listeners
+                //neu thay doi sp nao do
+                $("input").on("change", function () {
+                    //hien thi sp tren dau danh muc
+                    var category_index = this.getAttribute("data-cat-index");
+                    $("#js-item-name-"+category_index).html(decodeURIComponent(this.getAttribute("data-title")));
+
+                    //hien thi gia moi
+                    showSelectedProductList();
+                });
+
+                //open category to select a new product
+                $(".js-build-category").on("click", function () {
+                    //data-id="{{id}}" data-tab="{{tab_index}}" data-group-counter="{{group_counter}}" data-counter="{{counter}}"
+                    var category_id = this.getAttribute("data-id");
+                    //alert(category_id);
+                    //test them sp moi
+                    showProductListToSelect.call(this, category_id);
+                });
+
+                //listen for product selection
+                $modal_container.on("click", function (e) {
+                    var node = e.target;
+                    if($(node).hasClass('btn-buy')) {
+                        var product_id = JSON.parse(node.getAttribute("data-id"));
+                        //alert(product_id);
+                        //get product info and add to selection
+                        addProductToList(node, product_id);
+                    }
+                });
+            }
+        }
+
+    });
+
+
+    function changeCustomBuildToBuildPC() {
+        //save then move
+        saveCustomBuild(function () {
+            window.location = '/buildpc?custom_build=' + BUILD_ID;
+        })
+    }
+
+    function addToCartCustomBuild() {
+        //save then add
+        saveCustomBuild(function () {
+            var config_info = {
+                id          : BUILD_ID,
+                title       : '{$product_info.title}',
+                quantity    : 1,
+                buyer_note  : ''
+            };
+
+            var cartCustomBuildObj = Hura.Cart.manage("CustomBuild");
+            var addStatus = cartCustomBuildObj.add(config_info);
+
+            if(addStatus) {
+                addStatus.then(function () {
+                    console.log("cart content = " + JSON.stringify(Hura.Cart.getCart(), true, 4));
+                    //hien thi tom tat, tu javascript/global
+                    //Hura.Cart.goToCartPage();
+                })
+            } else {
+                console.log("cart error content = " + JSON.stringify(Hura.Cart.getCart(), true, 4));
+                //Hura.Cart.goToCartPage();
+            }
+        })
+    }
+
+    //load product selection
+    function showProductListToSelect(category_id) {
+        var node_clicked = this;
+
+        $.get( "/ajax/get_json.php", {
+            action     : "pcbuilder",
+            action_type : "get-product-category",
+            category_id : category_id
+        } , function (data) {
+            $modal_container.html(data);
+        });
+    }
+
+    function addProductToList(node_clicked, product_id) {
+        $.get("/ajax/get_json.php", {
+            action     : "product",
+            action_type : "basic-info",
+            id : product_id
+        } , function (data) {
+            var product_info = JSON.parse(data);
+            var item_info = {
+                real_id  : product_info.id,
+                title    : product_info.proName,
+                price    : product_info.price,
+                quantity : 1,
+                is_default: 1
+            };
+            //and close modal and remove listener
+            $modal_container.html('');
+            ShowBuild.addNewProduct.call(node_clicked, item_info);
+            //hien thi gia moi
+            showSelectedProductList();
+        });
+    }
+
+    function writeStringToPrice(str) {
+        str = (str + '').replace(/\./g, "");
+        var first_group = str.substr(0, str.length % 3);
+        var remain_group = str.replace(first_group, "");
+        var num_group = remain_group.length / 3;
+        var result = "", group_of_three;
+        for (var i = 0; i < num_group; i++) {
+            group_of_three = remain_group.substr(i * 3, 3);
+            result += group_of_three;
+            if (i != (num_group - 1)) result += ".";
+        }
+        if (first_group.length > 0) {
+            if (result != "") return first_group + "." + result;
+            else return first_group;
+        } else {
+            if (result != "") return result;
+            else return "";
+        }
+    }
+
+    function saveCustomBuild(callback) {
+        var product_selected = ShowBuild.getAllSelectedProduct();
+        Hura.User.updateInfo("custom_build", {
+            id : BUILD_ID,
+            product_list : product_selected.product_list
+        }, function (res) {
+            if(res.status == 'success') {
+                //alert("Lưu thành công !");
+                if(typeof callback === 'function') callback();
+            }
+        } );
+    }
+
+    function showSelectedProductList() {
+        var product_selected = ShowBuild.getAllSelectedProduct();
+        //console.log(JSON.stringify(product_selected, true, 4));
+        //cau hinh de gui dat hang
+        $("#js-buy-config").val( JSON.stringify(product_selected.product_list) );
+        //gia moi
+        $("#js-show-new-price").html(writeStringToPrice(product_selected.total_price));
+    }
+
+    //find item_info and item_index in an array, given a prop_name and prop_value
+    //commonly used: findItemInArray(product_list, "id", 10) -> find product which has id=10
+    function findItemInArray(array_list, item_prop_name, item_prop_val) {
+        let item_info = null, item_index = -1;
+        for (let i = 0, total = array_list.length; i < total; i++) {
+            if(array_list[i][item_prop_name] == item_prop_val) {
+                item_info = array_list[i];
+                item_index = i;
+                break;
+            }
+        }
+
+        return item_info;
+    }
+
+</script>

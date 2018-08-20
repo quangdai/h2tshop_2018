@@ -1,0 +1,16 @@
+<h1 style="font-size:16px; font-weight:normal">Kiểm tra thông tin bảo hành sản phẩm</h1>
+
+<p>Vui lòng nhập số Series sản phẩm hoặc địa chỉ email của bạn để kiểm tra</p>
+
+<p>Nhập: <input type=text id=check_warranty size=40> <input type=button value="Kiểm tra" onclick="check_product_warranty()"></p>
+
+<br />
+<p id='check_product_warranty_result'></p>  
+  
+  <script>
+  
+  function check_product_warranty(){
+    $("#check_product_warranty_result").html("...đang kiểm tra");
+    $.post("/ajax/check_warranty_status.php", {q:$("#check_warranty").val()}, function(data) { $("#check_product_warranty_result").html("<b style='color:red'>Kết quả tìm thấy</b>: <br>" + data); } );
+  }
+  </script>

@@ -1,0 +1,113 @@
+<div id="forum-path"><b>Bạn đang xem</b> : {$forum_info.path} </div>
+
+{if="$forum_info.isParent == 1"}
+	
+	<table id='tb-forum' cellpadding="3" cellspacing="0">
+			<tr class="forum-head-row">
+				<td class="cols_I" colspan='2'>{$forum_info.name}</td>
+				<td class="cols_II ">Chủ đề</td>
+				<td class="cols_III ">Trả lời</td>
+				<td class="cols_IV ">Mới nhất</td>
+			</tr>
+		
+        {loop="$forum_info.child_forum"}	
+            <tr>
+                <td class='forum-icon'>&nbsp;</td>
+                <td>
+                    <div class='sub-forum-name'><a href="{$value.url}">{$value.name}</a></div>
+                    <div class='sub-forum-summary'>{$value.summary}</div>
+                </td>
+                <td>
+                    <b>{$value.post_count}</b>
+                </td>
+                <td>
+                    <b>{$value.reply_count}</b>
+                </td>
+                <td>
+                    {if="$value.last_post_id > 0"}
+                        <a href="{$value.last_post_url}">{$value.last_post_title}</a>
+                        <br/>
+                        {$value.last_post_user_name} /  {$value.last_post_time} 
+                    {/if}
+                </td>
+            </tr>
+        {/loop}	
+        
+	</table>
+
+{else}
+
+	<div id='create-thread-bt'><a href="post.html?f={$forum_info.id}">Gửi bài</a> </div>
+	
+    <table id='tb-forum' cellpadding="3" cellspacing="0">
+        <tr class="forum-head-row">
+            <td class="cols_I" colspan='2'>Chủ đề</td>
+            <td class="cols_II ">Bài viết</td>
+            <td class="cols_III ">Xem</td>
+            <td class="cols_IV ">Mới nhất</td>
+        </tr>
+	
+	{if="$forum_info.post_count > 0"}
+			
+			<!--sticky-->
+			{if="$current_page_id == 1 && sizeof($topic_list.sticky) > 0"}
+            	{loop="$topic_list.sticky"}
+						<tr>
+							<td class='forum-icon-topic'>&nbsp;</td>
+							<td>
+								{$value.type} 
+                                <a href="{$value.url}">{$value.title}</a><br/>
+								<span class='forum-user'>{$value.username}</span>, {$value.post_time} 
+							</td>
+							<td>
+								{$value.reply_count}
+							</td>
+							<td>
+								{$value.view_count}
+							</td>
+							<td>
+								{if="$value.last_reply_user_name"}
+                                	{$value.last_reply_excerpt} <br />
+                                    Bởi: {$value.last_reply_user_name}  / lúc {$value.last_update} 
+                                {/if}
+							</td>
+						</tr>
+				{/loop}	
+			{/if}							
+			
+            <!--normal-->
+            
+			{loop="$topic_list.normal"}
+                    <tr>
+                        <td class='forum-icon-topic'>&nbsp;</td>
+                        <td>
+                            <a href="{$value.url}">{$value.title}</a><br/>
+                            <span class='forum-user'>{$value.username}</span>, {$value.post_time} 
+                        </td>
+                        <td>
+                            {$value.reply_count}
+                        </td>
+                        <td>
+                            {$value.view_count}
+                        </td>
+                        <td>
+                            {if="$value.last_reply_user_name"}
+                                {$value.last_reply_excerpt} <br />
+                                Bởi: {$value.last_reply_user_name}  / lúc {$value.last_update} 
+                            {/if}
+                        </td>
+                    </tr>
+            {/loop}	
+			
+	{else}
+		<tr>
+        	<td><p>Chưa có bài viết nào trong chuyên mục này.</p></td>
+        </tr>	
+	{/if}
+	
+	</table>
+	
+	<br />
+    {$paging}
+
+{/if}

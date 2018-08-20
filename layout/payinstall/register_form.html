@@ -1,0 +1,849 @@
+<link type="text/css" rel="stylesheet" href="{#INCLUDE_PATH#}litetabs.css" />
+<div align="center"><h3>Đăng ký trực tuyến laptop trả góp</h3></div>
+<div style="padding-left: 30px">
+    <br/>
+    Nếu bạn muốn mua laptop trả góp<br/>
+    Vui lòng điền đầy đủ thông tin yêu cầu vào mẫu bên dưới để chúng tôi sẽ lưu lại thông tin của bạn và sẽ tiến hành<br/>
+    Khảo sát trên hệ thống và thông báo kết quả chính xác cho bạn<br/>
+    <br/>
+</div>
+
+
+{if="$send_status == 'ok'"}
+
+<p style="font-size:18px; color:#00f">Cảm ơn quý khách đã đăng ký. Chúng tôi đã nhận được thông tin và sẽ xem xét hồ sơ.</p>
+
+    {else}
+
+<div class="register_view">
+<ul>
+
+    <li><a href="#1"><span>Sinh viên</span></a></li>
+    <li><a href="#2"><span>Người đi làm</span></a></li>
+    <li><a href="#3"><span>Doanh nhân</span></a></li>
+</ul>
+<div name="#1">
+<div class="register_view_content">
+<div class="register_view_content_border">
+<div class="register_view_content_inner">
+<form method="post" action="ajax/payinstall_receive_order.php">
+
+<input type="hidden" name="return_url" value="{$current_page_url}" />
+<input type="hidden" name="type" value="1" />
+<input type="hidden" name="product_id" class='product_id' value="" />
+
+
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr>
+    <td colspan="2" class="fieldheader"><span>THÔNG TIN SẢN PHẨM <font class="font-red">(Bắt Buộc Đầy Đủ)</font></span></td>
+</tr>
+<tr>
+    <td class="label"><span>Tên sản phẩm <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="p_name" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Giá bán có thuế <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="p_price" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Phần trăm trả trước <font class="red">*</font>:<i>(trả trước từ 20 – 80%)</i></span></td>
+    <td><input type="text" class="input_text" name="p_prepaid" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Thời gian trả góp <font class="red">*</font>:<i>(thời hạn từ 6 – 24<sup>th</sup>)</i></span></td>
+    <td><input type="text" class="input_text" name="p_term" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Số tiền phải trả hàng tháng:</span></td>
+    <td><input type="text" class="input_text" name="p_amonth" value="" /></td>
+</tr>
+<tr>
+    <td colspan="2" class="fieldheader"><span>THÔNG TIN CÁ NHÂN <font class="font-red">(Bắt Buộc Đầy Đủ)</font></span></td>
+</tr>
+<tr>
+    <td class="label"><span>Họ tên <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="fullname" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Ngày tháng năm sinh <font class="red">*</font>:</span></td>
+    <td><select name="birthday"><option value="0">- Ngày - </option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select> <select name="birthmonth"><option value="0">- Tháng - </option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select> <select name="birthyear"><option value="0">- Năm - </option><option value="2010">2010</option><option value="2009">2009</option><option value="2008">2008</option><option value="2007">2007</option><option value="2006">2006</option><option value="2005">2005</option><option value="2004">2004</option><option value="2003">2003</option><option value="2002">2002</option><option value="2001">2001</option><option value="2000">2000</option><option value="1999">1999</option><option value="1998">1998</option><option value="1997">1997</option><option value="1996">1996</option><option value="1995">1995</option><option value="1994">1994</option><option value="1993">1993</option><option value="1992">1992</option><option value="1991">1991</option><option value="1990">1990</option><option value="1989">1989</option><option value="1988">1988</option><option value="1987">1987</option><option value="1986">1986</option><option value="1985">1985</option><option value="1984">1984</option><option value="1983">1983</option><option value="1982">1982</option><option value="1981">1981</option><option value="1980">1980</option><option value="1979">1979</option><option value="1978">1978</option><option value="1977">1977</option><option value="1976">1976</option><option value="1975">1975</option><option value="1974">1974</option><option value="1973">1973</option><option value="1972">1972</option><option value="1971">1971</option><option value="1970">1970</option><option value="1969">1969</option><option value="1968">1968</option><option value="1967">1967</option><option value="1966">1966</option><option value="1965">1965</option><option value="1964">1964</option><option value="1963">1963</option><option value="1962">1962</option><option value="1961">1961</option><option value="1960">1960</option><option value="1959">1959</option><option value="1958">1958</option><option value="1957">1957</option><option value="1956">1956</option><option value="1955">1955</option><option value="1954">1954</option><option value="1953">1953</option><option value="1952">1952</option><option value="1951">1951</option><option value="1950">1950</option><option value="1949">1949</option><option value="1948">1948</option><option value="1947">1947</option><option value="1946">1946</option><option value="1945">1945</option><option value="1944">1944</option><option value="1943">1943</option><option value="1942">1942</option><option value="1941">1941</option><option value="1940">1940</option></select></td>
+</tr>
+<tr>
+    <td class="label"><span>CMND <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="cmnd" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Ngày cấp <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="ngaycap_cmnd" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Nơi cấp <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="noicap_cmnd" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Giới tính <font class="red">*</font>:</span></td>
+    <td><input type="radio" name="sex" value="1" checked />Nam&nbsp;<input type="radio" name="sex" value="0" />Nữ</td>
+</tr>
+<tr>
+    <td class="label"><span>Trình độ học vấn <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="trinhdo" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Tình trạng hôn nhân: <i>(đã kết hôn hay chưa)</i></span></td>
+    <td><input type="text" class="input_text" name="kethon" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>ÐTDÐ <font class="red">*</font>:</span></td>
+    <td><input id='mobile1' type="text" class="input_text" name="mobile" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Email:</span></td>
+    <td><input type="text" class="input_text" name="email" value=" " /></td>
+</tr>
+<tr>
+    <td colspan="2" class="fieldheader"><span>THÔNG TIN NƠI CƯ TRÚ <font class="font-red">(Bắt Buộc Đầy Đủ)</font></span></td>
+</tr>
+<tr>
+    <td class="label"><span>Địa chỉ thường trú <font class="red">*</font>: <i>(ĐC trên hộ khẩu)</i></span></td>
+    <td><input type="text" class="input_text" name="address" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Điện thoại cố định <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="tel" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Địa chỉ nơi ở hiện nay <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="address2" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Điện thoại cố định:</span></td>
+    <td><input type="text" class="input_text" name="tel2" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Số người cư ngụ:</span></td>
+    <td><input type="text" class="input_text" name="songuoicungu" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Thời gian cư trú:</span></td>
+    <td><input type="text" class="input_text" name="thoigiancungu" value="" /></td>
+</tr>
+<tr>
+    <td width="1%" nowrap class="label"><span>Tình trạng nhà ở: <i>(nhà của cha/mẹ hay tự sở hữu, hay nhà người thân, thuê..)</i></span></td>
+    <td><input type="text" class="input_text" name="tinhtrangnhao" value="" /></td>
+</tr>
+<tr>
+    <td colspan="2" class="fieldheader"><span>THÔNG TIN TRƯỜNG HỌC <font class="font-red">(Bắt Buộc Đầy Đủ)</font></span></td>
+</tr>
+<tr>
+    <td class="label"><span>SV trường <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="sv_truong" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Địa chỉ <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="diachi_truong" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Ngành học <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="nganhhoc" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Mã số SV <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="ma_sv" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Hình thức liên lạc với bạn: <i>(liên lạc với bạn qua Cty, nhà hay ĐTDĐ)</i></span></td>
+    <td><input type="text" class="input_text" name="hinhthuclienlac" value="" /></td>
+</tr>
+<tr>
+    <td colspan="2" class="fieldheader"><span>THÔNG TIN THAM CHIẾU (người bảo lãnh) <font class="font-red">(Bắt Buộc Đầy Đủ)</font></span></td>
+</tr>
+<tr>
+    <td class="label"><span>Đối tượng <font class="red">*</font>: <i>(cha, mẹ / anh chị em ruột / người hôn phối)</i></span></td>
+    <td><input type="text" class="input_text" name="object" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Họ tên <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="ob_fullname" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Ngày tháng năm sinh <font class="red">*</font>:</span></td>
+    <td><select name="ob_birthday"><option value="0">- Ngày - </option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select> <select name="ob_birthmonth"><option value="0">- Tháng - </option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select> <select name="ob_birthyear"><option value="0">- Năm - </option><option value="2010">2010</option><option value="2009">2009</option><option value="2008">2008</option><option value="2007">2007</option><option value="2006">2006</option><option value="2005">2005</option><option value="2004">2004</option><option value="2003">2003</option><option value="2002">2002</option><option value="2001">2001</option><option value="2000">2000</option><option value="1999">1999</option><option value="1998">1998</option><option value="1997">1997</option><option value="1996">1996</option><option value="1995">1995</option><option value="1994">1994</option><option value="1993">1993</option><option value="1992">1992</option><option value="1991">1991</option><option value="1990">1990</option><option value="1989">1989</option><option value="1988">1988</option><option value="1987">1987</option><option value="1986">1986</option><option value="1985">1985</option><option value="1984">1984</option><option value="1983">1983</option><option value="1982">1982</option><option value="1981">1981</option><option value="1980">1980</option><option value="1979">1979</option><option value="1978">1978</option><option value="1977">1977</option><option value="1976">1976</option><option value="1975">1975</option><option value="1974">1974</option><option value="1973">1973</option><option value="1972">1972</option><option value="1971">1971</option><option value="1970">1970</option><option value="1969">1969</option><option value="1968">1968</option><option value="1967">1967</option><option value="1966">1966</option><option value="1965">1965</option><option value="1964">1964</option><option value="1963">1963</option><option value="1962">1962</option><option value="1961">1961</option><option value="1960">1960</option><option value="1959">1959</option><option value="1958">1958</option><option value="1957">1957</option><option value="1956">1956</option><option value="1955">1955</option><option value="1954">1954</option><option value="1953">1953</option><option value="1952">1952</option><option value="1951">1951</option><option value="1950">1950</option><option value="1949">1949</option><option value="1948">1948</option><option value="1947">1947</option><option value="1946">1946</option><option value="1945">1945</option><option value="1944">1944</option><option value="1943">1943</option><option value="1942">1942</option><option value="1941">1941</option><option value="1940">1940</option></select></td>
+</tr>
+<tr>
+    <td class="label"><span>CMND <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="ob_cmnd" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Ngày cấp <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="ob_ngaycap_cmnd" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Nơi cấp <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="ob_noicap_cmnd" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Giới tính <font class="red">*</font>:</span></td>
+    <td><input type="radio" name="ob_sex" value="1" checked />Nam&nbsp;<input type="radio" name="ob_sex" value="0" />Nữ</td>
+</tr>
+<tr>
+    <td class="label"><span>Tình trạng hôn nhân:</span></td>
+    <td><input type="text" class="input_text" name="ob_kethon" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Địa chỉ liên hệ <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="ob_address" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Điện thoại <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="ob_tel" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Điện thoại di động:</span></td>
+    <td><input type="text" class="input_text" name="ob_mobile" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Thời gian cư trú:</span></td>
+    <td><input type="text" class="input_text" name="ob_thoigiancungu" value="" /></td>
+</tr>
+<tr>
+    <td colspan="2"><br/></td>
+</tr>
+<tr>
+    <td class="label"><span>Tên công ty đang làm việc (hoặc cơ sở KD):</span></td>
+    <td><input type="text" class="input_text" name="ob_company_name" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Địa chỉ công ty (hoặc cơ sở KD):</span></td>
+    <td><input type="text" class="input_text" name="ob_company_address" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Điện thoại:</span></td>
+    <td><input type="text" class="input_text" name="ob_company_tel" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Chức vụ:</span></td>
+    <td><input type="text" class="input_text" name="ob_company_cv" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Bộ phận:</span></td>
+    <td><input type="text" class="input_text" name="ob_company_bp" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Mức lương (lợi nhuận):</span></td>
+    <td><input type="text" class="input_text" name="ob_company_ln" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Thu nhập khác:</span></td>
+    <td><input type="text" class="input_text" name="ob_company_tn" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Giấy phép đăng ký KD số (nếu là chủ hộ KD cá thể):</span></td>
+    <td><input type="text" class="input_text" name="ob_company_kd" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Hình thức liên lạc:</span></td>
+    <td><input type="text" class="input_text" name="ob_company_contact" value="" /></td>
+</tr>
+<tr>
+    <td colspan="2">
+        <div style="padding:10px;width:729px">
+            <font color="#FF0000">*</font> <b>CHÍNH SÁCH BẢO MẬT THÔNG TIN CÁ NHÂN</b>: Chúng tôi sẽ thu thập thông tin cá nhân của quý khách ở trên. Sau đó sẽ chuyển thông tin đó qua Công ty TNHH Thương mại ACS Việt Nam tại đây họ sẽ thẩm định thông tin mà quý khách đã cung cấp. Để đảm bảo lợi ích cho khách hàng chúng tôi chắc chắn rằng những thông tin mà quý khách cung cấp sẽ không được tiết lộ cho bên nào ngoài Công ty TNHH Thương mại ACS Việt Nam. Nhằm thuận tiện cho việc đăng ký quý khách phải đảm bảo rằng những thông tin cung cấp cho chúng tôi là chính xác. Nếu quý khách không muốn nhận thông tin mới từ http://laptoptragop.vn thì có thể gửi đăng ký tới mail dangky@laptoptragop.vn
+            <div><input type="checkbox" name="check" id="check" value="1" />Tôi đồng ký với chính sách bảo mật thông tin cá nhân trên</div>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td colspan="2" align="center">
+        <br/>
+        <input class="register_submit" type="submit" value="" onClick="return checkOnline();" />
+        <input class="register_reset" type="reset" value=""/>
+        <script type="text/javascript">
+            function checkOnline(){
+                var error = "";
+                var check_mobile1 = document.getElementById('mobile1').value;
+                if(check_mobile1.length < 4) error += "- Bạn chưa nhập ÐTDÐ\n";
+
+                var check = document.getElementById("check").checked;
+                if(check==false){
+                    alert("Bạn chưa đồng ý với chính sách !");
+                    return false;
+                }
+                else if(error != ""){
+                    alert(error);
+                    return false;
+                }
+                else
+                return true;
+            }
+        </script>
+    </td>
+</tr>
+</table>
+</form>
+</div>
+</div>
+</div>
+</div>
+<div name="#2">
+<div class="register_view_content">
+<div class="register_view_content_border">
+<div class="register_view_content_inner">
+<form method="post" action="ajax/payinstall_receive_order.php">
+<input type="hidden" name="return_url" value="{$current_page_url}" />
+<input type="hidden" name="type" value="2" />
+<input type="hidden" name="product_id" class='product_id' value="" />
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr>
+    <td colspan="2" class="fieldheader"><span>THÔNG TIN SẢN PHẨM <font class="font-red">(Bắt Buộc Đầy Đủ)</font></span></td>
+</tr>
+<tr>
+    <td class="label"><span>Tên sản phẩm <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="p_name" class='product_name' value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Giá bán có thuế <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="p_price" class='product_price' value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Phần trăm trả trước <font class="red">*</font>:<i>(trả trước từ 20 – 80%)</i></span></td>
+    <td><input type="text" class="input_text" name="p_prepaid" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Thời gian trả góp <font class="red">*</font>:<i>(thời hạn từ 6 – 24<sup>th</sup>)</i></span></td>
+    <td><input type="text" class="input_text" name="p_term" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Số tiền phải trả hàng tháng:</span></td>
+    <td><input type="text" class="input_text" name="p_amonth" value="" /></td>
+</tr>
+<tr>
+    <td colspan="2" class="fieldheader"><span>THÔNG TIN CÁ NHÂN <font class="font-red">(Bắt Buộc Đầy Đủ)</font></span></td>
+</tr>
+<tr>
+    <td class="label"><span>Họ tên <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="fullname" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Ngày tháng năm sinh <font class="red">*</font>:</span></td>
+    <td><select name="birthday"><option value="0">- Ngày - </option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select> <select name="birthmonth"><option value="0">- Tháng - </option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select> <select name="birthyear"><option value="0">- Năm - </option><option value="2010">2010</option><option value="2009">2009</option><option value="2008">2008</option><option value="2007">2007</option><option value="2006">2006</option><option value="2005">2005</option><option value="2004">2004</option><option value="2003">2003</option><option value="2002">2002</option><option value="2001">2001</option><option value="2000">2000</option><option value="1999">1999</option><option value="1998">1998</option><option value="1997">1997</option><option value="1996">1996</option><option value="1995">1995</option><option value="1994">1994</option><option value="1993">1993</option><option value="1992">1992</option><option value="1991">1991</option><option value="1990">1990</option><option value="1989">1989</option><option value="1988">1988</option><option value="1987">1987</option><option value="1986">1986</option><option value="1985">1985</option><option value="1984">1984</option><option value="1983">1983</option><option value="1982">1982</option><option value="1981">1981</option><option value="1980">1980</option><option value="1979">1979</option><option value="1978">1978</option><option value="1977">1977</option><option value="1976">1976</option><option value="1975">1975</option><option value="1974">1974</option><option value="1973">1973</option><option value="1972">1972</option><option value="1971">1971</option><option value="1970">1970</option><option value="1969">1969</option><option value="1968">1968</option><option value="1967">1967</option><option value="1966">1966</option><option value="1965">1965</option><option value="1964">1964</option><option value="1963">1963</option><option value="1962">1962</option><option value="1961">1961</option><option value="1960">1960</option><option value="1959">1959</option><option value="1958">1958</option><option value="1957">1957</option><option value="1956">1956</option><option value="1955">1955</option><option value="1954">1954</option><option value="1953">1953</option><option value="1952">1952</option><option value="1951">1951</option><option value="1950">1950</option><option value="1949">1949</option><option value="1948">1948</option><option value="1947">1947</option><option value="1946">1946</option><option value="1945">1945</option><option value="1944">1944</option><option value="1943">1943</option><option value="1942">1942</option><option value="1941">1941</option><option value="1940">1940</option></select></td>
+</tr>
+<tr>
+    <td class="label"><span>CMND <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="cmnd" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Ngày cấp <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="ngaycap_cmnd" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Nơi cấp <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="noicap_cmnd" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Giới tính <font class="red">*</font>:</span></td>
+    <td><input type="radio" name="sex" value="1" checked />Nam&nbsp;<input type="radio" name="sex" value="0" />Nữ</td>
+</tr>
+<tr>
+    <td class="label"><span>Trình độ học vấn <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="trinhdo" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Tình trạng hôn nhân: <i>(đã kết hôn hay chưa)</i></span></td>
+    <td><input type="text" class="input_text" name="kethon" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>ÐTDÐ <font class="red">*</font>:</span></td>
+    <td><input id='mobile2' type="text" class="input_text" name="mobile" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Email:</span></td>
+    <td><input type="text" class="input_text" name="email" value=" " /></td>
+</tr>
+<tr>
+    <td colspan="2" class="fieldheader"><span>THÔNG TIN NƠI CƯ TRÚ <font class="font-red">(Bắt Buộc Đầy Đủ)</font></span></td>
+</tr>
+<tr>
+    <td class="label"><span>Địa chỉ thường trú <font class="red">*</font>: <i>(ĐC trên hộ khẩu)</i></span></td>
+    <td><input type="text" class="input_text" name="address" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Điện thoại cố định <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="tel" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Địa chỉ nơi ở hiện nay <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="address2" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Điện thoại cố định:</span></td>
+    <td><input type="text" class="input_text" name="tel2" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Số người cư ngụ:</span></td>
+    <td><input type="text" class="input_text" name="songuoicungu" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Thời gian cư trú:</span></td>
+    <td><input type="text" class="input_text" name="thoigiancungu" value="" /></td>
+</tr>
+<tr>
+    <td width="1%" nowrap class="label"><span>Tình trạng nhà ở: <i>(nhà của cha/mẹ hay tự sở hữu, hay nhà người thân, thuê..)</i></span></td>
+    <td><input type="text" class="input_text" name="tinhtrangnhao" value="" /></td>
+</tr>
+<tr>
+    <td colspan="2" class="fieldheader"><span>THÔNG TIN NGHỀ NGHIỆP <font class="font-red">(Bắt Buộc Đầy Đủ)</font></span></td>
+</tr>
+<tr>
+    <td class="label"><span>Tên công ty đang làm việc <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="company_name" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Địa chỉ công ty <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="company_address" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Điện thoại <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="company_mobile" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Chức vụ <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="company_cv" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Bộ phận <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="company_bp" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Loại hình hợp đồng <font class="red">*</font>: <i>(có thời hạn hay không)</i></span></td>
+    <td><input type="text" class="input_text" name="company_type" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Mức lương cơ bản hàng tháng <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="company_luong" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Thu nhập khác <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="company_tnk" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Ngày nhận lương:</span></td>
+    <td><input type="text" class="input_text" name="company_nnl" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Thời hạn làm việc tại chỗ làm hiện nay:</span></td>
+    <td><input type="text" class="input_text" name="company_time" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Hình thức liên lạc với bạn: <i>(liên lạc với bạn qua Cty, nhà hay ĐTDĐ)</i></span></td>
+    <td><input type="text" class="input_text" name="company_htll" value="" /></td>
+</tr>
+<tr>
+    <td colspan="2" class="fieldheader"><span>THÔNG TIN THAM CHIẾU</span></td>
+</tr>
+<tr>
+    <td colspan="2"><i>Đây là thông tin của một cá nhân khác, có thể là bất kỳ ai: bạn bè, người thân… Bộ phận thẩm định sẽ liên lạc với người này (trong một vài trường hợp cần thiết) để hỏi thêm một vài thông tin về bạn. Người tham chiếu không chịu trách nhiệm trong quá trình cho vay của bạn. Thông tin tham chiếu có thể không cần đầy đủ 100% nhưng, mong bạn có điền càng chi tiết càng tốt</i></td>
+</tr>
+<tr>
+    <td class="label"><span>Đối tượng <font class="red">*</font>: <i>(cha, mẹ / anh chị em ruột / người hôn phối)</i></span></td>
+    <td><input type="text" class="input_text" name="object" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Họ tên <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="ob_fullname" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Ngày tháng năm sinh:</span></td>
+    <td><select name="ob_birthday"><option value="0">- Ngày - </option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select> <select name="ob_birthmonth"><option value="0">- Tháng - </option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select> <select name="ob_birthyear"><option value="0">- Năm - </option><option value="2010">2010</option><option value="2009">2009</option><option value="2008">2008</option><option value="2007">2007</option><option value="2006">2006</option><option value="2005">2005</option><option value="2004">2004</option><option value="2003">2003</option><option value="2002">2002</option><option value="2001">2001</option><option value="2000">2000</option><option value="1999">1999</option><option value="1998">1998</option><option value="1997">1997</option><option value="1996">1996</option><option value="1995">1995</option><option value="1994">1994</option><option value="1993">1993</option><option value="1992">1992</option><option value="1991">1991</option><option value="1990">1990</option><option value="1989">1989</option><option value="1988">1988</option><option value="1987">1987</option><option value="1986">1986</option><option value="1985">1985</option><option value="1984">1984</option><option value="1983">1983</option><option value="1982">1982</option><option value="1981">1981</option><option value="1980">1980</option><option value="1979">1979</option><option value="1978">1978</option><option value="1977">1977</option><option value="1976">1976</option><option value="1975">1975</option><option value="1974">1974</option><option value="1973">1973</option><option value="1972">1972</option><option value="1971">1971</option><option value="1970">1970</option><option value="1969">1969</option><option value="1968">1968</option><option value="1967">1967</option><option value="1966">1966</option><option value="1965">1965</option><option value="1964">1964</option><option value="1963">1963</option><option value="1962">1962</option><option value="1961">1961</option><option value="1960">1960</option><option value="1959">1959</option><option value="1958">1958</option><option value="1957">1957</option><option value="1956">1956</option><option value="1955">1955</option><option value="1954">1954</option><option value="1953">1953</option><option value="1952">1952</option><option value="1951">1951</option><option value="1950">1950</option><option value="1949">1949</option><option value="1948">1948</option><option value="1947">1947</option><option value="1946">1946</option><option value="1945">1945</option><option value="1944">1944</option><option value="1943">1943</option><option value="1942">1942</option><option value="1941">1941</option><option value="1940">1940</option></select></td>
+</tr>
+<tr>
+    <td class="label"><span>CMND:</span></td>
+    <td><input type="text" class="input_text" name="ob_cmnd" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Ngày cấp:</span></td>
+    <td><input type="text" class="input_text" name="ob_ngaycap_cmnd" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Nơi cấp:</span></td>
+    <td><input type="text" class="input_text" name="ob_noicap_cmnd" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Giới tính <font class="red">*</font>:</span></td>
+    <td><input type="radio" name="ob_sex" value="1" checked />Nam&nbsp;<input type="radio" name="ob_sex" value="0" />Nữ</td>
+</tr>
+<tr>
+    <td class="label"><span>Tình trạng hôn nhân:</span></td>
+    <td><input type="text" class="input_text" name="ob_kethon" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Địa chỉ liên hệ:</span></td>
+    <td><input type="text" class="input_text" name="ob_address" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Điện thoại:</span></td>
+    <td><input type="text" class="input_text" name="ob_tel" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Điện thoại di động <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="ob_mobile" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Thời gian cư trú:</span></td>
+    <td><input type="text" class="input_text" name="ob_thoigiancungu" value="" /></td>
+</tr>
+<tr>
+    <td colspan="2"><i><br/>(có thể điền hoặc không, nếu người tham chiếu là người thân hoặc người hôn phối, tốt nhất nên điền thêm thông tin này)</i></td>
+</tr>
+<tr>
+    <td class="label"><span>Tên công ty đang làm việc:</span></td>
+    <td><input type="text" class="input_text" name="ob_company_name" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Địa chỉ công ty:</span></td>
+    <td><input type="text" class="input_text" name="ob_company_address" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Điện thoại:</span></td>
+    <td><input type="text" class="input_text" name="ob_company_tel" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Chức vụ:</span></td>
+    <td><input type="text" class="input_text" name="ob_company_cv" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Bộ phận:</span></td>
+    <td><input type="text" class="input_text" name="ob_company_bp" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Hình thức liên lạc:</span></td>
+    <td><input type="text" class="input_text" name="ob_company_contact" value="" /></td>
+</tr>
+<tr>
+    <td colspan="2">
+        <div style="padding:10px;width:729px">
+            <font color="#FF0000">*</font> <b>CHÍNH SÁCH BẢO MẬT THÔNG TIN CÁ NHÂN</b>: Chúng tôi sẽ thu thập thông tin cá nhân của quý khách ở trên. Sau đó sẽ chuyển thông tin đó qua Công ty TNHH Thương mại ACS Việt Nam tại đây họ sẽ thẩm định thông tin mà quý khách đã cung cấp. Để đảm bảo lợi ích cho khách hàng chúng tôi chắc chắn rằng những thông tin mà quý khách cung cấp sẽ không được tiết lộ cho bên nào ngoài Công ty TNHH Thương mại ACS Việt Nam. Nhằm thuận tiện cho việc đăng ký quý khách phải đảm bảo rằng những thông tin cung cấp cho chúng tôi là chính xác. Nếu quý khách không muốn nhận thông tin mới từ http://laptoptragop.vn thì có thể gửi đăng ký tới mail dangky@laptoptragop.vn
+            <div><input type="checkbox" name="check2" id="check2" value="1" />Tôi đồng ký với chính sách bảo mật thông tin cá nhân trên</div>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td colspan="2" align="center">
+        <br/>
+        <input class="register_submit" type="submit" value="" onClick="return checkOnline2();" />
+        <input class="register_reset" type="reset" value=""/>
+        <script type="text/javascript">
+            function checkOnline2(){
+                var error = "";
+                var check_mobile2 = document.getElementById('mobile2').value;
+                if(check_mobile2.length < 4) error += "- Bạn chưa nhập ÐTDÐ\n";
+
+                var check = document.getElementById("check2").checked;
+                if(check==false){
+                    alert("Bạn chưa đồng ý với chính sách !");
+                    return false;
+                }
+                else if(error != ""){
+                    alert(error);
+                    return false;
+                }
+                else
+                    return true;
+            }
+        </script>
+    </td>
+</tr>
+</table>
+</form>
+</div>
+</div>
+</div>
+</div>
+<div name="#3">
+<div class="register_view_content">
+<div class="register_view_content_border">
+<div class="register_view_content_inner">
+<form method="post" action="ajax/payinstall_receive_order.php">
+<input type="hidden" name="return_url" value="{$current_page_url}" />
+<input type="hidden" name="type" value="3" />
+<input type="hidden" name="product_id" class='product_id' value="" />
+
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr>
+    <td colspan="2" class="fieldheader"><span>THÔNG TIN SẢN PHẨM <font class="font-red">(Bắt Buộc Đầy Đủ)</font></span></td>
+</tr>
+<tr>
+    <td class="label"><span>Tên sản phẩm <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="p_name" class='product_name' value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Giá bán có thuế <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="p_price" class='product_price' value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Phần trăm trả trước <font class="red">*</font>:<i>(trả trước từ 20 – 80%)</i></span></td>
+    <td><input type="text" class="input_text" name="p_prepaid" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Thời gian trả góp <font class="red">*</font>:<i>(thời hạn từ 6 – 24<sup>th</sup>)</i></span></td>
+    <td><input type="text" class="input_text" name="p_term" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Số tiền phải trả hàng tháng:</span></td>
+    <td><input type="text" class="input_text" name="p_amonth" value="" /></td>
+</tr>
+<tr>
+    <td colspan="2" class="fieldheader"><span>THÔNG TIN CÁ NHÂN <font class="font-red">(Bắt Buộc Đầy Đủ)</font></span></td>
+</tr>
+<tr>
+    <td class="label"><span>Họ tên <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="fullname" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Ngày tháng năm sinh <font class="red">*</font>:</span></td>
+    <td><select name="birthday"><option value="0">- Ngày - </option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select> <select name="birthmonth"><option value="0">- Tháng - </option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select> <select name="birthyear"><option value="0">- Năm - </option><option value="2010">2010</option><option value="2009">2009</option><option value="2008">2008</option><option value="2007">2007</option><option value="2006">2006</option><option value="2005">2005</option><option value="2004">2004</option><option value="2003">2003</option><option value="2002">2002</option><option value="2001">2001</option><option value="2000">2000</option><option value="1999">1999</option><option value="1998">1998</option><option value="1997">1997</option><option value="1996">1996</option><option value="1995">1995</option><option value="1994">1994</option><option value="1993">1993</option><option value="1992">1992</option><option value="1991">1991</option><option value="1990">1990</option><option value="1989">1989</option><option value="1988">1988</option><option value="1987">1987</option><option value="1986">1986</option><option value="1985">1985</option><option value="1984">1984</option><option value="1983">1983</option><option value="1982">1982</option><option value="1981">1981</option><option value="1980">1980</option><option value="1979">1979</option><option value="1978">1978</option><option value="1977">1977</option><option value="1976">1976</option><option value="1975">1975</option><option value="1974">1974</option><option value="1973">1973</option><option value="1972">1972</option><option value="1971">1971</option><option value="1970">1970</option><option value="1969">1969</option><option value="1968">1968</option><option value="1967">1967</option><option value="1966">1966</option><option value="1965">1965</option><option value="1964">1964</option><option value="1963">1963</option><option value="1962">1962</option><option value="1961">1961</option><option value="1960">1960</option><option value="1959">1959</option><option value="1958">1958</option><option value="1957">1957</option><option value="1956">1956</option><option value="1955">1955</option><option value="1954">1954</option><option value="1953">1953</option><option value="1952">1952</option><option value="1951">1951</option><option value="1950">1950</option><option value="1949">1949</option><option value="1948">1948</option><option value="1947">1947</option><option value="1946">1946</option><option value="1945">1945</option><option value="1944">1944</option><option value="1943">1943</option><option value="1942">1942</option><option value="1941">1941</option><option value="1940">1940</option></select></td>
+</tr>
+<tr>
+    <td class="label"><span>CMND <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="cmnd" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Ngày cấp <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="ngaycap_cmnd" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Nơi cấp <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="noicap_cmnd" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Giới tính <font class="red">*</font>:</span></td>
+    <td><input type="radio" name="sex" value="1" checked />Nam&nbsp;<input type="radio" name="sex" value="0" />Nữ</td>
+</tr>
+<tr>
+    <td class="label"><span>Trình độ học vấn <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="trinhdo" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Tình trạng hôn nhân: <i>(đã kết hôn hay chưa)</i></span></td>
+    <td><input type="text" class="input_text" name="kethon" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>ÐTDÐ <font class="red">*</font>:</span></td>
+    <td><input id='mobile3' type="text" class="input_text" name="mobile" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Email:</span></td>
+    <td><input type="text" class="input_text" name="email" value=" " /></td>
+</tr>
+<tr>
+    <td colspan="2" class="fieldheader"><span>THÔNG TIN NƠI CƯ TRÚ <font class="font-red">(Bắt Buộc Đầy Đủ)</font></span></td>
+</tr>
+<tr>
+    <td class="label"><span>Địa chỉ thường trú <font class="red">*</font>: <i>(ĐC trên hộ khẩu)</i></span></td>
+    <td><input type="text" class="input_text" name="address" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Điện thoại cố định <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="tel" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Địa chỉ nơi ở hiện nay <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="address2" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Điện thoại cố định:</span></td>
+    <td><input type="text" class="input_text" name="tel2" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Số người cư ngụ:</span></td>
+    <td><input type="text" class="input_text" name="songuoicungu" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Thời gian cư trú:</span></td>
+    <td><input type="text" class="input_text" name="thoigiancungu" value="" /></td>
+</tr>
+<tr>
+    <td width="1%" nowrap class="label"><span>Tình trạng nhà ở: <i>(nhà của cha/mẹ hay tự sở hữu, hay nhà người thân, thuê..)</i></span></td>
+    <td><input type="text" class="input_text" name="tinhtrangnhao" value="" /></td>
+</tr>
+<tr>
+    <td colspan="2" class="fieldheader"><span>THÔNG TIN NGHỀ NGHIỆP <font class="font-red">(Bắt Buộc Đầy Đủ)</font></span></td>
+</tr>
+<tr>
+    <td class="label"><span>Tên cơ sở kinh doanh <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="company_name" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Địa chỉ <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="company_address" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Điện thoại <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="company_mobile" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Chức vụ <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="company_cv" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Giấy phép đăng ký KD số <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="company_dk" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Tổng thu nhập (1 tháng) <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="company_luong" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Thời gian thành lập <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="company_time" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Hình thức liên lạc với bạn: <i>(liên lạc với bạn qua Cty, nhà hay ĐTDĐ)</i></span></td>
+    <td><input type="text" class="input_text" name="company_htll" value="" /></td>
+</tr>
+<tr>
+    <td colspan="2" class="fieldheader"><span>THÔNG TIN THAM CHIẾU</span></td>
+</tr>
+<tr>
+    <td colspan="2"><i>Đây là thông tin của một cá nhân khác, có thể là bất kỳ ai: bạn bè, người thân… Bộ phận thẩm định sẽ liên lạc với người này (trong một vài trường hợp cần thiết) để hỏi thêm một vài thông tin về bạn. Người tham chiếu không chịu trách nhiệm trong quá trình cho vay của bạn. Thông tin tham chiếu có thể không cần đầy đủ 100% nhưng, mong bạn có điền càng chi tiết càng tốt</i></td>
+</tr>
+<tr>
+    <td class="label"><span>Đối tượng <font class="red">*</font>: <i>(cha, mẹ / anh chị em ruột / người hôn phối)</i></span></td>
+    <td><input type="text" class="input_text" name="object" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Họ tên <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="ob_fullname" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Ngày tháng năm sinh:</span></td>
+    <td><select name="ob_birthday"><option value="0">- Ngày - </option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select> <select name="ob_birthmonth"><option value="0">- Tháng - </option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select> <select name="ob_birthyear"><option value="0">- Năm - </option><option value="2010">2010</option><option value="2009">2009</option><option value="2008">2008</option><option value="2007">2007</option><option value="2006">2006</option><option value="2005">2005</option><option value="2004">2004</option><option value="2003">2003</option><option value="2002">2002</option><option value="2001">2001</option><option value="2000">2000</option><option value="1999">1999</option><option value="1998">1998</option><option value="1997">1997</option><option value="1996">1996</option><option value="1995">1995</option><option value="1994">1994</option><option value="1993">1993</option><option value="1992">1992</option><option value="1991">1991</option><option value="1990">1990</option><option value="1989">1989</option><option value="1988">1988</option><option value="1987">1987</option><option value="1986">1986</option><option value="1985">1985</option><option value="1984">1984</option><option value="1983">1983</option><option value="1982">1982</option><option value="1981">1981</option><option value="1980">1980</option><option value="1979">1979</option><option value="1978">1978</option><option value="1977">1977</option><option value="1976">1976</option><option value="1975">1975</option><option value="1974">1974</option><option value="1973">1973</option><option value="1972">1972</option><option value="1971">1971</option><option value="1970">1970</option><option value="1969">1969</option><option value="1968">1968</option><option value="1967">1967</option><option value="1966">1966</option><option value="1965">1965</option><option value="1964">1964</option><option value="1963">1963</option><option value="1962">1962</option><option value="1961">1961</option><option value="1960">1960</option><option value="1959">1959</option><option value="1958">1958</option><option value="1957">1957</option><option value="1956">1956</option><option value="1955">1955</option><option value="1954">1954</option><option value="1953">1953</option><option value="1952">1952</option><option value="1951">1951</option><option value="1950">1950</option><option value="1949">1949</option><option value="1948">1948</option><option value="1947">1947</option><option value="1946">1946</option><option value="1945">1945</option><option value="1944">1944</option><option value="1943">1943</option><option value="1942">1942</option><option value="1941">1941</option><option value="1940">1940</option></select></td>
+</tr>
+<tr>
+    <td class="label"><span>CMND:</span></td>
+    <td><input type="text" class="input_text" name="ob_cmnd" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Ngày cấp:</span></td>
+    <td><input type="text" class="input_text" name="ob_ngaycap_cmnd" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Nơi cấp:</span></td>
+    <td><input type="text" class="input_text" name="ob_noicap_cmnd" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Giới tính <font class="red">*</font>:</span></td>
+    <td><input type="radio" name="ob_sex" value="1" checked />Nam&nbsp;<input type="radio" name="ob_sex" value="0" />Nữ</td>
+</tr>
+<tr>
+    <td class="label"><span>Tình trạng hôn nhân:</span></td>
+    <td><input type="text" class="input_text" name="ob_kethon" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Địa chỉ liên hệ:</span></td>
+    <td><input type="text" class="input_text" name="ob_address" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Điện thoại:</span></td>
+    <td><input type="text" class="input_text" name="ob_tel" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Điện thoại di động <font class="red">*</font>:</span></td>
+    <td><input type="text" class="input_text" name="ob_mobile" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Thời gian cư trú:</span></td>
+    <td><input type="text" class="input_text" name="ob_thoigiancungu" value="" /></td>
+</tr>
+<tr>
+    <td colspan="2"><i><br/>(có thể điền hoặc không, nếu người tham chiếu là người thân hoặc người hôn phối, tốt nhất nên điền thêm thông tin này)</i></td>
+</tr>
+<tr>
+    <td class="label"><span>Tên công ty đang làm việc:</span></td>
+    <td><input type="text" class="input_text" name="ob_company_name" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Địa chỉ công ty:</span></td>
+    <td><input type="text" class="input_text" name="ob_company_address" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Điện thoại:</span></td>
+    <td><input type="text" class="input_text" name="ob_company_tel" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Chức vụ:</span></td>
+    <td><input type="text" class="input_text" name="ob_company_cv" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Bộ phận:</span></td>
+    <td><input type="text" class="input_text" name="ob_company_bp" value="" /></td>
+</tr>
+<tr>
+    <td class="label"><span>Hình thức liên lạc:</span></td>
+    <td><input type="text" class="input_text" name="ob_company_contact" value="" /></td>
+</tr>
+<tr>
+    <td colspan="2">
+        <div style="padding:10px;width:729px">
+            <font color="#FF0000">*</font> <b>CHÍNH SÁCH BẢO MẬT THÔNG TIN CÁ NHÂN</b>: Chúng tôi sẽ thu thập thông tin cá nhân của quý khách ở trên. Sau đó sẽ chuyển thông tin đó qua Công ty TNHH Thương mại ACS Việt Nam tại đây họ sẽ thẩm định thông tin mà quý khách đã cung cấp. Để đảm bảo lợi ích cho khách hàng chúng tôi chắc chắn rằng những thông tin mà quý khách cung cấp sẽ không được tiết lộ cho bên nào ngoài Công ty TNHH Thương mại ACS Việt Nam. Nhằm thuận tiện cho việc đăng ký quý khách phải đảm bảo rằng những thông tin cung cấp cho chúng tôi là chính xác. Nếu quý khách không muốn nhận thông tin mới từ http://laptoptragop.vn thì có thể gửi đăng ký tới mail dangky@laptoptragop.vn
+            <div><input type="checkbox" name="check3" id="check3" value="1" />Tôi đồng ký với chính sách bảo mật thông tin cá nhân trên</div>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td colspan="2" align="center">
+        <br/>
+        <input class="register_submit" type="submit" value="" onClick="return checkOnline3();" />
+        <input class="register_reset" type="reset" value=""/>
+        <script type="text/javascript">
+            function checkOnline3(){
+                var error = "";
+                var check_mobile3 = document.getElementById('mobile3').value;
+                if(check_mobile3.length < 4) error += "- Bạn chưa nhập ÐTDÐ\n";
+
+                var check = document.getElementById("check3").checked;
+                if(check==false){
+                    alert("Bạn chưa đồng ý với chính sách !");
+                    return false;
+                }
+                else if(error != ""){
+                    alert(error);
+                    return false;
+                }
+                else
+                    return true;
+            }
+        </script>
+    </td>
+</tr>
+</table>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script type="text/javascript" src="{#INCLUDE_PATH#}litetabs.jquery.js"></script>
+<script type="text/javascript">
+    $('.register_view').liteTabs({width:'757',fadeIn:true,selectedTab:1});
+</script>
+
+<script>
+
+    function urldecode(url) {
+        return decodeURIComponent(url.replace(/\+/g, ' '));
+    }
+
+    var url = window.location.href;
+    var product_id = url.match(/product_id=([^&]+)&/)[1];
+    $('input[name=product_id]').val(product_id);
+    var product_name = url.match(/product_name=([^&]+)&/)[1];
+    //clean name
+    //while(product_name.indexOf("+")>0){product_name=product_name.replace("+"," ")}
+
+    $('input[name=p_name]').val(urldecode(product_name));
+    var product_price = url.match(/product_price=([^&]+)&/)[1];
+    $('input[name=p_price]').val(product_price);
+
+</script>
+
+{/if}

@@ -1,0 +1,41 @@
+<div id="img-detail">
+    <div id="img-large">
+        <section class="specs-cp-pic">
+            <section class="fea-img-blk">
+                {if="sizeof($product_info.productThumList) > 0"}
+                <div id="fea-slider" class="flexslider">
+                    <ul class="slides ul">
+                        {loop="$product_info.productThumList"}
+                        {if="strpos($value.original,'color_config') <= 0"}
+                        <li data-src="{$value.original}" class="flex-active-slide" style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 1; display: block; z-index: 2;">
+                            <a href="javascript:;" class="z-fea"><img src="{$value.original}" alt="{$product_info.productName}" draggable="false"/></a>
+                        </li>
+                        {/if}
+                        {/loop}
+                    </ul>
+                </div><!--#fea-slider-->
+                <ul id="list-imgConfig"></ul>
+                <div id="fea-nav" class="flexslider">
+                    <div class="flex-viewport" style="overflow: hidden; position: relative;">
+                        <ul class="slides" style="width: 1000%; transition-duration: 0s; transform: translate3d(0px, 0px, 0px);">
+                            {loop="$product_info.productThumList"}
+                            {if="strpos($value.original,'color_config') <= 0"}
+                            <li><img src="{$value.original}" draggable="false"/></li>
+                            {/if}
+                            {/loop}
+                        </ul>
+                    </div>
+                </div><!--#fea-nav-->
+                {else}
+                <div id="fea-slider" class="flexslider">
+                    <ul class="slides ul">
+                        <li data-src="{$product_info.productImage.original}" class="flex-active-slide" style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 1; display: block; z-index: 2;">
+                            <a href="javascript:;" class="z-fea"><img src="{$product_info.productImage.original}" alt="{$product_info.productName}" draggable="false"/></a>
+                        </li>
+                    </ul>
+                </div><!--#fea-slider-->
+                {/if}
+            </section>
+        </section><!--specs-cp-pic-->
+    </div>
+</div><!--#img-detail-->

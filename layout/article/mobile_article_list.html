@@ -1,0 +1,56 @@
+<div id="content-main">
+<div class="nav-sub">
+    <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a itemprop="url" title="Trang chủ" href="/">
+            <span itemprop="title">Trang chủ </span></a>
+        <strong>›</strong>
+    </span>
+    <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a itemprop="url" title="" href="/tin-tuc"><span itemprop="title">Tin tức</span></a>
+      	<strong>›</strong>
+    </span>
+  	<span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a itemprop="url" title="" href="#"><span itemprop="title">{$category_info.name}</span></a>
+    </span>
+</div>
+<p class="clearfix"></p>
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 10px;">
+    <tr>
+        <td width="">
+        </td>
+        <td class="list_cat_news" valign="top">
+          <select onchange="location.href=this.value" style="height:23px; border:solid 1px #ddd; margin:5px 0;">
+            <option>Danh mục tin</option>
+            {loop="$article_category.article.0"}
+            <option value="{$value.url}">{$value.title}</option>
+            {/loop}
+          </select>
+        </td>
+        <td width="">
+        </td>
+    </tr>
+</table>
+<ul class="news_list ul">
+{loop="article_list"}
+<li class="clearfix">
+    <div class="nl_info">
+        <div class="nl_title">
+            <a href="{$value.url}">{$value.title}</a>
+        </div>
+        <div class="nl_date">{$value.createDate}</div>
+        <div class="nl_sapo">
+            <div class="nl_img">
+                <a href="{$value.url}" title="{$value.title}">
+                    <img src="{$value.image.thum}" alt="{$value.title}" width="100" /></a>
+            </div>
+            {$value.summary}
+        </div>
+    </div>
+</li>
+{/loop}
+</ul>
+
+
+  <div class="clearfix"></div>
+  <div class="paging">{$paging}</div>
+</div>

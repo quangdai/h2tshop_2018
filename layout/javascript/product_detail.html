@@ -1,0 +1,307 @@
+<script>
+
+    var PRODUCT_ID = '{$product_info.productId}';
+    var product_config_count = parseInt('{$product_info.config_count}');
+    var product_config = {$product_info.config};
+
+    //on-page-ready
+    $(function(){
+
+        //lua chon cau hinh
+        showVariantSelection(product_config);
+
+        //buy product
+        listenBuyButton("#buyNowConfig");
+
+        //hien thi cac khuyen mai nhom ma chi duoc chon 1 duoc check
+        showSelectedPromotion(PRODUCT_ID, 0);
+
+        //hien thi cac addon duoc check
+        showSelectedAddon(PRODUCT_ID, 0);
+
+        $("#delete-cart").on("click", function () {
+            console.log("deleting cart");
+            Hura.Cart.deleteCart().then(function () {
+                console.log("deleting done!");
+            })
+        });
+
+    });
+
+
+    function showVariantSelection(product_config) {
+        var VariantTemplate = {
+            //hien thi bang gia theo sl cho sp
+            price_table : "<table><tr>{{list_price}}</tr></table>",
+            //tung gia theo so luong, nam trong price_table
+            price_per_quantity  : "<td><span class='quantity-price-{{price}}'>{{price}}</span><br>{{quantity_range}}</td>",
+            //neu khong co gia theo so luong thi hien thi chung
+            price_all  : "<td><span>{{price}}</span><br>{{quantity_range}}</td>",
+
+            //tung thuoc tinh de click chon
+            attribute_value : "<a href='javascript:;' title='{{label}}' data-attr='{{attr_key}}' data-value='{{value}}' class='attr-value'>{{label}}</a>", //Required html attributes: data-attr='{{attr_key}}' data-value='{{value}}' class='attr-value'
+            attribute_row : "<div><strong>{{attr_label}}</strong> : <span id='attr-{{attr_key}}'>{{row_values}}</span></div>",
+
+            //thuoc tinh cuoi de hien thi danh sach can chon
+            last_attribute_row : "<table><tr><td>{{attr_label}}</td><td>{{value_list}}</td></tr></table>",
+            last_attribute_value : "<div><strong>{{label}}</strong> : <span class='variant-price'>{{sale_price}}</span> : {{sku}} (SL : {{stock_quantity}}) <span><a href='javascript:;' class='change-quantity' data-operation='decrement'>[-]</a><input type='text' size='3' value='0' class='input-quantity-{{item_id}}' data-item_id='{{item_id}}' data-stock_quantity='{{stock_quantity}}'><a href='javascript:;' class='change-quantity' data-operation='increment'>[+]</a></span></div>",
+
+            //tom tat sp da duoc chon
+            select_summary : "<div>Total: {{total_item}} - Value: {{total_value}} VND</div>",
+            select_row : "<div><strong>{{label}} (SL: {{total}})</strong> : {{item_list}}</div>",
+            select_item : "{{label}} (<span><a href='javascript:;' class='change-quantity' data-operation='decrement'>[-]</a><input type='text' size='3' value='{{select_quantity}}' class='input-quantity-{{item_id}}' data-item_id='{{item_id}}' data-stock_quantity='{{stock_quantity}}'><a href='javascript:;' class='change-quantity' data-operation='increment'>[+]</a></span>)",
+        };
+
+        //run
+        Hura.ProductConfig.setup({
+            config_container : "#config-holder",
+            last_attribute_container : "#last-attribute-holder",
+            attributes : product_config.attributes,
+            variant_list : product_config.variant_list,
+            product_info : product_config.product_info,
+            Template : VariantTemplate,
+            select_variant_callback : _onVariantSelected,
+            select_attribute_value_callback : _onAttributeValueSelected
+        });
+
+        Hura.ProductConfig.run();
+
+        //closure
+        function _onVariantSelected(variant) {
+            console.log("variant = " + JSON.stringify(variant, true, 4));
+            //var $target = $("#product-price-holder");
+            //var content = `<table><tbody><tr><td class="txt_777" style="width:100px;">Giá<p class="txt_777 space10px">Số lượng <br> sản phẩm</p></td><td><span class="price_all txt_b txt_red txt_20">${format_number(variant.sale_price)}</span><p class="txt_14 space10px">${format_number(variant.stock_quantity)}</p></td></tr></tbody></table>`;
+            //$target.html(content);
+        }
+        //neu click vao anh thi hien thi anh ben trai
+        function _onAttributeValueSelected(attr_key, attr_value) {
+            var content = $(this).html();
+            //console.log("onAttributeValueSelected = " + content);
+        }
+    }
+
+
+    function addSelectedVariantToCart() {
+        var list_variant_selected = Hura.ProductConfig.getBuyList();
+        //console.log("list_variant_selected = " + JSON.stringify(list_variant_selected, true, 4));
+
+        //kiem tra chon khuyen mai 1 lan
+        var selected_promotion = getListOfCheckedPromotion();
+
+        //kiem tra addon
+        var selected_addon = getListOfCheckedAddon();
+
+        var _variant;
+        var product_list = [];
+        for(var i =0, total = list_variant_selected.length; i < total; i++) {
+            _variant = list_variant_selected[i];
+
+            product_list.push({
+                id      : _variant.product_id,
+                variant : _variant.variant_id,
+                prop    : {
+                    quantity    : _variant.quantity ,
+                    buyer_note  : '',
+                    promotion : selected_promotion,
+                    addon : selected_addon,
+                }
+            });
+        }
+
+        return Hura.Cart.Product.addList(product_list);
+    }
+
+
+    function addProductToCart(product_id, variant_id, quantity, buyer_note) {
+        var product_prop = {
+            quantity: quantity ,
+            buyer_note : buyer_note
+        };
+
+        //kiem tra chon khuyen mai 1 lan
+        product_prop['promotion'] = getListOfCheckedPromotion();
+
+        //kiem tra addon
+        product_prop['addon'] = getListOfCheckedAddon();
+
+        return Hura.Cart.Product.add(product_id, variant_id, product_prop);
+    }
+
+
+    function listenBuyButton(dom_target) {
+
+        $(dom_target).on("click", function () {
+
+            if(!Hura.Cart.isReady()) alert("Cart chua san sang!");
+
+            if(product_config_count > 0) {
+                addSelectedVariantToCart();
+            } else {
+                var product_id  = this.getAttribute("data-id");
+                var variant_id  = 0;
+                var quantity    = 1;
+                var buyer_note  = '';
+
+                var addStatus = addProductToCart(product_id, variant_id, quantity, buyer_note);
+                if(addStatus) {
+                    addStatus.then(function () {
+                        console.log("cart content = " + JSON.stringify(Hura.Cart.getCart(), true, 4));
+                        //hien thi tom tat, tu javascript/global
+                        showCartSummary();
+                        //Hura.Cart.goToCartPage();
+                    })
+                } else {
+                    console.log("cart content = " + JSON.stringify(Hura.Cart.getCart(), true, 4));
+                    //Hura.Cart.goToCartPage();
+                }
+            }
+        });
+    }
+
+
+    //check cac addon da duoc chon trong cart
+    function showSelectedAddon(product_id, variant_id) {
+        var selector = '.js-addon-select';
+        var max_recursion = 5;
+        var count_recursion = 0;
+
+        var check_cart = setInterval(function () {
+            console.log("count_recursion = " + count_recursion );
+            if(count_recursion > max_recursion || _showSelectedPromotionOnReady()) clearInterval(check_cart);
+        }, 2000);
+
+        function _showSelectedPromotionOnReady() {
+            if(!Hura.Cart.isReady()) return false;
+            count_recursion += 1;
+
+            var addon_in_cart = Hura.Cart.Product.prop(product_id, variant_id, "addon").getProp();
+            //console.log("promotion_in_cart = " + promotion_in_cart );
+            if(!addon_in_cart) return true;
+
+            $(selector).each(function () {
+                var addon_id = this.value;
+                var is_in_cart   = false;
+                addon_in_cart.forEach(function (item) {
+                    if(item.id == addon_id) {
+                        is_in_cart = true;
+                        return true;
+                    }
+                });
+
+                if(is_in_cart) $(this).prop("checked", true);
+            });
+
+            return true;
+        }
+    }
+
+    //hien thi cac khuyen mai da duoc chon trong cart
+    function showSelectedPromotion(product_id, variant_id) {
+
+        var selector = '.js-promo-select-one';
+        var max_recursion = 5;
+        var count_recursion = 0;
+
+        var check_cart = setInterval(function () {
+            console.log("count_recursion = " + count_recursion );
+            if(count_recursion > max_recursion || _showSelectedPromotionOnReady()) clearInterval(check_cart);
+        }, 2000);
+
+        function _showSelectedPromotionOnReady() {
+
+            if(!Hura.Cart.isReady()) return false;
+            count_recursion += 1;
+
+            var promotion_in_cart = Hura.Cart.Product.prop(product_id, variant_id, "promotion").getProp();
+            //console.log("promotion_in_cart = " + promotion_in_cart );
+            if(!promotion_in_cart) return true;
+
+            $(selector).each(function () {
+                var group_id     = this.getAttribute("data-group");
+                var promotion_id = this.value;
+                var is_in_cart   = false;
+                promotion_in_cart.forEach(function (item) {
+                    if(item.group_id == group_id && item.promotion_id == promotion_id) {
+                        is_in_cart = true;
+                        return true;
+                    }
+                });
+
+                if(is_in_cart) $(this).prop("checked", true);
+            });
+
+            return true;
+        }
+    }
+
+    //lay cac addon
+    function getListOfCheckedAddon() {
+        var selector = '.js-addon-select';
+        var item_list = [];
+
+        $(selector).each(function () {
+            if(this.checked) {
+                item_list.push({
+                    id    : this.value
+                });
+            }
+        });
+
+        return item_list;
+    }
+
+    //lay danh sach khuyen mai da duoc chon
+    function getListOfCheckedPromotion() {
+        var selector = '.js-promo-select-one';
+        var item_list = [], group_id = 0;
+        //kiem tra chon khuyen mai 1 lan
+        $(selector).each(function () {
+            if(this.checked) {
+                //add to list
+                group_id = this.getAttribute("data-group");
+                item_list.push({
+                    id              : 'group-' + group_id,
+                    group_id        : group_id ,
+                    promotion_id    : this.value
+                });
+            }
+        });
+
+        return item_list;
+    }
+
+    //add addon
+    function addAddonToCart(product_id, variant_id) {
+        var get_selected_addons = getListOfCheckedAddon();
+        var current_in_cart = Hura.Cart.Product.prop(product_id, variant_id, 'addon');
+        get_selected_addons.forEach(function (item) {
+            current_in_cart.add(item);
+        });
+
+        return (get_selected_addons.length > 0);
+    }
+
+    //add promotion
+    function addPromotionToCart(product_id, variant_id) {
+        var list_checked_promotions = getListOfCheckedPromotion();
+        var current_promotion = Hura.Cart.Product.prop(product_id, variant_id, 'promotion');
+        list_checked_promotions.forEach(function (item) {
+            current_promotion.add(item);
+        });
+
+        return (list_checked_promotions.length > 0);
+    }
+
+
+</script>
+
+
+
+<script>
+    $(document).ready(function(){
+        $(".owl-carousel-same-cat").owlCarousel({
+            items:5,
+            navigation:true
+        });
+    });
+</script>

@@ -1,0 +1,148 @@
+<div class="mainsub">
+    <!----> 
+    <div class="pagesub3">
+
+        <div class="lead_sub7">
+            <div class="lead_s2">
+                Đặt hàng nhanh chỉ với 1 click
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="clear"></div>
+
+    {if="sizeof($shopping_cart_item) > 0"}
+
+        <form method="post" enctype="multipart/form-data" action='/gui-don-hang' onsubmit="return check_field()">
+
+            <div class="tab_b1">Thông tin khách hàng</div>
+
+            <div style="padding: 10px 0;">
+                
+                <table style="font-size: 12px;border: none;border-collapse: collapse;width: 100%;">
+                    <tr>
+                        <!--<td>Họ tên</td>
+                        <td><input type="hidden" style="width: 150px;" name="buyer_name" id="buyer_name" /></td>
+                        -->
+                        <td>Điện thoại</td>
+                        <td>
+                          
+                          <input type="text" style="width: 150px;" size="15" name="buyer_mobile" id="buyer_mobile" /></td>
+                        <!--<td>Email</td>
+                        <td><input type="hidden" style="width: 150px;" name="buyer_email" id="buyer_email" /></td>
+                        -->
+                    </tr>
+                    <!--
+                    <tr>
+                        <td>Địa chỉ</td>
+                        <td colspan="5"><textarea style="width: 99%;" rows="2" name="buyer_address" id="buyer_address"></textarea></td>
+                    </tr>
+                    -->
+                </table> 
+
+            </div>
+
+            <div class="tab_b2">Thông tin đơn hàng</div>
+            <div style="padding: 10px 0;">
+
+                <table id='table-shopping-cart' cellpadding='5' border='1' bordercolor='#CCCCCC' width="100%">
+                    <tr id='shopping-cart-first-row'>
+                        <td id='shopping-cart-stt-col'>STT</td>
+                        <td>Sản phẩm</td>
+                        <td id='shopping-cart-price-col'>Giá bán</td>
+                        <td id='shopping-cart-quantity-col'>Số lượng</td>
+                        <td id='shopping-cart-sum-col'>Thành tiền</td>
+
+                        <td id='shopping-cart-del-col'>Xóa</td>
+                    </tr>
+
+                    <!--{$start_counter = 0}-->
+                    {loop="shopping_cart_item"}
+                        <!--{$item_type = $key}-->
+                        {loop="shopping_cart_item[$item_type]"}
+                            <tr>
+                                <td>{$start_counter += 1}</td>
+                                <td>
+                                    {if="$value.url != ''"}
+                                        <a href="{$value.url}"><b>{$value.name}</b></a>
+                                        {else}
+                                        <b>{$value.name}</b>
+                                    {/if}
+                                    {if="$value.information != ''"}
+                                        <br />{$value.information}
+                                    {/if}
+                                </td>
+                                <td><span id='sell_price_{$item_type}_{$value.id}'>{$value.price|format_price}</span> VND </td>
+                                <td><input name='quantity_{$item_type}_{$value.id}' id='quantity_{$item_type}_{$value.id}' value='{$value.quantity}' onchange="updatePrice('{$item_type}','{$value.id}',this.value)" size='10' /></td>
+                                <td><span id='price_{$item_type}_{$value.id}'>{$value.totalPrice|format_price}</span> VND</td>
+
+                                <td><a href="javascript:deleteShoppingCartItem('{$item_type}','{$value.id}','{$value.quantity}','{$value.price}')">Xóa</a></td>
+                            </tr>
+                        {/loop}
+                    {/loop}
+
+                    <tr>
+                        <td colspan='4' align='right'>Tổng giá trị : </td>
+                        <td colspan='2'><b><span id='total_value'>{$shopping_cart_total|format_price}</span> VND</b></td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="tab_b2">Phương thức thanh toán</div>
+            <div class="view_trans" style="padding: 10px 0;">
+
+                <ul style="list-style-type: none;">
+                    <li><input type="radio" value="1" name="frame" checked="checked">Thanh toán tại nhà (<a href="/page/cac-hinh-thuc-thanh-toan-truc-tuyen">Xem chi tiết</a>)</li>
+                    <li><input type="radio" value="2" name="frame"> Thanh toán chuyển khoản ngân hàng (<a href="/page/cac-hinh-thuc-thanh-toan-truc-tuyen">Xem chi tiết</a>)</li>
+                    <li><input type="radio" value="3" name="frame"> Thanh toán tại quầy giao dịch (<a href="/page/cac-hinh-thuc-thanh-toan-truc-tuyen">Xem chi tiết</a>)</li>
+                    <li><input type="radio" value="4" name="frame"> Thanh toán trực tiếp bằng thẻ ATM, Visa, MasterCard,... qua Ngân lượng (<a href="/page/cac-hinh-thuc-thanh-toan-truc-tuyen">Xem chi tiết</a>)</li>
+                </ul>
+
+            </div>
+
+            <input type="hidden" name="buyer_tel" id="buyer_tel" />
+            <input type="hidden" name="buyer_note" />
+            <input type="hidden" name="buyer_name" id="buyer_name" value="Khách mua nhanh" />
+            <input type="hidden" style="width: 150px;" name="buyer_email" id="buyer_email" />
+
+            <!---->
+
+            <input type="hidden" name="item_update_quantity" id="item_update_quantity" value="{$shopping_cart_id}" />
+            <input type="hidden" name="update_quantity" value="yes" />
+            <input type="hidden" name="total_cart_value" id="total_cart_value" value="{$shopping_cart_total}" />
+            <input type="hidden" name="send_order" value="yes" />
+
+            <div align="left"><input type="submit" value="Gửi đơn hàng >>" /></div>
+
+        </form>
+
+        <!---->
+        {else}
+
+        <p>Bạn chưa chọn sản phẩm nào vào giỏ hàng</p>
+
+    {/if}
+
+
+    </div>
+    <!---->
+</div>
+<script type="text/javascript">
+    function check_field(){
+        var error = "";
+        //var check_name = document.getElementById('buyer_name').value;
+        //if(check_name.length < 4) error += "- Bạn chưa nhập tên\n";
+        var check_name = document.getElementById('buyer_mobile').value;
+        if(check_name.length < 10) error += "- Bạn chưa nhập số điện thoại\n";
+        //var check_add = document.getElementById('buyer_address').value;
+        //if(check_add.length < 10) error += "- Bạn chưa nhập địa chỉ";
+        //var check_note = document.getElementById('buyer_note').value;
+        //if(check_name.length < 4) error += "- Bạn chưa nhập tên\n";
+        if(error != "") {
+            alert(error); return false;
+        }
+        return true;
+    }
+</script>
+  

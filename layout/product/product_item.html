@@ -1,0 +1,29 @@
+<li class="item">{if="$value.productType.isNew==1"}<i class="new">Mới</i>{/if}
+  {if="$value.marketPrice > $value.price"}
+  {$temp = 100 - $value.price*100/$value.marketPrice;}
+  {$percent = ceil($temp);}
+  <div class="price_off">-{$percent}%</div>
+  {/if}
+  {if="$value.quantity < 1"}
+  <span class="status_contact">
+    {if="$value.quantity == 0"}Tạm hết hàng
+    {elseif="$value.quantity==-1"}Liên hệ
+    {elseif="$value.quantity==-2"}Sắp có hàng
+    {elseif="$value.quantity==-3"}Gọi để có giá tốt
+    {elseif="$value.quantity==-4"}Vừa có hàng
+    {elseif="$value.quantity==-6"}Ngừng kinh doanh
+    {/if}
+  </span>
+  {/if}
+  {if="sizeof($value.specialOffer) > 0"}<div class="is_specialOffer">Quà tặng</div>{/if}
+  <div class="p_container">
+    <a href="{$value.productUrl}" class="p-img">
+      <img src="{$value.productImage.large}" alt="{$value.productName}" />
+    </a>
+    <a href="{$value.productUrl}" class="p-name">{$value.productName} ID={$value.productId}</a>
+    <div class="center price_item">
+      <span class="p-price">{if="$value.price > 0"}{$value.price|format_price}đ{else}Liên hệ{/if}</span>
+      <span class="p-old-price">{if="$value.marketPrice > $value.price"}{$value.marketPrice|format_price}đ{else}{/if}</span>
+    </div>
+  </div>
+</li>

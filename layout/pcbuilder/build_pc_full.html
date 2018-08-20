@@ -1,0 +1,156 @@
+
+<h1>Xây dựng máy tính</h1>
+
+<input type="hidden" id="pc_part_id" value="," />
+<input type="hidden" id="pcbuilder_step" value="1" />
+<input type="hidden" id="pcbuilder_step_back" value="0" />
+<input type="hidden" id="pc_total_price" value="0" />
+
+<script type="text/javascript">
+$(window).scroll(function(){
+    $("#pcbuilder_box").css("top",Math.max(0,230-$(this).scrollTop()));
+});
+</script>
+<div id="anchor_top"></div>
+<table width="100%" border="1" bordercolor="#CCC">
+	<tr>
+    	<td valign="top">
+        	<div id="pc_part_process"></div>	
+        </td>
+        <td width="200px" valign="top">
+        		<div>Cấu hình - <a href="javascript:pcbuilder_viewpc()">Xem & In</a></div>
+                <div id="pcbuilder_box" style="position:fixed; width: 200px; height: 200px; top:230px;">
+                    <div id="pc_part_total_price"></div>
+                    <div id="pc_part_select"></div>
+                </div>
+        </td>
+    </tr>
+</table>
+
+<script type="text/javascript">
+	function pcbuilder_select_parts(holder){
+		$("#"+holder).html("<img src='/includes/images/loading_icon_small.gif'>...");
+		var step_back = parseInt($("#pcbuilder_step_back").val());
+		var current_step = parseInt($("#pcbuilder_step").val());
+		var what_step = (step_back > 0) ? step_back : current_step ;
+		
+		$.get("ajax/pcbuilder_product_selection.php", {
+				holder : holder, 
+				pc_part_id : $("#pc_part_id").val() ,
+				step : what_step
+			}, function(data) { $("#"+holder).html(data);} )
+	}
+	
+	function pcbuilder_go_step(what_step){
+		$("#pcbuilder_step").val(what_step);
+		pcbuilder_select_parts("pc_part_process");
+	}
+	
+	function pcbuilder_next_step(){
+		//remove step back if exist
+		var step_back = parseInt($("#pcbuilder_step_back").val());
+		if(step_back > 0) $("#pcbuilder_step_back").val(0);	
+		//go to step
+		var cur_step = $("#pcbuilder_step").val();
+		//if user skip the current step, we still want to create a holder in case he/she wants to go back
+		if($('#part_selected_'+cur_step).html().length == 0) {
+			/*var step_name = $("#pc_part_name").val();
+			content = "<b>"+cur_step+": "+step_name+"</b>:<br>";			
+			content += "<span id='part_selected_"+cur_step+"'>";
+			content += "<a href=\"javascript:pcbuilder_back_step("+cur_step+", 0, 0, 0)\">Chọn lại</a>";
+			content += "</span><br>";
+			$("#pc_part_select").append(content);*/
+			$("#part_selected_"+cur_step).html("<a href=\"javascript:pcbuilder_back_step("+cur_step+", 0, 0, 0)\">Chọn lại</a>");
+		}
+		
+		pcbuilder_go_step(parseInt(cur_step) + 1);
+	}
+	
+	function pcbuilder_select_part(pro_id, cat_id, step, step_name){
+		//danh sach may tinh
+		var pro_price = $("#price_"+pro_id).val();	
+		var pro_name = $("#name_"+pro_id).val();
+		var pro_url = $("#url_"+pro_id).val();
+		var content = "";
+		if($('#part_selected_'+step).length == 0) {
+			content += "<b>"+step+": "+step_name+"</b>:<br>";			
+			content += "<span id='part_selected_"+step+"'>";
+			content += "<a href='"+pro_url+"' target=_blank>"+pro_name + "</a> ("+writeStringToPrice(pro_price)+")<br>";
+			content += "<a href=\"javascript:pcbuilder_back_step("+step+", "+pro_id+", "+cat_id+", "+pro_price+")\">Chọn lại</a> - <a href=\"javascript:pcbuilder_remove_part("+step+", "+pro_id+", "+cat_id+", "+pro_price+")\">Xóa bỏ</a>";
+			content += "</span><br>";
+			
+			$("#pc_part_select").append(content);
+			
+		}else{
+			
+			content += "<a href='"+pro_url+"' target=_blank>"+pro_name + "</a> ("+writeStringToPrice(pro_price)+")<br>";
+			content += "<a href=\"javascript:pcbuilder_back_step("+step+", "+pro_id+", "+cat_id+", "+pro_price+")\">Chọn lại</a> - <a href=\"javascript:pcbuilder_remove_part("+step+", "+pro_id+", "+cat_id+", "+pro_price+")\">Xóa bỏ</a>";
+
+			$('#part_selected_'+step).html(content);
+		}
+		
+		//danh sach part
+		var current_part_list = $("#pc_part_id").val();
+		var new_part_list = current_part_list + pro_id+"-"+cat_id+",";
+		$("#pc_part_id").val(new_part_list);
+		
+		//tong gia
+		var pc_price = parseInt($("#pc_total_price").val()) + parseInt(pro_price);
+		$("#pc_total_price").val(pc_price);
+		$("#pc_part_total_price").html("Tổng giá: "+writeStringToPrice(pc_price+''));
+		
+		//next step
+		//if user come beck to previous step, when done selecting part, going back to current step
+		//otherwise keep going next step
+		var step_back = parseInt($("#pcbuilder_step_back").val());
+		var current_step = parseInt($("#pcbuilder_step").val());
+		
+		if(step_back > 0) {
+			//reset step back if exist
+			if(step_back > 0) $("#pcbuilder_step_back").val(0);	
+			pcbuilder_go_step(current_step);
+		}else{
+			pcbuilder_next_step();
+		}
+	}
+	
+	function pcbuilder_remove_part(step, pro_id, cat_id, pro_price){
+		//loa bo pc_part_id
+		var current_part_list = $("#pc_part_id").val();
+		var new_part_list = current_part_list.replace(","+ pro_id+"-"+cat_id+",", ",");
+		$("#pc_part_id").val(new_part_list);
+		//loai bo noi dung
+		$('#part_selected_'+step).html("<a href=\"javascript:pcbuilder_back_step("+step+", "+pro_id+", "+cat_id+", "+pro_price+")\">Chọn lại</a>");
+		//dem lai tong gia
+		var pc_price = parseInt($("#pc_total_price").val()) - parseInt(pro_price);
+		$("#pc_total_price").val(pc_price);
+		$("#pc_part_total_price").html("Tổng giá: "+writeStringToPrice(pc_price+''));
+	}
+	
+	function pcbuilder_back_step(step, pro_id, cat_id, pro_price){
+		//loai bo neu chua lam
+		var current_part_list = $("#pc_part_id").val();
+		if(current_part_list.search(","+ pro_id+"-"+cat_id+",") != -1) {
+			var new_part_list = current_part_list.replace(","+ pro_id+"-"+cat_id+",", ",");
+			$("#pc_part_id").val(new_part_list);
+			//loai bo noi dung
+			$('#part_selected_'+step).html("<a href=\"javascript:pcbuilder_back_step("+step+", "+pro_id+", "+cat_id+", "+pro_price+")\">Chọn lại</a>");
+			//dem lai tong gia
+			var pc_price = parseInt($("#pc_total_price").val()) - parseInt(pro_price);
+			$("#pc_total_price").val(pc_price);
+			$("#pc_part_total_price").html("Tổng giá: "+writeStringToPrice(pc_price+''));
+		}
+		
+		//set step_back
+		$("#pcbuilder_step_back").val(step);
+		
+		pcbuilder_select_parts("pc_part_process");
+	}
+	
+	function pcbuilder_viewpc(){
+		var current_part_list = $("#pc_part_id").val();
+		window.location = "/xem-may-tinh-da-tao?parts="+current_part_list;	
+	}
+	
+	pcbuilder_select_parts("pc_part_process");
+</script>

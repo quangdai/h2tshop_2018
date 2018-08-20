@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+        }
+
+        #container {
+            width: 920px;
+            margin: auto;
+        }
+
+        #tb_padding {
+            width: 100%;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+
+<div id="container">
+
+    <h2 id="title" align="center">Đơn hàng #{$create_order_id}</h2>
+
+    <h3 style="margin-bottom: 15px;">1. Thời gian: {$order_info.order_time|show_datetime_from_unix} </h3>
+
+
+    <h3 style="margin-bottom: 15px;">2. Thông tin người mua</h3>
+
+    <div id="user_info_1">
+
+        <table>
+            <tr style="font-weight:bold; color:#F60">
+                <td>Thông tin đặt hàng :</td>
+                <td width="30px"></td>
+                <td>Thông tin vận chuyển :</td>
+            </tr>
+            <tr>
+                <td>
+                    <table>
+                        <tr><td>Họ tên</td><td> : {$customer_info.name}</td></tr>
+                        <tr><td>Email</td><td> : {$customer_info.email}</td></tr>
+                        <tr><td>Địa chỉ</td><td> : {$customer_info.address}, {if="isset($customer_info.province_name)"}{$customer_info.province_name}{/if}</td></tr>
+                        <tr><td>Điện thoại</td><td> : {$customer_info.tel}</td></tr>
+                        {if="strlen($customer_info.tax_company) > 3"}
+                        <tr><td>Tên công ty</td><td> : {$customer_info.tax_company}</td></tr>
+                        <tr><td>Địa chỉ công ty</td><td> : {$customer_info.tax_address}</td></tr>
+                        <tr><td>Mã số thuế</td><td> : {$customer_info.tax_code}</td></tr>
+                        {/if}
+                    </table>
+                </td>
+                <td></td>
+                <td valign="top">
+                    <table>
+                        <tr><td>Họ tên</td><td> : {$customer_info.ship_to_name}</td></tr>
+                        <tr><td>Địa chỉ</td><td> : {$customer_info.ship_to_address}, {if="isset($customer_info.ship_to_province_name)"}{$customer_info.ship_to_province_name}{/if}</td></tr>
+                        <tr><td>Điện thoại</td><td> : {$customer_info.ship_to_tel}</td></tr>
+                        <tr><td>Ghi chú</td><td> : {$order_info.buyerInstruction}</td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <br />
+
+    <h3 style="margin-bottom: 15px; color: red">3. Thông tin đơn hàng</h3>
+
+    {if="$customer_info.payment_method != ''"}
+    <p>- Phương thức thanh toán: {$customer_info.payment_method} </p>
+    {/if}
+
+    {if="$customer_info.shipping_method != ''"}
+    <p>- Phương thức vận chuyển: {$customer_info.shipping_method} </p>
+    {/if}
+
+    <br>
+
+    <table id="tb_padding" width=100% cellpadding=5 border=1 bordercolor='#CCCCCC'>
+        <tr bgcolor='#EEEEEE'>
+            <td>STT</td>
+            <td>Ảnh</td>
+            <td>Mã kho</td>
+            <td>Thông tin</td>
+            <td>Giá bán</td>
+            <td>Số lượng</td>
+            <td>Tổng</td>
+            <td>Ghi chú</td>
+        </tr>
+
+        {$count_item = 0}
+
+        {loop="$order_item"}
+
+        {if="$value.item_type == 'product'"}
+
+        {loop="$value.item_info.variants"}
+
+        {$count_item = $count_item + 1}
+
+        <tr>
+            <td>{$count_item}</td>
+            <td>
+                {if="strlen($value.image) > 2"}
+                <img src="{$value.image}" width=80 />
+                {/if}
+            </td>
+            <td>
+                {$value.sku}
+            </td>
+            <td>
+                <strong>{$value.title}</strong>
+                <br>
+
+                {if="sizeof($value.promotion.list) > 0"}
+                <br /><u>Danh sách khuyến mại:</u> <br>
+                {loop="$value.promotion.list"}
+                - {$value.title} <br>
+                {/loop}
+                {/if}
+
+                {if="sizeof($value.promotion.group) > 0"}
+                <br /><u>Danh sách nhóm khuyến mại:</u> <br>
+                {loop="$value.promotion.group"}
+                - Nhóm "{$value.title}", gồm: <br>
+                {loop="$value.promotion"}
+                + {$value.title} <br>
+                {/loop}
+                {/loop}
+                {/if}
+            </td>
+
+            <td>{$value.price|format_number} VND (/{$value.priceUnit})</td>
+            <td>{$value.quantity}</td>
+
+            {$total_price = $value.price * $value.quantity}
+            <td>{$total_price|format_price} VND</td>
+            <td>{$value.buyer_note}</td>
+        </tr>
+        {/loop}
+
+        {else}
+
+        {$count_item = $count_item + 1}
+
+        <tr>
+            <td>{$count_item}</td>
+            <td>
+                --
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                {if="$value.item_type == 'combo'"}
+
+                [Combo] <b>{$value.item_name}</b><br />
+                <u>Sản phẩm: </u><br>
+                {loop="$value.item_info.product_list"}
+                <div>{$counter + 1} . {$value.productName} . (Mã kho: {$value.productSKU})</div>
+                {/loop}
+
+                {elseif="$value.item_type == 'deal'"}
+
+                [Deal] <b>{$value.item_name}</b>
+
+                {/if}
+            </td>
+
+            <td>{$value.item_info.price|format_price} VND</td>
+            <td>{$value.item_info.quantity}</td>
+
+            {$total_price = $value.item_info.price * $value.item_info.quantity}
+            <td>{$total_price|format_price} VND</td>
+            <td>{$value.item_info.buyer_note}</td>
+        </tr>
+
+        {/if}
+
+
+        {/loop}
+
+
+        <tr>
+            <td colspan=4 align=right>Tổng giá trị</td>
+            <td colspan=4><b>{$order_info.totalValue|format_price}</b> VND <br>(Chưa gồm phí vận chuyển)</td>
+        </tr>
+
+        {if="$order_info.discount_info != ''"}
+        {if="$order_info.discount_price > 0"}
+        {$order_info.totalValue = $order_info.totalValue - $order_info.discount_price}
+        {/if}
+
+        <tr>
+            <td colspan=4 align=right>Khuyến mại khác</td>
+            <td colspan=4>
+                {if="$order_info.discount_price > 0"}
+                Giảm <b>{$order_info.discount_price|format_price} Đ</b><br />
+                {/if}
+                {$order_info.discount_info}
+            </td>
+        </tr>
+        {/if}
+        <tr>
+            <td colspan=4 align=right>Phí vận chuyển &amp; giao hàng</td>
+            <td colspan=4><b>{$order_info.shippingFee|format_price}</b> VND - {$order_info.shippingNote}</td>
+        </tr>
+        <!--<tr>
+            <td colspan=4 align=right>Phí thu hộ</td>
+            <td colspan=4><b>{$order_info.CODfee|format_price}</b> VND </td>
+        </tr>-->
+        <tr>
+            <td colspan=4 align=right>Tổng thu</td>
+            <td colspan=4><b>{|format_price:$order_info.totalValue + $order_info.shippingFee + $order_info.CODfee}</b> VND</td>
+        </tr>
+    </table>
+
+</div>
+
+</body>
+</html>

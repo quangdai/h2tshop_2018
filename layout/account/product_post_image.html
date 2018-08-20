@@ -1,0 +1,29 @@
+<h3>Ảnh sản phẩm bạn đã đóng góp</h3>
+{if="sizeof($image_list) > 0"}
+	<table width='100%' border=1 bordercolor='#CCCCCC' style='border-collapse:collapse;' cellpadding=4 cellspacing=0>
+			<tr bgcolor='#FFCC00' style='font-weight:bold;'>
+				<td>STT</td>
+				<td>Ảnh</td>
+				<td>Sản phẩm</td>
+				<td>Thông tin</td>
+				<td>Thời gian cập nhật</td>
+			</tr>
+    {loop="image_list"}	
+        {$product_id = $value.product_id}
+        <tr id='row_{$value.id}'>
+            <td>{$counter+1}</td>
+            <td><img src="{$value.image_file}" width="80" /></td>
+            <td>
+            	<b><a href="{$product_list.$product_id.productUrl}" target="_blank">{$product_list.$product_id.productName}</a></b></td>
+            <td>
+            	- Tên gọi: {$value.image_name} <br />
+                - Mô tả: {$value.image_description}
+            </td>
+            <td>{$value.post_time}</td>
+        </tr>
+    {/loop}
+	</table>
+    {$paging}
+{else}
+	<p>Bạn chưa gửi ảnh sản phẩm nào của bạn. Hãy chia sẽ với cộng đồng nhé.</p>
+{/if}

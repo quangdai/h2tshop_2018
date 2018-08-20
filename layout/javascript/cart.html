@@ -1,0 +1,487 @@
+<script>
+
+    //on page ready
+    $(function () {
+        //hien thi tong don hang
+        calculateCartTotalPrice();
+
+        //hien thi cac khuyen mai duoc check
+        showSelectedPromotion();
+
+        //hien thi cac addon duoc check
+        showSelectedAddon();
+
+        //thay doi so luong chon mua
+        listenQuantityChange();
+
+        //thay doi addon
+        listenChangeAddon('.js-addon-select');
+
+        //thay doi khuyen mai
+        listenChangePromotionGroup(".js-promo-select-one");
+
+        //xoa sp
+        listenDeleteCartItem();
+
+        //ap dung coupon/voucher
+        listenVoucherCode("#js_voucher_input");
+
+        //tinh phi shipping-cod, thuong chay ham nay khi thay doi quan/huyen
+        calculateShippingFee(0, 0); //calculateShippingFee(province, district)
+
+        //mot so lenh debug - khong quan trong
+        //xem noi dung gio hang
+        $("#get-cart-content").on("click", function () {
+            console.log("cart content = " + JSON.stringify(Hura.Cart.getCart(), true, 4));
+        });
+
+        //xoa toan bo gio hang
+        $("#empty-cart-content").on("click", function () {
+            Hura.Cart.deleteCart().then(function () {
+                console.log("Empty cart success !");
+            });
+        });
+    });
+
+
+    function listenVoucherCode(dom_node) {
+        $(dom_node).on("change", function () {
+            var voucher_code = this.value.trim();
+            var cart_total_before_fee_discount = $("#js-total-before-fee-discount").val();
+            var $message_holder = $("#js-voucher-message");
+
+            //update field to send when submit
+            $("#js_coupon_code").val(voucher_code);
+
+            //xu ly hien thi
+            if(voucher_code.length > 2) {
+                $.post("/ajax/post.php", {
+                    action      : "coupon",
+                    action_type : "check",
+                    code        : voucher_code,
+                    order_value : cart_total_before_fee_discount
+                }, function (data) {
+
+                    var voucher_info = JSON.parse(data);
+
+                    if(voucher_info.error != '') {
+                        //bao loi
+                        //alert(voucher_info.error);
+                        $message_holder.html(voucher_info.error);
+                        return ;
+                    }
+
+                    $message_holder.html(voucher_info.title);
+
+                    //xu ly khac
+                    switch (voucher_info.type) {
+                        case "cash": //giam tru tien
+                            $("#js-discount-voucher").val(Hura.Util.strToNumber(voucher_info.content));
+                            break;
+                        case "priceoff"://giam gia %
+                            $("#js-discount-voucher").val(Hura.Util.strToNumber(voucher_info.content) * cart_total_before_fee_discount / 100);
+                            break;
+                        case "pro":
+                            //todo:
+
+                            break;
+                        case "other":
+                            //todo:
+
+                            break;
+                    }
+
+                    //recalculate total
+                    calculateCartTotalPrice();
+
+                })
+            }else{
+                $("#js-discount-voucher").val(0);
+                $message_holder.html('');
+                //recalculate total
+                calculateCartTotalPrice();
+            }
+
+
+        })
+    }
+
+
+    function calculateShippingFee(province, district) {
+        if(province == 0) return ;
+
+        var cart_total_before_fee_discount = $("#js-total-before-fee-discount").val();
+
+        $.post("/ajax/post.php", {
+            action          : 'shipping',
+            action_type     : 'get-shipping-and-cod',
+            order_value     : cart_total_before_fee_discount,
+            province        : province,
+            district        : district
+        }, function (data) {
+            var shipping_fee = JSON.parse(data);
+
+            //update
+            $("#js-fee-shipping").val(shipping_fee.ship);
+            $("#js-fee-cod").val(shipping_fee.cod);
+
+            //recalculate total
+            calculateCartTotalPrice();
+        })
+    }
+
+
+    //thay doi tong gia cua 1 san pham
+    function changeItemTotalPrice() {
+        var $row        = $(this).closest(".js-item-row");
+        var item_type   = $row.data("item_type");
+        var price       = parseInt($row.find(".buy-price").val());
+        var quantity    = parseInt($row.find(".buy-quantity").val());
+
+        //get bulk-price
+        var bulk_price_config = $row.find(".bulk_price_config").val();
+        if(bulk_price_config.length > 3) {
+            var bulk_price_list = JSON.parse(bulk_price_config);
+            if(bulk_price_list.length > 1) {
+                price  = _getBulkPrice(quantity, price, bulk_price_list);
+                $row.find(".js-show-buy-price").html(Hura.Util.writeStringToPrice(price));
+            }
+        }
+
+        //get addon-price
+        var total_addon_price = 0;
+        $row.find(".js-addon-select").each(function () {
+            if(this.checked) {
+                total_addon_price += parseInt(this.getAttribute("data-price"));
+            }
+        });
+
+        var total_price = (price + total_addon_price) * quantity;
+
+        //loai bo so luong vo ly
+        if(quantity < 0) {
+            $row.find(".buy-quantity").val(0);
+            total_price = 0;
+        }
+
+        $row.find(".total-item-price").html(Hura.Util.writeStringToPrice(total_price));
+
+        calculateCartTotalPrice();
+
+        console.log("updating cart = " + item_type);
+
+        //save to cart
+        switch (item_type) {
+            case "product":
+                Hura.Cart.Product.update($row.data("item_id"), $row.data("variant_id"), {quantity: quantity});
+                break;
+
+            case "deal":
+
+                Hura.Cart.Deal.update($row.data("item_id"), {quantity: quantity});
+                break;
+
+            case "combo":
+                Hura.Cart.Combo.update($row.data("item_id"), {quantity: quantity});
+                break;
+
+        }
+
+        //
+        function _getBulkPrice(qty, normal_price, bulk_price_config) {
+            /*var bulk_price_config = [
+             {
+             "quantity_from" => 1,
+             "quantity_to" => 5,
+             "price" => 10,
+             },
+             {
+             "quantity_from" => 6,
+             "quantity_to" => 10,
+             "price" => 6,
+             }
+             ];*/
+
+            var price = normal_price;
+            if(bulk_price_config.length > 0) {
+                bulk_price_config.forEach(function (item) {
+                    if( qty >= item['quantity_from'] && (qty <= item['quantity_to'] || item['quantity_to'] == 0) ) {
+                        price = item['price'];
+                        return true;
+                    }
+                })
+            }
+
+            return price;
+        }
+    }
+
+    //tinh tong gia don hang
+    function calculateCartTotalPrice() {
+        var dom_target = "#total-cart-price";
+        var total_cart_price = 0;
+
+        $(".total-item-price").each(function () {
+            total_cart_price += Hura.Util.strToNumber($(this).html());
+        });
+
+        //log for other reference
+        $("#js-total-before-fee-discount").val(total_cart_price);
+
+        //giam gia khac: voucher, membership, loyalty point conversion
+        var total_discount  = 0;
+        total_discount += parseInt($("#js-discount-voucher").val());
+        total_discount += parseInt($("#js-discount-membership").val());
+
+        //phi khac: shipping, COD...
+        var total_other_fee = 0;
+        total_other_fee += parseInt($("#js-fee-shipping").val());
+        total_other_fee += parseInt($("#js-fee-cod").val());
+
+        $(dom_target).html(Hura.Util.writeStringToPrice(total_cart_price - total_discount + total_other_fee));
+    }
+
+    //nghe thay doi so luong sp
+    function listenQuantityChange() {
+        var $track_change       = $(".quantity-change");
+
+        //thay doi so luong sp mua, neu nhap so luong
+        $track_change.on("change", function (e) {
+            changeItemTotalPrice.call(this);
+        });
+
+        //thay doi so luong sp theo - hoac +
+        $track_change.on("click", function (e) {
+            if(e.target.nodeName === 'INPUT') return ;
+
+            var quantity_change = parseInt(this.getAttribute("data-value"));
+            var $row        = $(this).closest(".js-item-row");
+            var current_quantity = parseInt($row.find(".buy-quantity").val());
+
+            //loai bo so luong vo ly
+            if(current_quantity < 0) {
+                $row.find(".buy-quantity").val(0);
+                return ;
+            }
+
+            $row.find(".buy-quantity").val(current_quantity + quantity_change);
+
+            //then update
+            changeItemTotalPrice.call(this);
+        });
+    }
+
+    //thay doi addon
+    function listenChangeAddon(addon_class) {
+        $(addon_class).on("change", function (e) {
+            var addon_id        = this.value;
+            var $parent_row     = $(this).closest(".js-item-row");
+            var product_id      = $parent_row.data("item_id");
+            var variant_id      = $parent_row.data("variant_id");
+            var currentProp     = Hura.Cart.Product.prop(product_id, variant_id, "addon");
+            var changeProp;
+
+            //update total price in the row
+            changeItemTotalPrice.call(this);
+
+            if(this.checked) {
+                //add to cart
+                changeProp = currentProp.add( { id : addon_id } );
+
+                //getting new cart content
+                if(changeProp) {
+                    Hura.Cart.saveCart().then(function () {
+                        console.log("cart content = " + JSON.stringify(Hura.Cart.getCart(), true, 4));
+                    })
+                }else{
+                    console.log("cart content = " + JSON.stringify(Hura.Cart.getCart(), true, 4));
+                }
+            }else{
+                //removed from cart
+                changeProp = currentProp.remove( addon_id );
+                //getting new cart content
+                if(changeProp) {
+                    Hura.Cart.saveCart().then(function () {
+                        console.log("cart content = " + JSON.stringify(Hura.Cart.getCart(), true, 4));
+                    })
+                }else{
+                    console.log("cart content = " + JSON.stringify(Hura.Cart.getCart(), true, 4));
+                }
+            }
+        })
+    }
+
+    //show addons
+    function showSelectedAddon() {
+        var max_recursion = 5;
+        var count_recursion = 0;
+
+        var check_cart = setInterval(function () {
+            console.log("count_recursion = " + count_recursion );
+            if(count_recursion > max_recursion || _showSelectedOnReady()) clearInterval(check_cart);
+        }, 2000);
+
+        function _showSelectedOnReady() {
+
+            if(!Hura.Cart.isReady()) return false;
+
+            count_recursion += 1;
+
+            $(".js-item-row").each(function () {
+                var $current_row = $(this);
+                var item_type   = $current_row.data("item_type");
+                var item_id     = $current_row.data("item_id");
+                var variant_id  = $current_row.data("variant_id");
+
+                //hien tai chi kiem cho cho san pham
+                if(item_type !== 'product') return true;
+
+                var addon_in_cart = Hura.Cart.Product.prop(item_id, variant_id, "addon").getProp();
+                //console.log("promotion_in_cart = " + promotion_in_cart );
+                if(!addon_in_cart) return true;
+
+                //kiem tra
+                $current_row.find(".js-addon-select").each(function () {
+                    var addon_id = this.value;
+                    var is_in_cart = false;
+                    addon_in_cart.forEach(function (item) {
+                        if(item.id == addon_id) {
+                            is_in_cart = true;
+                            return true;
+                        }
+                    });
+
+                    if(is_in_cart) {
+                        $(this).prop("checked", true);
+
+                        //update total price in the row
+                        changeItemTotalPrice.call(this);
+                    }
+                });
+            });
+
+            return true;
+        }
+    }
+
+    //thay doi khuyen mai trong nhom chi chon 1
+    function listenChangePromotionGroup(promo_radio_class) {
+        $(promo_radio_class).on("change", function (e) {
+            if(this.checked) {
+                var new_promotion_id   = this.value;
+                var item_group_id      = this.getAttribute("data-group");
+                var $parent_row        = $(this).closest(".js-item-row");
+                var new_promotion = {
+                    id              : 'group-' + item_group_id,
+                    group_id        : item_group_id ,
+                    promotion_id    : new_promotion_id
+                };
+
+                var changeProp = Hura.Cart.Product.prop($parent_row.data("item_id"), $parent_row.data("variant_id"), "promotion").add( new_promotion );
+
+                //var changeProp = Hura.Cart.Product.prop($parent_row.data("product_id"), $parent_row.data("variant_id"), "promotion").update('group-'+item_group_id, { promotion_id : new_promotion_id} );
+
+                //getting new cart content
+                if(changeProp) {
+                    Hura.Cart.saveCart().then(function () {
+                        console.log("cart content = " + JSON.stringify(Hura.Cart.getCart(), true, 4));
+                    })
+                }else{
+                    console.log("cart content = " + JSON.stringify(Hura.Cart.getCart(), true, 4));
+                }
+            }
+        })
+    }
+
+    //hien thi cac khuyen mai da duoc chon trong cart
+    function showSelectedPromotion() {
+        var max_recursion = 5;
+        var count_recursion = 0;
+
+        var check_cart = setInterval(function () {
+            console.log("count_recursion = " + count_recursion );
+            if(count_recursion > max_recursion || _showSelectedOnReady()) clearInterval(check_cart);
+        }, 2000);
+
+        function _showSelectedOnReady() {
+
+            if(!Hura.Cart.isReady()) return false;
+
+            count_recursion += 1;
+
+            $(".js-item-row").each(function () {
+                var $current_row = $(this);
+                var item_type   = $current_row.data("item_type");
+                var item_id     = $current_row.data("item_id");
+                var variant_id  = $current_row.data("variant_id");
+
+                //console.log("checking = " + item_type + ", id = " + item_id );
+
+                //hien tai chi kiem cho cho san pham
+                if(item_type !== 'product') return true;
+
+                var promotion_in_cart = Hura.Cart.Product.prop(item_id, variant_id, "promotion").getProp();
+                //console.log("promotion_in_cart = " + promotion_in_cart );
+                if(!promotion_in_cart) return true;
+
+                //kiem tra moi khuyen mai trong danh sach, neu thoa man thi check
+                $current_row.find(".js-promo-select-one").each(function () {
+                    var group_id = this.getAttribute("data-group") ;
+                    var promotion_id = this.value;
+                    var is_in_cart = false;
+                    promotion_in_cart.forEach(function (item) {
+                        if(item.group_id == group_id && item.promotion_id == promotion_id) {
+                            is_in_cart = true;
+                            return true;
+                        }
+                    });
+
+                    if(is_in_cart) $(this).prop("checked", true);
+
+                });
+
+                //console.log("promotion_in_cart = " + JSON.stringify(promotion_in_cart, true, 4));
+            });
+
+            return true;
+        }
+    }
+
+    //nghe xoa san pham
+    function listenDeleteCartItem() {
+        $(".delete-from-cart").on("click", function () {
+            var $row        = $(this).closest(".js-item-row");
+            var item_type   = $row.data("item_type");
+            var item_id     = $row.data("item_id");
+
+            calculateCartTotalPrice();
+
+            console.log("deleting item from cart = " + item_type);
+
+            var deleteStatus;
+            //save to cart
+            switch (item_type) {
+                case "product":
+                    deleteStatus = Hura.Cart.Product.remove(item_id, $row.data("variant_id"));
+                    break;
+
+                case "deal":
+
+                    deleteStatus = Hura.Cart.Deal.remove(item_id);
+                    break;
+
+                case "combo":
+                    deleteStatus = Hura.Cart.Combo.remove(item_id);
+                    break;
+
+            }
+
+            if(deleteStatus) {
+                deleteStatus.then(function () {
+                    $row.remove();
+                })
+            }
+        })
+    }
+
+</script>

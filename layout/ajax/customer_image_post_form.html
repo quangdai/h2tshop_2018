@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Gửi ảnh sản phẩm của bạn</title>
+<style type="text/css">
+	body { font-family:Arial, Helvetica, sans-serif; font-size:12px; margin:3px}
+	h2 { color:#003366; margin:0; padding:0; padding-bottom:10px}
+</style>
+
+</head>
+
+<body>
+	
+    {if="$upload_success == 1"}
+    	
+        <h3>Bạn đã đăng ảnh thành công. Cảm ơn bạn</h3>
+        
+        <p>Xem ảnh bạn đã gửi <a href="?product_id={$product_info.id}&image_id={$image_info.id}">tại đây</a></p>
+    
+    
+    {else}
+    
+            <h2>Đăng ảnh sản phẩm: {$product_info.productName}</h2>
+            
+            <form method="post" enctype="multipart/form-data" onsubmit="return check_field()" action="/ajax/customer_image_post_form.php">
+            
+            {if="$image_info.id > 0"}
+                <p>Ảnh hiện tại: </p> <div style="max-height:200px; overflow:auto"> <img src='/media/customer_upload/{$image_info.image_file}' /></div>
+                <p>Nếu bạn muốn thay file ảnh, vui lòng đăng lại ảnh hoặc để trống phần File Ảnh.</p>
+            {/if}
+                
+            <table>
+                <tr>
+                    <td>File ảnh (*)</td>
+                    <td>
+                        <input type="file" size="30" name="image_file" id="image_file" /> *dung lượng ảnh tối đa là 1MB
+                    </td>
+                </tr>
+                <tr>
+                    <td>Đặt tên ảnh (*)</td>
+                    <td><input type="text" size="60" name="image_name" id="image_name" value="{$image_info.image_name}"></td>
+                </tr>
+                <tr>
+                    <td>Mô tả về ảnh</td>
+                    <td><textarea name="image_description" cols="50" rows="6">{$image_info.image_description}</textarea></td>
+                </tr>
+                <tr>
+                    <td>Thời gian chụp</td>
+                    <td><input type="text" size="20" name="image_taken_date" value="{$image_info.image_taken_date}"> (dd/mm/yyyy hh:mm v.d. 20/10/2011 08:12am)</td>
+                </tr>    
+            </table>
+            
+            <input type="hidden" name="create" value="yes" />
+            <input type=hidden name='image_id' value='{$image_info.id}' />
+            <input type=hidden name='product_id' value='{$product_info.id}' />
+            
+            <p><input name="commit" type="submit" value="Cập nhật" /></p>
+            
+            </form>
+    		
+			 <script type="text/javascript">
+                function check_field() {
+                    var error = "";
+                    var img = document.getElementById('image_file').value;
+                    if (img.length < 4) error += "- Bạn chưa chọn ảnh\n";
+                    var name = document.getElementById('image_name').value;
+                    if (name.length < 5) error += "- Bạn chưa nhập tên gọi ảnh này\n";
+                    if (error != "") {
+                        alert(error);
+                        return false;
+                    }
+                    return true;
+                }
+            </script>
+
+    {/if}
+    
+    
+</body>
+</html>

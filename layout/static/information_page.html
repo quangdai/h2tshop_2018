@@ -1,0 +1,154 @@
+<div class="container">
+<div id="breadcrumb">
+    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a href="/" itemprop="url" class="nopad-l">
+        <span itemprop="title">Trang chủ</span>
+      </a> ›
+    </div>
+    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a href="#" itemprop="url">
+        <span itemprop="title">{$page_info.title}</span>
+      </a>
+    </div>
+  </div><!--breadcrumb-->
+  {if="$page_info.id==16"}
+  <div id="thongbao">
+   {if="strpos($current_page_url,'payment_type=1') > 0"}<!--QT-->
+  			{if="strpos($current_page_url,'response_code=0') > 0"}
+  				<p>Cám ơn quý khách, quá trình thanh toán đã được hoàn tất. Chúng tôi sẽ kiểm tra và chuyển hàng sớm!</p>
+  			{elseif="strpos($current_page_url,'response_code=?') > 0"}
+  <p>Tình trạng giao dịch không xác định</p>
+  			{elseif="strpos($current_page_url,'response_code=1') > 0"}
+  <p>Lỗi không xác định</p>
+  			{elseif="strpos($current_page_url,'response_code=2') > 0"}
+  <p>Ngân hàng từ tối giao dịch</p>
+  			{elseif="strpos($current_page_url,'response_code=3') > 0"}
+  <p>Không có trả lời từ Ngân hàng</p>
+  			{elseif="strpos($current_page_url,'response_code=4') > 0"}
+  <p>Thẻ hết hạn</p>
+  			{elseif="strpos($current_page_url,'response_code=5') > 0"}
+  <p>Số dư không đủ để thanh toán</p>
+  			{elseif="strpos($current_page_url,'response_code=6') > 0"}
+  <p>Lỗi giao tiếp với Ngân hàng</p>
+  			{elseif="strpos($current_page_url,'response_code=7') > 0"}
+  <p>Lỗi Hệ thống máy chủ Thanh toán</p>
+  			{elseif="strpos($current_page_url,'response_code=8') > 0"}
+  <p>Loại giao dịch không được hỗ trợ</p>
+  			{elseif="strpos($current_page_url,'response_code=9') > 0"}
+  <p>Ngân hàng từ chối giao dịch (không liên hệ với Ngân hàng)</p>
+  			{elseif="strpos($current_page_url,'response_code=A') > 0"}
+  <p>giao dịch Aborted</p>
+  			{elseif="strpos($current_page_url,'response_code=B') > 0"}
+  <p>Bị chặn do có rủi ro giả mạo</p>
+  			{elseif="strpos($current_page_url,'response_code=C') > 0"}
+  <p>giao dịch bị hủy bỏ</p>
+  			{elseif="strpos($current_page_url,'response_code=D') > 0"}
+  <p>giao dịch hoãn lại đã được nhận và đang chờ xử lý</p>
+  			{elseif="strpos($current_page_url,'response_code=E') > 0"}
+  <p>Referred</p>
+  			{elseif="strpos($current_page_url,'response_code=F') > 0"}
+  <p>3D Secure xác thực không thành công</p>
+  			{elseif="strpos($current_page_url,'response_code=I') > 0"}
+  <p>Card Security Code xác minh không thành công</p>
+  			{elseif="strpos($current_page_url,'response_code=L') > 0"}
+  <p>Mua sắm giao dịch đã bị khoá (Xin vui lòng thử lại sau giao dịch)</p>
+  			{elseif="strpos($current_page_url,'response_code=N') > 0"}
+  <p>Chủ thẻ không ghi danh vào chương trình xác thực</p>
+  			{elseif="strpos($current_page_url,'response_code=P') > 0"}
+  <p>giao dịch đã được nhận bởi các Adaptor Thanh toán và đang được xử lý</p>
+  			{elseif="strpos($current_page_url,'response_code=R') > 0"}
+  <p>giao dịch đã không được xử lý - Đã đạt đến giới hạn của những cố gắng thử lại cho phép</p>
+  			{elseif="strpos($current_page_url,'response_code=S') > 0"}
+  <p>SessionID bị trùng (OrderInfo)</p>
+  			{elseif="strpos($current_page_url,'response_code=T') > 0"}
+  <p>Địa chỉ xác minh không đúng</p>
+  			{elseif="strpos($current_page_url,'response_code=U') > 0"}
+  <p>Card Security Code không đúng</p>
+  			{elseif="strpos($current_page_url,'response_code=V') > 0"}
+  <p>Địa chỉ xác minh và Card Security Code không đúng</p>
+  			{elseif="strpos($current_page_url,'response_code=9999') > 0"}
+  <p>Giao dịch có rủi ro giả mạo</p>
+  			{elseif="strpos($current_page_url,'response_code=9998') > 0"}
+  <p>Giao dịch có rủi ro giả mạo, cần xác thực chủ thẻ</p>
+  			{elseif="strpos($current_page_url,'response_code=PG') > 0"}
+  <p>Không tồn tại giao dịch trên hệ thống</p>
+  			{else}
+  <p>Không thể xác định</p>
+  			{/if}
+      
+    {else}<!--noidia-->
+        {if="strpos($current_page_url,'response_code=0') > 0"}
+        <p>Cám ơn quý khách, quá trình thanh toán đã được hoàn tất. Chúng tôi sẽ kiểm tra và chuyển hàng sớm!</p>		
+        {elseif="strpos($current_page_url,'response_code=1') > 0"}
+  <p>Ngân hàng từ chối giao dịch</p>
+        {elseif="strpos($current_page_url,'response_code=3') > 0"}
+  <p>Mã đơn vị không tồn tại</p>
+        {elseif="strpos($current_page_url,'response_code=4') > 0"}
+  <p>Không đúng access code</p>
+        {elseif="strpos($current_page_url,'response_code=5') > 0"}
+  <p>Số tiền không hợp lệ</p>
+        {elseif="strpos($current_page_url,'response_code=6') > 0"}
+  <p>Mã tiền tệ không tồn tại</p>
+        {elseif="strpos($current_page_url,'response_code=7') > 0"}
+  <p>Lỗi không xác định</p>
+        {elseif="strpos($current_page_url,'response_code=8') > 0"}
+  <p>Số thẻ không đúng</p>
+        {elseif="strpos($current_page_url,'response_code=9') > 0"}
+  <p>Tên chủ thẻ không đúng</p>
+        {elseif="strpos($current_page_url,'response_code=10') > 0"}
+  <p>Thẻ hết hạn/Thẻ bị khóa</p>
+        {elseif="strpos($current_page_url,'response_code=11') > 0"}
+  <p>Thẻ chưa đăng ký sử dụng dịch vụ thanh toán trực tuyến.</p>
+        {elseif="strpos($current_page_url,'response_code=12') > 0"}
+  <p>Ngày phát hành/Hết hạn không đúng</p>
+        {elseif="strpos($current_page_url,'response_code=13') > 0"}
+  <p>Vượt quá hạn mức thanh toán</p>
+        {elseif="strpos($current_page_url,'response_code=21') > 0"}
+  <p>Số dư không đủ để thanh toán</p>
+        {elseif="strpos($current_page_url,'response_code=99') > 0"}
+  <p>Người sử dụng hủy giao dịch</p>
+        {elseif="strpos($current_page_url,'response_code=100') > 0"}
+  <p>Không nhập thông tin thẻ/ Hủy giao dịch thanh toán</p>
+        {elseif="strpos($current_page_url,'response_code=PG') > 0"}
+  <p>Không tồn tại giao dịch trên hệ thống</p>
+        {else}
+  <p>Không thể xác định</p>
+        {/if}
+    {/if}
+  </div>
+  {elseif="$page_info.id==17"}
+  <form name="payment" method="post" action="/sohapay/query.php">
+    <table border="1" cellpadding="3" cellspacing="0" style="border-collapse:collapse;" width="800px" align="center">
+      <tr>
+        <td align="right"><font color="red">(*)</font> Mã đơn hàng</td>
+        <td align="left"><input type="text" value="" name="order_code" /></td>
+      </tr>
+      <tr>
+        <td align="right"><font color="red">(*)</font> Phương thức thanh toán</td>
+        <td align="left">
+          <select name="payment_method">
+            <option value="queryStatus">Cả hai</option>
+            <option value="query">Thẻ Quốc tế và nội địa</option>
+            <option value="queryMobileCard">Thẻ cào điện thoại</option>
+          </select>
+        </td>
+      </tr>
+      <tr><td colspan="2" align="center"><input type="submit" value="submit" name="submit" /></td></tr>
+    </table>
+  </form>
+  {else}
+  {include="other/column_left"}
+  <div class="col-right">
+    <h1>{$page_info.title}</h1>
+        <div class="clear"></div>
+      	{$page_info.content}
+    </div>
+  {/if}
+</div><!--container-->
+<style>
+  #thongbao {
+    border: solid 1px #d8d20a;
+    padding: 0 10px;
+    background: #fffedd;
+  	font-size:14px;
+}</style>

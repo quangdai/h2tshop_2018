@@ -1,0 +1,80 @@
+<input type="hidden" id="product_compare_list" value="" />
+
+<div class="bgg_top_product_list">
+    <div class="bgg_top_product_list_ten"><img src="{#IMAGE_PATH#}tensosanh.jpg"></div>
+    <div class="bgg_top_product_list_compare">
+        <input type="image" onclick="compare_product()" src="{#IMAGE_PATH#}sosanh.jpg" style="float:left; padding:4px 0px;">
+    </div>
+
+    <div class="bgg_top_product_list_display">
+
+        <table cellspacing="0" cellpadding="0" border="0">
+            <tbody><tr>
+                <td>
+                    Hiển thị:&nbsp;
+                </td>
+                <td>
+                    <a href="?display=list"><img src="{#IMAGE_PATH#}list.gif"></a> List <a href="?display=grid"><img src="{#IMAGE_PATH#}grid.gif"></a> Grid
+                </td>
+            </tr>
+            </tbody></table>
+    </div>
+    <div class="bgg_top_product_list_order">
+        <select onchange="window.location='?sort='+this.value">
+            <option>Sắp xếp sản phẩm</option>
+        {loop="sort_by_collection"}
+            {if="$sort_by != $value.key"}
+                <option value="{$value.key}">{$value.name}</option>
+                {else}<option value="{$value.key}" selected>{$value.name}</option>
+            {/if}
+        {/loop}
+        </select>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="bggline">&nbsp;</div>
+
+
+<div class="product_connect">
+
+{loop="product_list"}
+    <div class="box_pro_grid_true">
+        <div id="{$value.productId}" class="product_image tooltip"><a href="{$value.productUrl}">
+            {if="strlen($value.productImage.medium) > 0"}
+                <img alt="{$value.productName}" src="{$value.productImage.medium}">
+                {else}
+                <img class="img_none" title="{$value.title}" src="{#IMAGE_PATH#}no_image.jpg">
+            {/if}
+        </a></div>
+        <div class="productName"><a href="{$value.productUrl}">{$value.productName}</a></div>
+        <div class="price_list">
+            <input type="checkbox" class="p_check" id="compare_box_{$value.id}" onclick="add_compare_product({$value.id});">
+            <b><span class="price_vnd">{$value.priceFormat}</span></b>
+        </div>
+        <div><a href="javascript:addToShoppingCart('pro','{$value.productId}',1,'{$value.price}');"><img src="includes/images/buy_bt2.jpg"></a></div>
+    </div>
+    {if="$counter % 4 == 3 "}<div class="clear"></div>{else}<div class="spaceGrid">&nbsp;</div>{/if}
+
+    <div id="data_{$value.productId}" class="hidden-tip" style="display: none;">
+        <div class="protip-title">{$value.productName} - <span>{$value.priceFormat}</span></div>
+        <div class="protip-content">
+            {if="sizeof($value.specialOffer) >0"}<p class="protip-promotion"><b>Khuyến mãi:</b> {loop="value.specialOffer"}{$value}{/loop}</p>{/if}
+            <p class="protip-summary">
+                <b>Tính năng cơ bản:</b><br>
+                <!--{$list_sum = explode("\n",$value.productSummary)}
+                            {loop="list_sum"}
+                                {if="$value != ''"}{$value}<br>{/if}
+                            {/loop}-->
+                {$value.productSummary}
+            </p>
+        </div>
+    </div>
+{/loop}
+
+    <div class="clear"></div>
+
+</div>
+
+<div align="right" class="pagination">
+{$paging}
+</div>

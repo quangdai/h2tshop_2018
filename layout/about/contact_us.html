@@ -1,0 +1,112 @@
+<div class="container">
+	<div id="breadcrumb">
+    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a href="/" itemprop="url" class="nopad-l">
+        <span itemprop="title">Trang chủ</span>
+      </a> ›
+    </div>
+    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a href="#" itemprop="url">
+        <span itemprop="title">Liên hệ</span>
+      </a>
+    </div>
+  </div><!--breadcrumb-->
+  <div class="clear"></div>
+  <div style="float:left; width:50%">
+  	<iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3724.537894140177!2d105.8092733!3d21.011153!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ac9e0003978d%3A0xa7495c69dfe81bd!2zWHXDom4gVsWpIEF1ZGlvIC0gTMOhbmcgSOG6oQ!5e0!3m2!1svi!2s!4v1483883962539" allowfullscreen></iframe>
+  </div>
+  <div style="float:right; width:48%">
+  <div style="">
+        {$store_address}
+    <div class="clear"></div>
+    {if="$send_success=='yes'"}
+
+            <h2>Cảm ơn quý khách đã liên hệ.</h2>
+
+            <p>Chúng tôi đã nhận được thông tin và sẽ liên hệ với quý khách trong thời gian sớm nhất</p>
+
+                {else}
+
+
+            <style type="text/css">
+                .require { font-weight:bold; color:#F00}
+            </style>
+    <p>Mọi thắc mắc hoặc góp ý, quý khách vui lòng liên hệ trực tiếp với bộ phận chăm sóc khách hàng của chúng tôi bằng cách điền đầy đủ thông tin vào form bên dưới</p>
+          <form method="post" enctype="multipart/form-data">
+            <div>
+                <table width="100%" style="border:none;">
+                    <tr>
+                      <td><b>Tên đầy đủ</b> <span class="require">*</span></td>
+                        <td><input type="text" size="50" name="contact_name" id="contact_name" /></td>
+                    </tr>
+                    <tr>
+                        <td><b>Email</b> <span class="require">*</span></td>
+                        <td><input type="text" size="50" name="contact_email" id="contact_email" /></td>
+                    </tr>
+                    <tr>
+                        <td><b>Điện thoại</b></td>
+                        <td><input type="text" size="50" name="contact_tel" id="contact_tel" /></td>
+                    </tr>
+                    <tr>
+                        <td><b>Thông tin liên hệ</b> <span class="require">*</span></td>
+                        <td><textarea rows="8" name="contact_message" id="contact_message" style="width:329px;"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="button" class="btn_cyan" value="Gửi liên hệ" onclick="sendForm()" style="cursor:pointer;"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+                <input type="hidden" value="send" name="action" />
+                <input type="hidden" name="return_url" value="{$return_url}" />
+            </form>
+            {/if}
+
+            <script type="text/javascript">
+                function check_form(){
+                    var error = "";
+                    var check_name = document.getElementById('contact_name').value;
+                    var check_email = document.getElementById('contact_email').value;
+                    var check_message = document.getElementById('contact_message').value;
+                    var check_captcha = document.getElementById('captcha').value;
+              
+                    if(check_name.length < 4) error += "- Bạn chưa nhập tên\n";
+                    if(check_email.length < 4) error += "- Bạn chưa nhập email\n";
+                    if(check_message.length < 4) error += "- Bạn chưa nhập nội dung\n";
+                    if(check_captcha.length < 4) error += "- Bạn chưa nhập Mã bảo vệ\n";
+
+                    if(error == "") return true;
+                    else alert(error);
+                    return false;
+                }
+              
+               
+                function change_captcha(holder){
+                  var unixtime_ms = new Date().getTime();
+                  $("#"+holder).attr("src","/includes/captcha/captcha.php?v="+unixtime_ms);
+                }
+
+                function sendForm() {
+                    $.post("/ajax/post.php", { action : 'customer', action_type: 'contact', from : 'ajax', type: 'contact'
+                        , info : {
+                            name : 'hieu',
+                            email : 'hotro@hurasoft.com',
+                            tel : '1233',
+                            title: 'Xin chao',
+                            message : 'Xin chao nhe'
+                    }, settings : {
+                            email_user: 1,
+                            email_admin: 1,
+                            email_user_subject : 'gui email user',
+                            email_admin_subject : 'gui email admin'
+                        }
+                    }, function (data) {
+                        console.log(data);
+                    });
+                }
+
+            </script>
+  </div>
+</div>

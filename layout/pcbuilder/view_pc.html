@@ -1,0 +1,36 @@
+
+<h1>Cấu hình máy tính xây dựng</h1>
+
+<table width="100%" border="1" bordercolor="#CCC" cellpadding="5" cellspacing="0" style="border-collapse:collapse">
+	<tr style="background-color:#06C; font-weight:bold; color:#FFFFFF">
+    	<td width="50">STT</td>
+        <td width="120px" valign="top">Ảnh</td>
+        <td>Linh kiện</td>
+        <td width="100px">Giá trị</td>
+    </tr>
+    {$total_pcprice = 0}
+    {loop="product_list"}
+    	<tr>
+            <td>
+                {$counter+1}	
+            </td>
+            <td>
+               <img src='{$value.productImage.medium}' />
+            </td>
+            <td>
+            	<b>{$value.categoryInfo.name}</b><br />
+                {$value.productName}
+            </td>
+            <td>{$value.price|format_price} VND
+            	{$total_pcprice = $total_pcprice + $value.price}
+            </td>
+        </tr>
+    {/loop}
+    <tr>
+            <td colspan="3">
+               <b>Tổng giá trị</b>	
+            </td>
+            <td>{$total_pcprice|format_price} VND</td>
+        </tr>
+</table>
+<br /><br />

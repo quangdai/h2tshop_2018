@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="vi-vn">
+<head>
+    <meta charset="utf-8" />
+  	<meta name="google-site-verification" content="DMybd7gAdQlGBJro1cN9Tt48duBuYuBQhWh6Cb_iumU" />
+    <title>{$header.title}</title>
+    <meta name="keywords" content="{$header.keywords}"/>
+    <meta name="description" content="{$header.description}"/>
+    <meta content="document" name="resource-type" />
+
+    {if="strpos($current_page_url,'?') > 0"}
+  	<meta name="robots" content="noindex,nofollow" />
+ 	{else}
+    <meta name="robots" content="index,follow" />
+  	{/if}
+
+  	{if="$module.view=='category' && $module.name=='product'"}
+    <link rel="canonical" href="{$header.canonical}"/>
+    {/if}
+    <meta name="revisit-after" content="1 days" />
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed for" href="/product.rss" />
+  	<link rel="shortcut icon" href="{#IMAGE_PATH#}favicon.png" />
+    
+    {if="$module.name=='home'"}
+  	<meta property="og:title" content="{$header.title}" />
+    <meta property="og:description" content="{$header.description}" />
+  	<meta property="og:image" content="{#CURRENT_DOMAIN#}/media/banner/logo.jpg" />
+    <meta property="og:type" content="website" />
+  	<meta property="og:url" content="http://tainghe.com.vn/" />
+    {/if}
+
+  	{if="$module.view=='product-detail'"}
+  	<meta property="og:title" content="{$product_info.productName}" />
+  	<meta property="og:description" content="{$header.description}" />
+  	<meta property="og:image" content="{#CURRENT_DOMAIN#}/{$product_info.productImage.original}" />
+    <meta property="og:type" content="product" />
+  	<meta property="og:url" content="{$current_page_url}" />
+    {/if}
+
+  	{if="$module.view=='detail' && $module.name=='article'"}
+  	<meta property="og:title" content="{$article_detail.title}" />
+  	<meta property="og:description" content="{$header.description}" />
+  	<meta property="og:image" content="{#CURRENT_DOMAIN#}/{$article_detail.image.original}" />
+    <meta property="og:type" content="article" />
+  	<meta property="og:url" content="{$current_page_url}" />
+    {/if}
+    <link rel="stylesheet" href="{#INCLUDE_PATH#}style.css?v=8.88"/>
+
+  	<!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script src="/javascript/dist/jquery.min.js"> </script>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&subset=vietnamese" rel="stylesheet">
+  </head>
+<body>
+
+    <div id="wrapper">
+        {include="other/header"}
+        <div class="container wrap">
+          {$section_content}
+          <div class="clear"></div>
+        </div>
+        {include="other/footer"}
+    </div>
+
+    {include="javascript/index"}
+
+ </body>
+</html>

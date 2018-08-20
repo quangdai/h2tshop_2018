@@ -1,0 +1,862 @@
+<link rel="stylesheet" href="{#INCLUDE_PATH#}product_detail.css?v=3.2">
+  <script src="{#INCLUDE_PATH#}plugins.min.js"></script>
+	<script>
+		var allpage_fn = {};
+		allpage_fn.jsTooltip = function () {
+		    $('[data-toggle="tooltip"]').tooltip();
+		};
+		allpage_fn.mainSlider = function (mslider, condition) {
+		    if (!$( mslider )) {return;}
+		    if(condition === true) {
+		        $(mslider).flexslider({
+		            animation: "fade",
+		            controlNav: false,
+		            directionNav: false,
+      				sync: "#fea-nav",
+		            prevText: "",
+		            nextText: ""
+		        });
+		    } else {
+		        $(mslider).flexslider({
+		            animation: "slide",
+		            controlNav: true,
+		            directionNav: true,
+      				sync: "#fea-nav",
+		            prevText: "",
+		            nextText: ""
+		        });
+		    }
+		};
+		$(document).ready(function() {
+    		allpage_fn.mainSlider('.contact-slider.flexslider', true);
+      		$('#fea-nav').flexslider({
+              animation: "slide",
+              controlNav: false,
+              animationLoop: false,
+              slideshow: false,
+              itemWidth: 100,
+              itemMargin: 5,
+      		  asNavFor: '#fea-slider'
+            });
+		});
+		var init = function () {};
+		window.onload = init;
+	</script>
+	<script src="{#INCLUDE_PATH#}plugin_product.js"></script>
+
+<div class="container">
+
+  <div id="breadcrumb">
+    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a href="/" itemprop="url" class="nopad-l">
+        <span itemprop="title">Trang chủ</span>
+      </a> ›
+    </div>
+    {loop="$product_info.productPath.0.path"}
+    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a href="{$value.url}" itemprop="url">
+        <span itemprop="title">{$value.name}</span>
+      </a> ›
+    </div>
+    {/loop}
+    {if="$brand_info.id > 0"}
+    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a href="{$brand_info.url}" itemprop="url">
+        <span itemprop="title">Thương hiệu {$brand_info.name}</span>
+      </a> ›
+    </div>
+    {/if}
+    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a href="{$product_info.productUrl}" itemprop="url">
+        <span itemprop="title">{$product_info.productName}</span>
+      </a>
+    </div>
+  </div>
+  
+  <div class="clear"></div>
+  <section id="content">
+  	<div id="img-detail" style="display:none">
+      <div id="img-large">
+        <a class="MagicZoom" id="Zoomer" rel="selectors-effect-speed:0" href="{$product_info.productImage.original}"><img src="{$product_info.productImage.original}" title="{$product_info.productName}" alt="{$product_info.productName}" /></a>
+      </div>
+      <script>
+        $(document).ready(function(){
+          $("#img-thumbs").owlCarousel({
+            items:5,
+            navigation:true
+          });  	
+        });
+      </script>
+      <ul id="img-thumbs" class="ul">
+        {loop="$product_info.productThumList"}
+        <li class="item"><a class="img_thumb" href="{$value.original}" title="{$product_info.productName}" rel="zoom-id:Zoomer" rev="{$value.original}"><img src="{$value.medium}" alt="{$product_info.productName}" /></a></li>
+        {/loop}
+      </ul>
+    </div><!--img-detail-->
+    
+    <div id="img-detail">
+      <div id="img-large">
+        <section class="specs-cp-pic">
+          <section class="fea-img-blk">
+            {if="sizeof($product_info.productThumList) > 0"}
+            <div id="fea-slider" class="flexslider">
+              <ul class="slides ul">
+                {loop="$product_info.productThumList"}
+                {if="strpos($value.original,'color_config') <= 0"}
+                <li data-src="{$value.original}" class="flex-active-slide" style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 1; display: block; z-index: 2;">
+                  <a href="javascript:;" class="z-fea"><img src="{$value.original}" alt="{$product_info.productName}" draggable="false"/></a>
+                </li>
+                {/if}
+                  {/loop}
+              </ul>
+            </div><!--#fea-slider-->
+            <ul id="list-imgConfig"></ul>
+            <div id="fea-nav" class="flexslider">
+              <div class="flex-viewport" style="overflow: hidden; position: relative;">
+                <ul class="slides" style="width: 1000%; transition-duration: 0s; transform: translate3d(0px, 0px, 0px);">
+                  {loop="$product_info.productThumList"}
+                  {if="strpos($value.original,'color_config') <= 0"}
+                  <li><img src="{$value.original}" draggable="false"/></li>
+                  {/if}
+                  {/loop}
+                </ul>
+              </div>
+            </div><!--#fea-nav-->
+            {else}
+            <div id="fea-slider" class="flexslider">
+              <ul class="slides ul">
+                <li data-src="{$product_info.productImage.original}" class="flex-active-slide" style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 1; display: block; z-index: 2;">
+                  <a href="javascript:;" class="z-fea"><img src="{$product_info.productImage.original}" alt="{$product_info.productName}" draggable="false"/></a>
+                </li>
+              </ul>
+            </div><!--#fea-slider-->
+            {/if}
+          </section>
+        </section><!--specs-cp-pic-->
+      </div>
+    </div><!--#img-detail-->
+    
+	<div id="overview">
+      <h1 id="detail-name">{$product_info.productName}</h1>
+      
+      
+      
+      <p class="left">{if="strlen($product_info.productSKU) > 2"}Mã hàng: <i>{$product_info.productSKU}</i>{/if}  {if="$brand_info.name!=''"} {if="strlen($product_info.productSKU) > 2"} |{/if} Thương hiệu: <a href="{$brand_info.url}">{$brand_info.name}</a> {/if}   <span id="gotoComment" style="cursor:pointer;">
+        <img {if="$product_info.rating < 4"}src="{#IMAGE_PATH#}star_4.png"{else}src="{#IMAGE_PATH#}star_{$product_info.rating}.png"{/if} alt="rating" style="vertical-align:bottom;"/></span>
+      </p>
+      <!-- AddThis Button BEGIN -->
+      <div class="addthis_toolbox addthis_default_style" style="float:left;width:100%; margin-top:8px;">
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        <a class="addthis_button_google_plusone" g:plusone:size="medium" style="width:65px"></a>
+        <a class="addthis_button_tweet"></a>
+      </div>
+      <script type="text/javascript" defer src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5148003b01a03b86"></script>
+      <!-- AddThis Button END -->
+      <div class="line"></div>
+      <div class="clear"></div>
+      {if="$product_info.productSummary!=''"}
+      <div class="detail-summary">{$product_info.productSummary}</div>
+      <div class="clear line"></div>
+      {/if}
+      <table style="float: left;width: 100%;margin-left: -2px;">
+        <tr>
+          <td width="80">Tình trạng:</td>
+          <td>
+            <span style="color:#0000CD">
+             {if="$product_info.quantity == 0"}Tạm hết hàng
+              {elseif="$product_info.quantity==1 || $product_info.quantity > 1"}Còn hàng
+              {elseif="$product_info.quantity==-1"}Liên hệ
+              {elseif="$product_info.quantity==-2"}Sắp có hàng
+              {elseif="$product_info.quantity==-3"}Gọi để có giá tốt
+              {elseif="$product_info.quantity==-4"}Hàng mới về
+              {elseif="$product_info.quantity==-5"}Hàng tặng không bán
+              {elseif="$product_info.quantity==-6"}Ngừng kinh doanh
+              {/if}</span>
+            
+            {if="sizeof($store_list) > 0 && $product_info.quantity > 0"}
+            <!--{$total = 0}-->
+            <div id="shop-status">
+              <span class="title">Đang có hàng tại <span class="numberShop">{$total}</span> cửa hàng</span>
+              <div class="content">
+                <ul>
+                  {loop="$store_list"}
+                  {$store_code = $value.store_code}
+                  {$inStock = false}
+                  {loop="$product_in_store[$store_code]"}{if="$value.quantity > 0"}{$inStock = true}{/if}{/loop}
+                  
+                  {if="$inStock==true"}
+                  <li>
+                    <!--{$total++}-->
+                    <span class="red">{$value.store_name}</span>
+                    <span class="title-color">Hiện có màu</span>
+                    {loop="$product_in_store[$store_code]"}
+                      {if="$value.quantity > 0"}
+                       <span class="product-in-store" data-sku="{$value.item_sku}">{$value.item_sku}</span> &nbsp;
+                      {/if}
+                    {/loop}
+                  </li>
+                  {/if}
+                  {/loop}
+                </ul>
+              </div>
+            </div>
+            <script>
+              var totalShop = {$total};
+              if(totalShop==0) $("#shop-status").hide();
+              $("#shop-status .title .numberShop").html("{$total}");
+              $('body').click(function (e) {
+                var targ = $("#shop-status");
+                if (!targ.is(e.target) && targ.has(e.target).length === 0) {
+                    $('#shop-status .content').fadeOut(300);
+                }      
+              });
+            </script>
+            {/if}
+          </td>
+        </tr>
+        {if="$product_info.warranty != 0"}
+        <tr>
+          <td width="80">Bảo hành:</td>
+          <td>{$product_info.warranty}</td>
+        </tr>
+        {else}
+        <tr>
+          <td width="80">Bảo hành:</td>
+          <td>12 tháng</td>
+        </tr>
+        {/if}
+        {if="$product_info.productModel != 0"}
+        <tr>
+          <td width="80">Xuất xứ:</td>
+          <td>{$product_info.productModel}</td>
+        </tr>
+        {/if}
+      </table>
+      
+      {if="$product_info.configList !=''"}
+      <div class="tbl_config" style="margin-top:10px;"></div>
+      <div class="clear"></div>
+      {/if}
+      {if="$product_info.accessory != '0' && $product_info.accessory != ''"}
+      <div class="accessory_pd">
+        <div class="title" style="margin-bottom: 5px">Sản phẩm bao gồm: {$product_info.accessory}</div>
+      </div>
+      {/if}
+      <div class="clear"></div>
+      {if="$product_info.marketPrice > $product_info.price"}
+      <div class="detail-old-price">Giá niêm yết: <span>{$product_info.marketPrice|format_price} đ</span></div>
+      {/if}
+      <div class="detail-price">Giá: 
+        <span class="price_config" data-price="{$product_info.price}">{if="$product_info.price > 0"}{$product_info.price|format_price} đ{else}Liên hệ{/if}</span>
+      </div>
+      {if="sizeof($product_info.specialOffer) > 0"}
+      <div class="detail-offer">
+        <b><img src="{#IMAGE_PATH#}KM.gif" style="vertical-align:top" alt="icon khuyến mại"/>Khuyến mại từ Xuân Vũ Audio:</b>
+        <div style="white-space: pre-line">{loop="$product_info.specialOffer"}{$value.title}{/loop}</div>
+      </div>
+      
+      {/if}
+      {if="$product_info.quantity==1 || $product_info.quantity > 1"}
+      <div style="float:left;margin-top: 9px;"><span>Số lượng: &nbsp;&nbsp;</span><input type="text" value="1" id="quantity" style=""/></div>
+      <a id="buyNowConfig" href="javascript:void(0)" onclick="addToShoppingCart('pro','{$product_info.productId}',document.getElementById('quantity').value,'{$product_info.price}')" class="button-detail buy-now"><i class="icon icon-buy"></i> Mua ngay</a>
+      <a id="addCartConfig" href="javascript:void(0)" onclick="addToShoppingCartStop('pro','{$product_info.productId}',document.getElementById('quantity').value,'{$product_info.price}')" class="button-detail add-cart"><i class="icon icon-addcart"></i> Cho vào giỏ</a>
+      {/if}
+      <div class="clear"></div>
+
+      {if="sizeof($product_addon) > 0"}
+      <br>
+      <h4>Dịch vụ mua kèm (tùy chọn)</h4>
+      {loop="$product_addon"}
+      <div><label><input type="checkbox" value="{$value.addon_id}" class="product-addon-{$product_info.productId}" {if="$value.checked == 1"}checked {/if}> {$value.title} ({$value.price|format_price} VND)</label></div>
+      {/loop}
+      {/if}
+
+      <a href="javascript:void(0)" onclick="ProductAddon.checkSelect('{$product_info.productId}')">Testing</a>
+
+
+      <div id="call-buy">
+        <p><i class="icon icon-call"></i> Hotline Hà Nội :  <b>097395 3333</b> (Từ 8h30 - 21h tất cả các ngày trong tuần)</p>
+        <p><i class="icon icon-call"></i> Hotline Hồ Chí Minh :  <b>097844 5555</b> (Từ 8h30 - 21h tất cả các ngày trong tuần)</p>
+      </div>
+    </div><!--overview-->
+    <div class="clear"></div>
+  </section>
+  <div class="clear space2"></div>
+  <div class="clear space2"></div>
+	<script>
+      $(function(){
+      		   $(".title-tab-pro a").click(function(){
+                  $(".title-tab-pro a").removeClass("active");
+                  $(this).addClass("active");
+                  $('body,html').animate({scrollTop:$($(this).attr("href")).offset().top - 70},800);
+                  return false;
+                });
+              var get_top = 0;
+              if(get_top == 0) get_top = $(".title-tab-pro").offset().top;
+              
+              $(window).scroll(function(){
+                if($(window).scrollTop() > get_top - 80){
+      				$(".title-tab-pro").addClass("fixed");
+      				$('.buy-now').addClass("fixed_right");
+      			}else{ 
+      				$(".title-tab-pro").removeClass("fixed");
+      				$('.buy-now').removeClass("fixed_right");
+      			}
+              });
+      });
+  </script>
+  <div id="pro-detail-left" style="width:850px">
+  	<div id="tab-pro-info">
+      <div class="title-tab-pro tabs" stylle="margin-bottom: 10px">
+        {if="strlen($product_info.productDescription) > 10"}
+        <a href="#tab1" class="active">Mô tả</a>
+        {/if}
+        {if="strlen($product_info.productSpec) > 10"}
+        <a href="#tab2" {if="strlen($product_info.productDescription) < 10"}class="active"{/if}>Thông số</a>
+        {/if}
+        {if="sizeof($relate_article_list.article) > 0"}
+        <a href="#tab3">Bài viết liên quan</a>
+        {/if}
+        {if="sizeof($product_info.video_code) > 0"}
+        <a href="#tab4">Video</a>
+        {/if}
+        <a href="#tab5">Bình luận</a>
+      </div>
+      {if="strlen($product_info.productDescription) > 10"}
+      <div id="tab1" class="content-tab-pro tab-cont" style="">
+        <div class="title_tab_pd"><h2 style="margin:0;font-weight:300">Đặc điểm nổi bật của {$product_info.productName}</h2></div>
+        <div class="nd">{$product_info.productDescription}</div>
+      </div>
+      {/if}
+      {if="sizeof($product_info.tag_list) > 0"}
+      <div style="margin:10px">
+        <b>Tags: </b>{loop="$product_info.tag_list"}{if="$counter > 0"}, {/if}<a href="{$value.url}">{$value.tag_name}</a>{/loop}
+        <div class="clear"></div>
+      </div>
+      {/if}
+      {if="strlen($product_info.productSpec) > 10 || strlen($product_info.productTechnicalTable) > 10"}
+      <div id="tab2" class="content-tab-pro tab-cont" style="">
+        <div class="title_tab_pd"><h2 style="margin:0;font-weight:300">Thông số kỹ thuật của {$product_info.productName}</h2></div>
+        <div class="nd">
+          {$product_info.productTechnicalTable}
+          {$product_info.productSpec}
+        </div>
+      </div>
+      {/if}
+      {if="sizeof($relate_article_list.article) > 0"}
+      <div id="tab3" class="content-tab-pro tab-cont" style="">
+        <div class="title_tab_pd"><h2 style="margin:0;font-weight:300">Bài viết liên quan về {$product_info.productName}</h2></div>
+        <ul class="ul relate_article_list">
+        {loop="$relate_article_list.article"}
+          <li>
+            <img src="{$value.image.original}" alt="{$value.title}"/>
+            <div><a href="{$value.url}" title="{$value.title}">{$value.title}</a></div>
+          </li>
+        {/loop}
+        </ul>
+        <div class="clear"></div>
+      </div>
+      {/if}
+      {if="sizeof($product_info.video_code) > 0"}
+      <div id="tab4" class="content-tab-pro tab-cont" style="">
+        <div class="title_tab_pd"><h2 style="margin:0;font-weight:300">Video về {$product_info.productName}</h2></div>
+        
+        {loop="$product_info.video_code"}
+        
+        <div class="video-wrapper">{$value.html}</div>
+        <br>
+        
+        {/loop}
+        
+      </div>
+      {/if}
+      <div id="tab5" class="content-tab-pro tab-cont" style="">
+        <div class="title_tab_pd"><h2 style="margin:0;font-weight:300">Bình luận về {$product_info.productName}</h2></div>
+        <div class="content-common" style="border:none;padding:0">{include="product/product_detail_review"}</div>
+      </div>
+    </div><!--tab-pro-info-->
+    <div class="clear space2"></div>
+    
+  </div><!--pro-detail-left-->
+  <div id="col-right" style="width:330px">
+  <div class="clear"></div>
+   {if="sizeof($product_info.productAccessoryList) > 0"}
+    <div class="box-right">
+    <div class="title-product-list-detail"><div class="h-title">Phụ kiện mua thêm</div></div>
+      <div class="content-common pro-right">
+        <ul class="ul">
+          {loop="$product_info.productAccessoryList"}
+          {if="$counter < 5"}
+          <li>
+            {if="$value.marketPrice > $value.price"}
+              {$temp = 100 - $value.price*100/$value.marketPrice;}
+              {$percent = ceil($temp);}
+              <!--div class="price_off" style="left:0;right:auto">-{$percent}%</div-->
+              {/if}
+            {if="$value.quantity < 1"}
+            <span class="status_contact">
+              {if="$value.quantity == 0"}Liên hệ{elseif="$value.quantity==-1"}Liên hệ{elseif="$value.quantity==-2"}Sắp có hàng{elseif="$value.quantity==-3"}Gọi để có giá tốt{elseif="$value.quantity==-4"}Vừa có hàng{/if}
+            </span>
+            {/if}
+            <a href="{$value.productUrl}" class="img"><img src="{$value.productImage.medium}" alt="{$value.productName}"/></a>
+            <div class="p-right">
+              <a href="{$value.productUrl}" class="name">{$value.productName}</a>
+              <span class="p-brand">{$value.brand.name}</span>
+              <span class="p-price">{if="$value.price > 0"}{$value.price|format_price}đ{else}Liên hệ{/if}</span>
+              <span class="p-old-price">{if="$value.marketPrice > $value.price"}{$value.marketPrice}đ{/if}</span>
+            </div>
+          </li>
+          {/if}
+          {/loop}
+        </ul>
+      </div>
+    </div>
+  
+  {/if}
+  {if="sizeof($product_same_price) > 0"}
+  <div class="box-right">
+    <div class="title-product-list-detail"><div class="h-title">Sản phẩm cùng giá</div></div>
+    <div class="content-common pro-right">
+      <ul class="ul">
+        {loop="product_same_price"}
+        {if="$counter < 5"}
+        <li>
+          {if="$value.marketPrice > $value.price"}
+            {$temp = 100 - $value.price*100/$value.marketPrice;}
+            {$percent = ceil($temp);}
+            <!--div class="price_off" style="left:0;right:auto">-{$percent}%</div-->
+            {/if}
+          <a href="{$value.productUrl}" class="img"><img src="{$value.productImage.medium}" alt="{$value.productName}"/></a>
+          <div class="p-right">
+          	<a href="{$value.productUrl}" class="name">{$value.productName}</a>
+            <span class="p-brand">{$value.brand.name}</span>
+            <span class="p-price">{if="$value.price > 0"}{$value.price|format_price}đ{else}Liên hệ{/if}</span>
+            <span class="p-old-price">{if="$value.marketPrice > $value.price"}{$value.marketPrice|format_price}đ{else}{/if}</span>
+          </div>
+        </li>
+        {/if}
+        {/loop}
+      </ul>
+    </div>
+  </div><!--box-right-->
+    {/if}
+    {if="sizeof($product_same_brand) > 0"}
+  <div class="box-right">
+      <div class="title-product-list-detail"><div class="h-title">cùng thương hiệu</div></div>
+      <div class="product-list">
+        <ul class="ul">
+          {loop="$product_same_brand"}
+          {if="$counter < 5"}
+          <li style="width:100%">
+          
+          <a href="{$value.productUrl}" class="img"><img src="{$value.productImage.medium}" alt="{$value.productName}"/></a>
+          <div class="p-right">
+          	<a href="{$value.productUrl}" class="name">{$value.productName}</a>
+            <span class="p-brand">{$value.brand.name}</span>
+            <span class="p-price">{if="$value.price > 0"}{$value.price|format_price}đ{else}Liên hệ{/if}</span>
+            <span class="p-old-price">{if="$value.marketPrice > $value.price"}{$value.marketPrice|format_price}đ{else}{/if}</span>
+          </div>
+        </li>
+          {/if}
+          {/loop}
+        </ul>
+      </div><!--product-list-->
+  </div><!--box-right-->
+    {/if}
+</div><!--col-right-->
+  <div class="clear"></div>
+  <script>
+      $(document).ready(function(){
+        $(".owl-carousel-same-cat").owlCarousel({
+          items:5,
+          navigation:true
+        });  	
+      });
+    </script>
+  <div class="clear"></div>
+  
+</div><!--container-->
+  <style>
+    .fixed_right{position:fixed;right:412px;top:45px;background: #e00;color: #fff;height: 25px;line-height: 25px;font-size: 14px;z-index: 999}
+    .fixed_right .icon-buy{display:none}
+    .pro-right .img img {width: 115px;float: left;margin-right: 10px}
+    .p-right {float: right;width: 180px;text-align: left}
+    .pro-right li .name {text-decoration: none;display: block;margin-bottom: 5px;font-size: 14px}
+    .pro-right li .p-price, .pro-right li .p-brand {float: none !important;clear: both;display: block;margin-bottom: 15px}
+    #tab-pro-info .title-tab-pro.fixed{height: 25px !important;}
+    #tab-pro-info .title-tab-pro.fixed a{line-height:25px !important;font-size:15px !important}
+  </style>
+  
+  {if="$product_info.configList!=''"}
+<input type="hidden" id="proID" value="{$product_info.productId}"/>
+<input type="hidden" id="proPrice" value="{$product_info.price}"/>
+<input type="hidden" id="priceConfig" value="{$product_info.price}"/>
+<script>
+	var hasAddon = 'false';
+  	var product_config = {$product_info.configList};
+</script>
+
+  <script>
+  function getColorFormSKU(sku){
+     if (typeof product_config !== 'undefined') {
+    	var color = "";
+    	var configAttributeTemp = [];
+    	var configAttribute = [];
+    
+        Object.keys(product_config.config_list).forEach(function(key, keyIndex) {
+           var skuConfig = product_config.config_list[key].sku;
+    	   if(skuConfig == sku) configAttribute.push(product_config.config_list[key].config_attribute);
+        });
+    	
+    	configAttributeTemp.forEach(function(item,index){
+    		var item = configAttributeTemp[index].split("-");
+    		configAttribute.push(item);
+    	});
+
+    	for (var i = 0; i < product_config.filter.length; i++) {
+          var filter = product_config.filter[i];
+          var value_list = product_config.filter[i].value_list;
+          if (filter.code.indexOf('color') > -1 || filter.code.indexOf('mau_sac') > -1) {
+      		for (var j = 0; j < value_list.length; j++) {
+    			var idColor = value_list[j].id;
+    			
+    			if(configAttribute.indexOf(idColor) > -1){
+                    var name = value_list[j].name;
+    				
+                    color = name.substring(0, 7);
+    				
+    				return color;
+    			}
+                    
+            }
+          }
+    	}
+      }  
+  }  
+  $(".product-in-store").each(function(){
+  	 var sku = $(this).attr("data-sku");
+     var color = "";
+     color = getColorFormSKU(sku);
+    	
+     if(color!='' && color!= undefined){
+    	$(this).attr("style","background-color:"+color+"; font-size:0");
+    	$(this).addClass("hasColor");
+     }
+  });  
+    
+    
+  if (typeof product_config !== 'undefined') {
+    var configAttribute = [];
+    var arrConfig = [];
+    var currentID = [];
+    var currentCheckID = [];
+    var arrEnable = [];
+    var currentParent = "";
+    var htmlTableConfig = "";
+    var htmlVersion = "";
+    var proID = $("#proID").val();
+    var proPrice = $("#proPrice").val();
+
+
+
+    //Tạo mảng configAttribute chứa các config_attribute
+    Object.keys(product_config.config_list).forEach(function(key, keyIndex) {
+        configAttribute.push(product_config.config_list[key].config_attribute);
+    });
+	
+    //Tạo giao diện chọn thuộc tính
+    for (var i = 0; i < product_config.filter.length; i++) {
+        var filter = product_config.filter[i];
+        var value_list = product_config.filter[i].value_list;
+        if (filter.code.indexOf('color') > -1 || filter.code.indexOf('mau_sac') > -1) {
+            htmlTableConfig += "<div class='item-config'>";
+            htmlTableConfig += "<p class='title'>Màu sắc</p>";
+            htmlTableConfig += "<p id='mau_sac'>";
+            for (var j = 0; j < value_list.length; j++) {
+                var name_c = value_list[j].name.split("|");
+                var color = name_c[0].trim();
+                var text = name_c[1].trim();
+				
+    			if(color.indexOf(".jpg") > -1 || color.indexOf(".png") > -1 || color.indexOf(".gif") > -1)
+    			htmlTableConfig += "<b id='" + value_list[j].id + "' class='item-attribute-config'><img src='/media/lib/"+color+"' /></b>"
+    			else
+                htmlTableConfig += "<b id='" + value_list[j].id + "' style='background-color:"+color+"' class='item-attribute-config'></b>"
+                    
+            }
+            htmlTableConfig += "</p></div>";
+        } else if(filter.code.indexOf('size') > -1) {
+            htmlTableConfig += "<div class='item-config'>";
+            htmlTableConfig += "<p class='title'>" + filter.name + "</p>";
+            htmlTableConfig += "<p>";
+            for (var j = 0; j < value_list.length; j++) {
+                var name = value_list[j].name;
+
+                htmlTableConfig += "<b id='" + value_list[j].id + "' class='item-attribute-config'><span class='bg-selected'></span>" + name + "</b>"
+            }
+            htmlTableConfig += "</p>&nbsp;<a href='/page/huong-dan-chon-size' class='size-guide'>Hướng dẫn chọn size</a></div>";
+        } else {
+        	htmlTableConfig += "<div class='item-config'>";
+            htmlTableConfig += "<p class='title'>" + filter.name + "</p>";
+            htmlTableConfig += "<p>";
+            for (var j = 0; j < value_list.length; j++) {
+                var name = value_list[j].name;
+
+                htmlTableConfig += "<b id='" + value_list[j].id + "' class='item-attribute-config'><span class='bg-selected'></span>" + name + "</b>"
+            }
+            htmlTableConfig += "</p></div>";
+        }
+    }
+
+    //Chọn lại
+    function resetConfigSelected(a) {
+        $("." + a).removeClass("selected");
+        $("." + a).removeClass("disable");
+        $("." + a).find("span").remove();
+        currentID = [];
+
+        resetAll();
+    }
+
+    //Kiểm tra mảng con có thuộc mảng cha hay không
+    function isItemInArray(array, item) {
+        var r = true;
+        for (var i = 0; i < item.length; i++) {
+            if (array.indexOf(item[i]) == -1) r = false;
+        }
+        return r;
+    }
+
+    //Format giá tiền
+    function formatCurrency(a) {
+        var b = parseFloat(a).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1.").toString();
+        var len = b.length;
+        b = b.substring(0, len - 3);
+        return b;
+    }
+
+    //So sánh 2 mảng bằng nhau
+    function compareArrays(arr1, arr2) {
+        return $(arr1).not(arr2).length == 0 && $(arr2).not(arr1).length == 0
+    };
+
+    //Tảo mảng các thuộc tính đã được chọn theo ID
+    function getCurrentId(a) {
+        var item_attribute = $("." + a);
+        b = [];
+        item_attribute.each(function() {
+            if ($(this).hasClass("selected")) {
+                b.push($(this).attr("id"));
+            }
+        });
+        return b;
+    }
+
+
+    //reset lai trang thai ban dau:
+    function resetAll() {
+        $("#addCartConfig").attr("onclick", "alert('Bạn chưa chọn cấu hình sản phẩm cần mua')");
+        //$("select.addon_service").attr("disabled", "disabled");
+        $("#config-version .title").html("Chọn phiên bản");
+        $("select.addon_service").val(0);
+        $(".price_config").html(formatCurrency(proPrice));
+        $(".price_config").attr("data-price", proPrice);
+    }
+
+    $(function() {
+        $(".tbl_config").html(htmlTableConfig);
+        $("#col-config-version").html(htmlVersion);
+
+        for (var i = 0; i < configAttribute.length; i++) {
+            var temp = configAttribute[i].split("-");
+            arrConfig.push(temp);
+        }
+
+        $(".item-attribute-config").click(function() {
+            if ($(this).hasClass("disable")) {
+                return false;
+            }
+            if ($(this).hasClass("selected")) {
+                //$(this).removeClass("selected");
+            } else {
+                $(this).parent().find(".item-attribute-config").removeClass("selected");
+                $(this).addClass("selected");
+                $(this).addClass("enabled");
+            }
+
+            currentID = getCurrentId("item-attribute-config");
+
+            $(".item-attribute-config").removeClass("disable");
+            $(".item-attribute-config").removeClass("enabled");
+            $(".item-attribute-config.selected").addClass("enabled");
+            currentCheckID = [];
+
+            $(".item-attribute-config").each(function() {
+                currentCheckID = [];
+                var id = $(this).attr("id");
+
+                $(this).parent().find(".item-attribute-config").removeClass("enabled");
+                $(this).addClass("enabled");
+
+                $(".item-attribute-config").each(function() {
+                    if ($(this).hasClass("enabled")) currentCheckID.push($(this).attr("id"))
+                });
+
+                var disable = true;
+                for (var i = 0; i < arrConfig.length; i++) {
+                    var arrTemp = arrConfig[i];
+                    if (isItemInArray(arrTemp, currentCheckID)) disable = false;
+                }
+                if (disable == true) $(this).addClass("disable");
+
+                $(".item-attribute-config").removeClass("enabled");
+                $(".item-attribute-config.selected").addClass("enabled");
+                currentCheckID = [];
+            });
+
+            for (var i = 0; i < arrConfig.length; i++) {
+                var arrTemp = arrConfig[i];
+
+                if (compareArrays(currentID, arrTemp)) {
+                    var key = "";
+                    for (var n = 0; n < arrTemp.length; n++) {
+                        if (n > 0) key += "_" + arrTemp[n];
+                        else key += arrTemp[n];
+                    }
+                    key = "a" + key;
+                    var priceConfig = product_config.config_list[key].price;
+    				var imgConfig = product_config.config_list[key].image;
+    				var listImgConfig = product_config.config_list[key].image_list;
+                    var priceAddon = 0;
+                    if ($("#select-addon-list").length > 0)
+                        priceAddon = $("#select-addon-list option:selected").attr("data-price");
+                    var priceDisplay = parseInt(priceConfig) + parseInt(priceAddon);
+    
+    				if(priceDisplay > 0) $(".price_config").html(formatCurrency(priceDisplay) + " đ");
+    				else $(".price_config").html("Liên hệ");
+
+                    var idConfig = product_config.config_list[key].id;
+                  	var qConfig = $("#quantity").val();
+                    
+                    $(".price_config").attr("data-price", priceDisplay);
+                    $("#priceConfig").val(priceConfig);
+                  
+                    $("#buyNowConfig").attr("onclick", "addToShoppingCart('pro','" + proID + "_" + idConfig + "','"+qConfig+"','" + priceConfig + "')");
+                    $("#addCartConfig").attr("onclick", "addToShoppingCartStop('pro','" + proID + "_" + idConfig + "','"+qConfig+"','" + priceConfig + "')");
+                    $("#fea-nav").css("height","0");
+    				var htmlImageConfig = "";
+    
+    				if(Array.isArray(listImgConfig)){
+    					listImgConfig.forEach(function(item,index){
+                          var imgConfig = listImgConfig[index];
+    					  if(imgConfig.indexOf("color_config") == -1)
+                          htmlImageConfig+="<li><img src='/media/product/"+imgConfig+"' alt='' /></li>";
+                        });	
+    				}else{
+                        Object.keys(listImgConfig).forEach(function(key, keyIndex) {
+    						var imgConfig = listImgConfig[key];
+    						if(imgConfig.indexOf("color_config") == -1)
+                          	htmlImageConfig+="<li><img src='/media/product/"+imgConfig+"' alt='' /></li>";
+                        });
+    				}
+                    
+    				$("#list-imgConfig").html(htmlImageConfig);
+    
+    
+    				$("#fea-nav .slides li").each(function(){
+    					var urlImage = $(this).find("img").attr("src");
+						var index = $(this).index();
+    
+    					$("#list-imgConfig li").each(function(){
+    						var imgConfig = $(this).find("img").attr("src");
+    						if(urlImage == imgConfig) $(this).attr("data-index",index);
+    					});
+    					
+    				});
+    				$("#list-imgConfig li").click(function(){
+    					var index = $(this).attr("data-index");
+    					$("#fea-nav .slides li").eq(index).click();
+    				});
+   					
+					$("#list-imgConfig li").eq(0).click();	
+
+                }
+
+                $("#sel_quantity").change(function(){
+                	$(".item-attribute-config.selected").click();
+                });
+              	
+                if (isItemInArray(arrTemp, currentID)) {
+                    for (var j = 0; j < arrTemp.length; j++) {
+                        if (currentID.indexOf(arrTemp[j]) == -1) $("#" + arrTemp[j]).removeClass("disable");
+                    }
+                }
+            }
+        });
+        
+      
+      	var color_code = "mau_sac";
+        //Hiển thị ảnh cho thuộc tính màu sắc
+        $("#"+color_code+" b").each(function(){
+            var colorId = $(this).attr("id");
+
+			var _this = $(this);
+            for (var i = 0; i < arrConfig.length; i++) {
+                var key = "";
+                var arrTemp = arrConfig[i];
+                if($.inArray(colorId,arrTemp) > -1){
+                    for (var n = 0; n < arrTemp.length; n++) {
+                        if (n > 0) key += "_" + arrTemp[n];
+                        else key += arrTemp[n];
+                    }
+                    key = "a" + key;
+                    var img = product_config.config_list[key].image_list;
+    				$.each(img,function(index,value){
+    					
+    					if(value.indexOf('color_config') > -1) {
+    						_this.html("<img src='/media/product/"+value+"' />"); return false;
+    						
+    					}
+    				});
+                }
+
+            }
+
+        });
+
+		//Chọn cấu hình đầu tiên
+        /*
+        for(var i=0; i < arrConfig[0].length; i++){
+            $("#"+arrConfig[0][i]).click();
+        }
+    	*/
+
+
+        var priceMin = 999999999999;
+        var positionMin = 0;
+        for (var i = 0; i < arrConfig.length; i++) {
+            var arrTemp = arrConfig[i];
+
+            var key = "";
+            for (var n = 0; n < arrTemp.length; n++) {
+                if (n > 0) key += "_" + arrTemp[n];
+                else key += arrTemp[n];
+            }
+            key = "a" + key;
+
+            var priceConfig = product_config.config_list[key].price;
+
+            if (parseInt(priceConfig) < parseInt(priceMin)) {
+                priceMin = parseInt(priceConfig);
+                positionMin = i;
+            }
+
+        }
+
+        for (var i = 0; i < arrConfig[positionMin].length; i++) {
+            $("#" + arrConfig[positionMin][i]).click();
+        }
+
+    });
+}
+  </script>
+  {/if}

@@ -1,0 +1,10 @@
+<!--Thong so ky thuat san pham-->
+{if="strlen($product_spec.productSpec) > 10"}
+
+{$product_spec.productSpec}
+
+{else}
+
+{$product_spec.productTechnicalTable}
+
+{/if}

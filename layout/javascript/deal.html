@@ -1,0 +1,35 @@
+<script>
+    $(function(){
+        //buy product
+        listenBuyButton("#add-deal-to-cart");
+    });
+
+    function listenBuyButton(dom_target) {
+        $(dom_target).on("click", function () {
+
+            if(!Hura.Cart.isReady()) alert("Cart chua san sang!");
+
+            var deal_info = {
+                id : this.getAttribute("data-id"),
+                quantity: 1,
+                buyer_note : '',
+            };
+
+            console.log("cart content = " + JSON.stringify(Hura.Cart.getCart(), true, 4));
+
+            var addStatus = Hura.Cart.Deal.add(deal_info);
+
+            if(addStatus) {
+                addStatus.then(function () {
+                    console.log("cart content = " + JSON.stringify(Hura.Cart.getCart(), true, 4));
+                    //hien thi tom tat, tu javascript/global
+                    showCartSummary();
+                    Hura.Cart.goToCartPage();
+                })
+            } else {
+                Hura.Cart.goToCartPage();
+            }
+
+        });
+    }
+</script>

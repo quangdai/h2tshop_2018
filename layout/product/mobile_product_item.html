@@ -1,0 +1,34 @@
+<div class="item-content-product">
+  <div class="border-product">
+    <div class="box-product">
+      {if="$value.marketPrice > $value.price"}
+      {$temp = 100 - $value.price*100/$value.marketPrice;}
+      {$percent = ceil($temp);}
+      <div class="price_off">-{$percent}%</div>
+      {/if}
+      {if="$value.quantity < 1"}
+      <span class="status_contact">
+        {if="$value.quantity == 0"}Tạm hết hàng
+        {elseif="$value.quantity==-1"}Liên hệ
+        {elseif="$value.quantity==-2"}Sắp có hàng
+        {elseif="$value.quantity==-3"}Gọi để có giá tốt
+        {elseif="$value.quantity==-4"}Vừa có hàng
+        {elseif="$value.quantity==-6"}Ngừng kinh doanh
+        {/if}
+      </span>
+      {/if}
+      {if="sizeof($value.specialOffer) > 0"}<div class="is_specialOffer">Quà tặng</div>{/if}
+      <a href="{$value.productUrl}">
+        <img class="img-content-product" src="{$value.productImage.large}"/>
+      </a>
+      <p class="clearfix"></p>
+    </div>
+    {if="$value.marketPrice > $value.price"}
+    <p class="priceline "><span class="ms-number-money">{$value.marketPrice|format_price}</span> ₫</p>
+    <p class="clearfix"></p>
+    {/if}
+    <p class="price "> <span class="ms-number-money">{if="$value.price > 0"}{$value.price|format_price}₫{else}Liên hệ{/if}</span></p>
+    <p class="short-name"><span>{$value.brand.name}</span></p>
+    <h3 class="full-name"><a href="{$value.productUrl}">{$value.productName}</a></h3>
+  </div>
+</div>

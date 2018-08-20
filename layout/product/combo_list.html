@@ -1,0 +1,24 @@
+<h2>Danh sách combo</h2>
+
+<table border="1" bordercolor="#CCCCCC" style="border-collapse: collapse; width: 100%" cellpadding="3" cellspacing="0">
+
+{loop="$combo_list"}
+    <tr>
+        <td>
+            {$counter + 1},
+        </td>
+        <td>
+            <strong>{$value.title}</strong> <br>
+            {loop="$value.product_list"}
+                - {$value.productName} <br>
+            {/loop}
+        </td>
+        <td>
+            {$value.sale_price|format_price}
+        </td>
+        <td>
+            <a href="javascript:void(0)" class="add-combo-to-cart" data-id="{$value.id}">Mua ngay</a>
+        </td>
+    </tr>
+{/loop}
+</table>

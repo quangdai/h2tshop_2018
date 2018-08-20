@@ -1,0 +1,131 @@
+
+<div id='list_pro' class="main">
+
+    <div class="clear"></div>
+
+    <div class="lead_cate">
+        DAILY DEAL
+        <div class="lead_cate_in">
+            <a href="/san-pham-moi">Hàng mới về</a> <a href="/san-pham-hot">Sản phẩm nổi bật</a> <a href="/san-pham-xa-hang">Giảm giá</a>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="main_sub_2">
+
+        <div class="pro_row">
+
+            <!--<div class="lead_sub5">
+                <div class="num_page">
+                    <div class="num_in">
+                        {$paging}
+                    </div>
+                </div>
+            </div>-->
+
+            <div class="lead_sub6 shadow">
+                <div class="txt_1 chudam">DAILY DEAL</div>
+
+                <!--<a class="comp" href="javascript:;" onclick="compare_product()">(Tích chọn sp rồi nhấn So sánh)</a>-->
+
+                <div class="lsort6">
+                    <select onchange="window.location='?sort='+this.value">
+                        <option>Sắp xếp sản phẩm</option>
+                        {loop="sort_by_collection"}
+                        {if="$sort_by != $value.key"}<option value="{$value.url}">{$value.name}</option>
+                        {else}<option value="{$value.url}" selected>{$value.name}</option>
+                        {/if}
+                        {/loop}
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="clear"></div>
+
+            {if="sizeof($deal_list) > 0"}
+
+                <input type="hidden" id="product_compare_list" value="" />
+                <div class="listal shadow">
+
+                    {loop="deal_list"}
+                        <div class="p_item{if="$counter % 4 == 3 "} last{/if}" style="width: 232px;">
+                            <div class="framehb">
+                                <div class="hbimg">
+                                    <a href="{$value.productUrl}" style="width: 226px;">
+                                        <img class="p_img" src="{$value.productImage.large}" alt="{$value.productName}" />
+                                    </a>
+                                    <!--
+                                        {if="$value.marketPrice > 0"}
+                                            {$price_off2 = ceil(($value.marketPrice - $value.deal_price)*100/ $value.marketPrice )}
+                                        {else}
+                                            {$price_off2 = ceil(($value.price - $value.deal_price)*100/ $value.price )}
+                                        {/if}
+                                        -->
+                                    {if="$price_off2 > 0"}
+                                        <span class="i_sale">- {$price_off2} %</span>
+                                    {/if}
+                                </div>
+                                <div class="p_name"><a href="{$value.productUrl}">{$value.productName}</a></div>
+                                <div class="p_sum">{$value.productSummary}</div>
+                                <div class="p_price">{$value.deal_price|format_price} VND <span class="m_price">{if="$value.marketPrice > 0"}{$value.marketPrice|format_price} VND</span>{else}{$value.price|format_price} VND{/if}</div>
+                                <div>Thời gian còn lại : <span class="chudam" id="timer_{$value.deal_id}"></span></div>
+                            </div>
+                        </div>
+                    {if="$counter % 4 == 3"}<div class="clear"></div>{/if}
+                        <script type="text/javascript">
+                            var Timer{$value.deal_id};
+                            var TotalSeconds{$value.deal_id};
+                            function CreateTimer{$value.deal_id}(TimerID, Time) {
+                                Timer{$value.deal_id} = document.getElementById(TimerID);
+                                TotalSeconds{$value.deal_id} = Time;
+                                UpdateTimer{$value.deal_id}()
+                                window.setTimeout("Tick{$value.deal_id}()", 1000);
+                            }
+                            function Tick{$value.deal_id}() {
+                                TotalSeconds{$value.deal_id} -= 1;
+                                UpdateTimer{$value.deal_id}()
+                                window.setTimeout("Tick{$value.deal_id}()", 1000);
+                            }
+                            function UpdateTimer{$value.deal_id}() {
+                                var Seconds = TotalSeconds{$value.deal_id};
+                                var Hours = Math.floor(Seconds / 3600);
+                                Seconds -= Hours * (3600);
+                                var Minutes = Math.floor(Seconds / 60);
+                                Seconds -= Minutes * (60);
+                                //var TimeStr = ((Days > 0) ? Days + " ngày " : "") + LeadingZero{$value.deal_id}(Hours) + "giờ:" + LeadingZero{$value.deal_id}(Minutes) + "phút:" + LeadingZero{$value.deal_id}(Seconds)+ "giây"
+                                var TimeStr = LeadingZero{$value.deal_id}(Hours) + "h:" + LeadingZero{$value.deal_id}(Minutes) + "m:" + LeadingZero{$value.deal_id}(Seconds) + "s"
+                                Timer{$value.deal_id}.innerHTML = TimeStr;
+                            }
+                            function LeadingZero{$value.deal_id}(Time) {
+                                return (Time < 10) ? "0" + Time : + Time;
+                            }
+                        </script>
+                        <script type="text/javascript">window.onload = CreateTimer{$value.deal_id}("timer_{$value.deal_id}", {$value.deal_time_left});</script>
+                    {/loop}
+
+                    <!---->
+                    <div class="clear"></div>
+                </div>
+
+                <!---->
+                <div class="clear"></div>
+
+                <div class="num_page">
+                    <div class="num_in">
+                        {$paging}
+                    </div>
+                </div>
+
+            {else}
+                <div style="padding: 20px;">Không có sản phẩm nào hoặc sản phẩm đang chờ được cập nhật.</div>
+            {/if}
+
+        </div>
+        <div class="clear"></div>
+
+    </div>
+    <!---->
+    <div class="clear"></div>
+</div>

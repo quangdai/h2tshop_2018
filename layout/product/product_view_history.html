@@ -1,0 +1,35 @@
+<div class="product-list" style="width:1200px;">
+  {if="sizeof($product_list) > 0"}
+  <ul class="ul owl-carousel-history">
+    {loop="product_list"}
+    {if="$counter < 10"}
+    <li class="item" style="border: solid 1px #ddd;width:240px !important; margin-top:0;">{if="$value.productType.isNew==1"}<i class="new">Mới</i>{/if}
+            {if="$value.marketPrice > $value.price"}
+            {$temp = 100 - $value.price*100/$value.marketPrice;}
+            {$percent = ceil($temp);}
+            <div class="price_off">-{$percent}%</div>
+            {/if}
+      		{if="$value.quantity < 1"}
+            <span class="status_contact">
+              {if="$value.quantity == 0"}Tạm hết hàng{elseif="$value.quantity==-1"}Tạm hết hàng{elseif="$value.quantity==-2"}Sắp có hàng{elseif="$value.quantity==-3"}Gọi để có giá tốt{elseif="$value.quantity==-4"}Vừa có hàng{/if}
+            </span>
+            {/if}
+      		{if="sizeof($value.specialOffer) > 0"}<div class="is_specialOffer">Quà tặng</div>{/if}
+            <div class="p_container">
+              <a href="{$value.productUrl}" class="p-img">
+                <img src="{$value.productImage.large}" alt="{$value.productName}" />
+              </a>
+              <a href="{$value.productUrl}" class="p-name center">{$value.productName}</a>
+              <div class="center" style="clear:both">
+              	<span class="p-price">{if="$value.price > 0"}{$value.price|format_price}đ{else}Liên hệ{/if}</span>
+                <span class="p-old-price">{if="$value.marketPrice > $value.price"}{$value.marketPrice|format_price}đ{else}{/if}</span>
+              </div>
+            </div>
+          </li>
+    {/if}
+    {/loop}
+  </ul>
+  {else}
+  <p>Bạn chưa xem sản phẩm nào</p>
+  {/if}
+</div><!--product-list-->

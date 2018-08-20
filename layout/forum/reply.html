@@ -1,0 +1,39 @@
+
+<form method="post" enctype="multipart/form-data" action="/ajax/forum/reply.php">
+
+<p>Phản hồi chủ đề: {$post.thread_info.title}</p>
+
+{if="$post.edit_post > 0"}
+    <h2>Cập nhật lại nội dung</h2>
+{else}
+    <h2>Gửi trả lời mới</h2>
+{/if}
+
+    <br />
+        
+    <div><textarea id="messageText" name="messageText" cols="65" rows="15" onfocus="resize_textarea('messageText')">{$post.reply_info.content}</textarea></div>
+    
+   <br /> 
+   
+   {if="$post.is_user_can_post == 1"}
+   
+       <div>
+            <input type="hidden" name="edit_post_id" value="{$post.edit_post}">
+            <input type="hidden" name="reply_to" value="{$post.reply_to_id}">
+            <input type="hidden" name="topic_id" value="{$post.thread_info.id}">
+            <input type="hidden" name="secure_key" value="{$post.secure_key}">
+            <input type="hidden" name="current_page" value="{$current_page_url}">
+            <input type="submit" value="Gửi bài" />
+       </div>
+	
+    {else}
+    	
+        {if="$is_customer_login == 1"}
+        	<p>Bạn đã bị cấm gửi bài vào website này vì một số lý do</p>
+        {else}
+        	<p>Bạn cần đăng nhập để gửi bài</p>
+        {/if}
+    {/if}
+    
+</form>
+

@@ -1,0 +1,29 @@
+<!--
+{$category_info}
+{$product_category}
+-->
+
+{$parent_id = $category_info['id']}
+
+{if="sizeof($product_category.$parent_id) >0"}
+    <ul id='cpid{$category_info.id}' class="step">
+        <li style="padding: 10px;">
+            <div class="leadmhome txt_1 txt_16 chudam" style="position: absolute;left: 10px;top:0;width: 96%;">{$category_info.title}</div>
+            <div class="clear"></div>
+            <div class="step_col1">
+                {loop="$product_category.$parent_id"}
+                    <a class="sub_h1" href="{$value.url}">{$value.title}</a>
+                    {loop="product_category[$value.id]"}
+                        <a class="sub_h2" href="{$value.url}">» {$value.title}</a>
+                    {/loop}
+                {/loop}
+            </div>
+            <div class="step_col2">
+            {if="strlen($category_info.thumnail) > 0"}
+                <a href="{$value.url}"><img class="cp-img" src="{$category_info.thumnail}"></a>
+            {/if}
+            </div>
+            <div class="clear"></div>
+        </li>
+    </ul>
+{/if}

@@ -1,0 +1,47 @@
+<div class="about_left left">
+    <div><img src="includes/images/bgg_about.jpg" alt=""></div>
+    <div class="box_about">
+        <div class="menu_bgg"><div><a href="/gioi-thieu">Giới thiệu công ty</a> </div></div>
+        <div class="menu_bgg"><div><a href="/page/co-cau-to-chuc">Cơ cấu tổ chức</a></div></div>
+        <div class="menu_bgg"><div><a href="/page/dinh-huong-phat-trien">Định hướng phát triển</a></div></div>
+        <div class="menu_bgg"><div><a href="/page/doi-ngu-quan-ly">Đội ngũ quản lý</a></div></div>
+        <div class="menu_bgg"><div><a href="/page/chinh-sach-chat-luong">Chính sách chất lượng </a></div></div>
+        <div class="menu_bgg"><div><a href="/page/co-cau-to-chuc">Album ảnh</a></div></div>
+    </div>
+</div>
+<div class="about_right right">
+    <input type="hidden" id="current_use1" value="1"/>
+    <script type="text/javascript">
+        function slide_library(img_url,idmau){
+            var current_use = document.getElementById('current_use1').value;
+            document.getElementById('gallery_'+current_use).className = '';
+            document.getElementById('current_use1').value = idmau;
+            document.getElementById('gallery_'+idmau).className = 'select';
+
+            document.getElementById('gallery').innerHTML = "<img src="+ img_url +" >";
+        }
+    </script>
+    <div class="boxBorder" style="padding-right: 18px">
+    
+        <div class="fix" id="gallery"><b><img src="{$image_list.0.image.original}" alt=""></b></div>
+
+        <div class="library_thumnail">
+            <div  style="overflow:auto; width:680px;">
+                <table  cellspacing="0" border="0">
+                    <tr>
+                    	
+                        {loop="image_list"}
+                            <td width="130" class="select" id="gallery_1">
+                                <a class="gallery cboxElement" href="javascript:;"  onclick="slide_library('{$value.image.original}',1)"><img src="{$value.image.thum}" alt=""></a>
+                            </td>
+                            <td width="5px">&nbsp;</td>
+                        {/loop}
+                    
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="clear"></div>

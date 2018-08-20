@@ -1,0 +1,132 @@
+<div id="content-main">
+<div id="content-box">
+
+<div class="banner">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.0.1/css/swiper.css" type="text/css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.0.1/js/swiper.js" defer></script>
+<div class="swiper-container">
+  <div class="swiper-wrapper">
+    {loop="banner_homepage[1]"}
+    <div class="swiper-slide"><a href="{$value.desUrl}"><img src="{$value.fileUrl}" alt="{$value.title}"/> </a></div>
+    {/loop}
+  </div>
+  <div class="swiper-pagination pagination-top"></div>
+</div><!--swiper-container-->
+
+<script>
+  $(window).load(function(){
+  	var swiper = new Swiper('.swiper-container', {
+    pagination: '.pagination-top',
+    paginationClickable: true,
+    autoplay: 2500
+    });
+  });
+</script>
+<style>
+.swiper-container {
+        width: 100%;
+        height: 100%;
+  		margin:5px 0;
+    }
+.swiper-container .swiper-slide img{width:100%;}
+</style>
+    <div class="right-banner">
+        {loop="$banner_homepage[2]"}
+        {$display}
+        {/loop}
+    </div>
+</div>
+<!--
+<div class="nenu-index"></div>
+-->
+{loop="$product_category[0]"}
+{if="sizeof($product_hot[$value.id]) > 0"}
+<div class="product">
+    <div class="header-product">
+        <ul class="ul-header-product">
+            <li class="li-header-product li-header-product-cur">
+                <a href="{$value.url}">{$value.title}</a>
+            </li>
+            <li class="li-header-product view-all">
+                <a href="{$value.url}">Xem tất cả ›</a>
+            </li>
+        </ul>
+    </div>
+    <div class="content-product">
+        {loop="product_hot[$value.id]"}
+        {include="product/mobile_product_item"}
+        {/loop}
+    </div>
+</div>
+{/if}
+{/loop}
+
+  
+  <div class="product">
+  <div class="header-product">
+      <ul class="ul-header-product">
+        <li class="li-header-product li-header-product-cur">
+          <a href="/tin-tuc">TIN NỔI BẬT</a>
+        </li>
+        <li class="li-header-product view-all">
+          <a href="/tin-tuc">Xem tất cả ›</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+    <ul class="news_list ul">
+      {loop="top_article_list"}{if="$counter < 3"}
+      <li class="clearfix">
+        <div class="nl_info">
+          <div class="nl_title">
+            <a href="{$value.url}">{$value.title}</a>
+          </div>
+          <div class="nl_date">{$value.createDate}</div>
+          <div class="nl_sapo">
+            <div class="nl_img">
+              <a href="{$value.url}" title="{$value.title}">
+                <img src="{$value.image.thum}" alt="{$value.title}" width="100" /></a>
+            </div>
+            {$value.summary}
+          </div>
+        </div>
+      </li>
+      {/if}{/loop}
+    </ul>  
+  
+    <div class="product">
+  <div class="header-product">
+      <ul class="ul-header-product">
+        <li class="li-header-product li-header-product-cur">
+          <a href="/video-mo-hop.html">VIDEO</a>
+        </li>
+        <li class="li-header-product view-all">
+          <a href="/video-mo-hop.html">Xem tất cả ›</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+    <ul class="news_list ul">
+      {loop="other_article_list[4]"}{if="$counter < 3"}
+      <li class="clearfix">
+        <div class="nl_info">
+          <div class="nl_title">
+            <a href="{$value.url}">{$value.title}</a>
+          </div>
+          <div class="nl_date">{$value.createDate}</div>
+          <div class="nl_sapo">
+            <div class="nl_img">
+              <a href="{$value.url}" title="{$value.title}">
+                <img src="{$value.image.thum}" alt="{$value.title}" width="100" /></a>
+            </div>
+            {$value.summary}
+          </div>
+        </div>
+      </li>
+      {/if}{/loop}
+    </ul>  
+  
+</div>
+
+<p class="clearfix"></p>
+</div>

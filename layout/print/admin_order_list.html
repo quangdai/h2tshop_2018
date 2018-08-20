@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>In đơn hàng</title>
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+        <meta content="DOCUMENT" name="RESOURCE-TYPE" />    
+         <style>
+		 	body { font-family:Arial, Helvetica, sans-serif; font-size:12px}
+         	#container { max-width:900px; margin-left:auto; margin-right:auto}
+			#container h1 {font-size:18px; text-align:center}
+         </style> 
+    </head>
+    <body>
+<div id="container">
+		<h1>Danh sách đơn hàng</h1>
+        <div style='margin-bottom:6px'>Tổng số đơn hàng : <b>{$order_info.total_order}</b> - Tổng giá trị : <b>{$order_info.total_value|format_price} VND</b></div>
+        <table width=100% id='tb_padding' cellpadding="4" border=1 bordercolor=#CCCCCC style="border-collapse:collapse;">
+            <tr style="background-color:#DDD; font-weight:bold;">
+                <td width=20px>STT</td>
+                <td width=70px>Mã số</td>
+                <td width=160px>Thời gian</td>
+                <td>Người mua</td>
+                <td width=100px>Giá trị</td>
+                <td width=360px>Tình trạng</td>
+            </tr>
+        {loop="$order_list"}
+                <tr>
+                    <td>{$counter+1}</td>
+                    <td>{$value.order_code}</a></td>
+                    <td>{$value.order_time|show_datetime_from_unix}</td>
+                    <td>{$value.buyerName}</td>
+                    <td align='right'><b>{$value.totalValue|format_price} VND</b></td>
+                    <td>{$value.status_message}</td>
+                </tr>
+        {/loop}
+        </table>
+</div>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<link rel="stylesheet" href="http://local.hurastore/template/HN_computer/assets/css/styles.css" type="text/css" />
+
+<main class="custom-pc">
+    <div class="title-page">
+        <h1>Custom PC</h1>
+    </div>
+    <div class="banner-custom_config owl-carousel owl-theme">
+        <div class="item">
+            <a href="#">
+                <img src="http://local.hurastore/template/HN_computer/assets/images/banner.jpg" alt="">
+            </a>
+        </div>
+        <div class="item">
+            <a href="#">
+                <img src="http://local.hurastore/template/HN_computer/assets/images/banner.jpg" alt="">
+            </a>
+        </div>
+        <div class="item">
+            <a href="#">
+                <img src="http://local.hurastore/template/HN_computer/assets/images/banner.jpg" alt="">
+            </a>
+        </div>
+        <div class="item">
+            <a href="#">
+                <img src="http://local.hurastore/template/HN_computer/assets/images/banner.jpg" alt="">
+            </a>
+        </div>
+    </div>
+    <div class="content center container">
+        <h3>Tùy chọn cấu hình PC</h3>
+        <span>» Chúng tôi xây dựng của bạn giống như của riêng chúng tôi</span>
+
+        <div class="product-list">
+            {loop="$category_list"}
+            <div class="product-list_item">
+                <div class="boder-item">
+                    {if="strlen($value.thumbnail) > 2"}
+                    <a href="/?option=build&view=category&id={$value.id}" class="p-img">
+                        <img src="/media/category/{$value.thumbnail}" alt="">
+                    </a>
+                    {/if}
+                    <a href="/?option=build&view=category&id={$value.id}" class="p-name">{$value.title}</a>
+                    <span class="add-to-cart">Xem sản phẩm</span>
+                </div>
+            </div>
+            {/loop}
+        </div>
+    </div>
+</main>

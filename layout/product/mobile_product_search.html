@@ -1,0 +1,166 @@
+<script>
+$(function(){
+	$(".box-filter-manufactory-dl").click(function(){
+  		$(this).find("ul").toggle();
+  	});
+  	$("#filter-advanced").click(function(){
+  		$(".filter-box").toggle();
+  	});
+});
+</script>
+<div id="content-main">
+<div class="nav-sub">
+    <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a itemprop="url" title="Trang chủ" href="/">
+            <span itemprop="title">Trang chủ </span></a>
+        <strong>›</strong>
+    </span>
+    <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a itemprop="url" title="" href="#"><span itemprop="title">Tìm kiếm</span></a>
+    </span>
+</div>
+<p class="clearfix"></p>
+<div class="banner"></div>
+<div class="catorory-top">
+    <div class="product">
+        <div class="header-product">
+            <ul class="ul-header-product">
+                <li class="li-header-product li-header-product-cur">
+                    <h1>Tìm "{$search_query}"</h1>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <p class="clearfix"></p>
+
+    <p class="catorory-top-content"></p>
+</div>
+
+<div id="content-box">
+
+
+<div class="filter">
+<input id="CategorySlug" type="hidden"/>
+
+<div class="box-filter-dl">
+    <div class="box-filter-manufactory-dl">
+        <div class="box-dl box-dl-1" data-value="0">
+            <i class="arrdown"></i>
+            <input class="opt hidden" id="priceorder" name="orderby" checked="checked" type="radio" value="A">
+            <label> <span class="name">Sắp xếp theo</span> <i
+                    class="fa fa-sort-down"></i></label>
+        </div>
+        <ul class="priceorder priceorder-1">
+            {loop="$sort_by_collection"}
+            {if="$value.key=='price-desc' || $value.key=='price-asc'"}
+            <li data-type="1">
+                <a class="even-filter checked" href="{$value.url}">{$value.name}</a>
+            </li>
+            {/if}{/loop}
+        </ul>
+    </div>
+    {if="sizeof($brand_collection) > 0"}
+    <div class="box-filter-manufactory-dl">
+        <div class="box-dl box-dl-2" data-value="0">
+            <label><span class="name">Chọn hãng</span><i class="fa fa-sort-down"></i></label>
+        </div>
+        <ul class="priceorder priceorder-2">
+            {loop="$brand_collection"}
+          {if="$value.id > 0"}
+          <li class="item-filter"><input class="" type="checkbox" {if="strpos($current_page_url,'brand') > 0"}checked="checked"{/if} onclick="location.href='{$value.urlSearch}'"/> <a href="{$value.urlSearch}">{$value.name} ({$value.productCount})</a></li>
+          {/if}
+            {/loop}
+        </ul>
+    </div>
+    {/if}
+    {if="sizeof($price_filter_list) > 0"}
+    <div class="box-filter-manufactory-dl">
+        <div class="box-dl box-dl-2" data-value="0">
+            <label><span class="name">Chọn giá</span><i class="fa fa-sort-down"></i></label>
+        </div>
+        <ul class="priceorder priceorder-2">
+            {loop="$price_filter_list"}
+            <li class="item-filter"><input class="" type="checkbox" {if="$value.isCurrent==1"}checked="checked"{/if} onclick="location.href='{$value.url}'"/> <a href="{$value.url}">{$value.name}</a> <span>({$value.count})</span></li>
+            {/loop}
+        </ul>
+    </div>
+    {/if}
+    {if="sizeof($attribute_filter_list) > 0"}
+    <div class="box-filter-more-dl" id="filter-advanced">
+        <div class="box-dl box-dl-filter" data-value="0" data-type="1">
+            <label>Tìm nâng cao <i class="fa fa-sort-down"></i></label>
+        </div>
+    </div>
+    {/if}
+</div>
+<p class="clearfix"></p>
+{if="sizeof($attribute_filter_list) > 0"}
+<div class="filter-box">
+    {loop="$attribute_filter_list"}
+    {if="$value.attributeName=='Loại sản phẩm'"}
+    <div class="discount">
+        <ul>
+            {loop="$value.filterList"}
+            <li><input class="" type="checkbox" {if="$value.isCurrent==1"}checked="checked"{/if} onclick="location.href='{$value.url}'"/>
+                {if="$value.id==1"}<img src="{#IMAGE_PATH#}icon_in_cat_giamgia.jpg" alt="" />{/if}
+                {if="$value.id==2"}<img src="{#IMAGE_PATH#}icon_in_cat_kmlon.jpg" alt="" />{/if}
+                {if="$value.id==3"}<img src="{#IMAGE_PATH#}icon_in_cat_km.jpg" alt="" />{/if}
+                {if="$value.id==4"}<img src="{#IMAGE_PATH#}icon_in_cat_moi.jpg" alt="" />{/if}
+            </li>
+            {/loop}
+        </ul>
+    </div>
+    <p class="clearfix"></p>
+    {else}
+    <h3>{$value.attributeName}</h3>
+    <ul class="attribute">
+        {loop="$value.filterList"}
+        <li class="item-filter"><input class="" type="checkbox" {if="$value.isCurrent==1"}checked="checked"{/if} onclick="location.href='{$value.url}'"/> <a href="{$value.url}">{$value.name}</a> <span>({$value.count})</span></li>
+        {/loop}
+    </ul>
+    <p class="clearfix"></p>
+    {/if}
+    {/loop}
+</div>
+{/if}
+</div><!--filter-->
+<div class="product">
+<div class="content-product">
+{loop="$product_list"}
+{include="product/mobile_product_item"}
+{/loop}
+
+<p class="clearfix"></p>
+    <div class="paging">{$paging}</div>
+</div>
+</div>
+</div>
+<p class="clearfix"></p>
+{if="$current_category.is_parent==1"}
+<div class="catorory-child">
+    <ul>
+        {loop="$product_category[$current_category.id]"}
+        <li><a href="{$value.url}">{$value.title}</a></li>
+        {/loop}
+    </ul>
+    <p class="clearfix"></p>
+</div>
+{/if}
+<div class="catogory-new">
+    <h3>Tin mới</h3>
+    <ul>
+        {loop="$new_article_list"}
+      {if="$counter < 5"}
+        <li><a title="{$value.title}"
+               href="{$value.url}">
+            <h4>{$value.title}</h4></a></li>
+      {/if}
+        {/loop}
+    </ul>
+    <p class="clearfix"></p>
+</div>
+<p class="clearfix"></p>
+<div class="banner"></div>
+</div>

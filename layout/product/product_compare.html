@@ -1,0 +1,78 @@
+<div class="mainsub">
+    
+    <div id="breadcrumb">
+    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a href="/" itemprop="url" class="nopad-l">
+        <span itemprop="title">Trang chủ</span>
+      </a> ›
+    </div>
+    <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a href="#" itemprop="url">
+        <span itemprop="title">So sánh sản phẩm</span>
+      </a>
+    </div>
+  </div><!--breadcrumb-->
+    <div class="page_sub7 shadow cor">
+        <div class="page_sub7_in">
+<div class="compare_p">
+    {if="$compare_count > 1"}
+    <table width="100%" cellspacing="0" cellpadding="6" id="compare-table" border="1" bordercolor="#CCCCC" style="border-collapse:
+        collapse">
+
+        <tr>
+            <td style="width:140px">Ảnh</td>
+            {loop="compare_list.product_info"}
+                <td><img src="{$value.productImage.medium}" /></td>
+            {/loop}
+        </tr>
+        <tr>
+            <td>Tên sản phẩm</td>
+            {loop="compare_list.product_info"}
+                <td><a href="{$value.productUrl}">{$value.productName}</a></td>
+            {/loop}
+        </tr>
+        <tr>
+            <td>Giá bán</td>
+            {loop="compare_list.product_info"}
+          <td><span class="p-price" style="float:none; font-size:16px;">{$value.priceFormat}</span><br /><br /><a href="javascript:addToShoppingCartStop('pro','{$value.productId}',1,'{$value.price}')" class="button-detail add-cart"><i class="icon icon-addcart"></i> Cho vào giỏ</a></td>
+            {/loop}
+        </tr>
+        <!--tr>
+            <td>Tóm tắt</td>
+            {loop="compare_list.product_info"}
+                <td>{$value.productSummary}</td>
+            {/loop}
+        </tr-->
+      	<tr><!--11111{$compare_list.product_info|print_r}-->
+            <td>Thông số</td>
+            {loop="compare_list.product_info"}
+          <td><div class="tableSpec">{$value.productSpec}</div></td>
+            {/loop}
+        </tr>
+        {loop="compare_list.attribute"}
+            <tr>
+                <td>{$value.name}</td>
+                {loop="value.product_list"}
+                    <td>{$value}</td>
+                {/loop}
+            </tr>
+        {/loop}
+
+    </table>
+
+    {/if}
+</div>
+        </div>
+</div>
+</div>
+<style>
+.tableSpec table td {
+    border: solid 1px #ddd;
+    padding: 5px;
+}
+
+.tableSpec table {
+    border-collapse: collapse;
+    width: 100%;
+}
+</style>

@@ -1,0 +1,74 @@
+
+<div id='cat-path'><b>Bạn đang gửi bài vào mục</b>: {$post.forum.path}</div><br>
+    
+<form method="post" name="sendForm" enctype="multipart/form-data" id="sendForm" action="/ajax/forum/post.php" onsubmit="return check_form()">
+
+
+{if="$post.edit_post > 0"}
+    <h2>Cập nhật lại nội dung</h2>
+{else}
+    <h2>Gửi bài mới</h2>
+{/if}
+
+<div id="display_error"></div>
+
+<br />
+
+<div>Tiêu đề của bài viết</div>
+
+<div><input type="text" name="title" id="title" size="70" maxlength="200" value="{$post.thread_info.title}"/></div>
+
+<br />
+
+<div>Nội dung chi tiết</div>
+
+<div>
+    <textarea id="content" name="content" cols="65" rows="15" onfocus="resize_textarea('content')">{$post.thread_info.content}</textarea>
+</div>
+
+{if="$post.is_user_moderator == 1"}
+    <table>
+        <tr>	
+            <td><b>Phân loại: </b></td>
+            <td>
+                <input type='radio' name='topic_type' value="0" {if="$post.thread_info.type==0"}checked{/if} > Bình thường 
+                <input type='radio' name='topic_type' value='1' {if="$post.thread_info.type==1"}checked{/if}> Chú ý 
+                <input type='radio' name='topic_type' value='2' {if="$post.thread_info.type==2"}checked{/if}> Quan trọng 
+            </td>
+        </tr>
+    </table>
+
+{/if}
+    
+     {if="$post.is_user_can_post == 1"}
+        <div style="padding-top:10px;">
+            <input type="hidden" name="edit_post_id" value="{$post.edit_post}">
+            <input type="hidden" name="forum_id" value="{$post.forum.id}">
+            <input type="hidden" name="secure_key" value="{$post.secure_key}">
+            <input type="hidden" name="current_page" value="{$current_page_url}">
+            <input type="submit" value="Gửi bài" />
+        </div>
+	{else}
+    	
+        {if="$is_customer_login == 1"}
+        	<p>Bạn đã bị cấm gửi bài vào website này vì một số lý do</p>
+        {else}
+        	<p>Bạn cần đăng nhập để gửi bài</p>
+        {/if}
+    {/if}
+    
+</form>
+
+<script>
+	function check_form(){
+		var title = $("#title").val();
+		var content = $("#content").val();
+		var error = '';
+		if(title.length < 5 && content.length < 3) {
+			error = 'Vui lòng điền đủ nội dung và tiêu đề';
+			alert(error);
+			return false;
+		}
+		return true;
+	}
+</script>

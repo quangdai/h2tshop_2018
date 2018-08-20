@@ -1,0 +1,73 @@
+<script>
+
+    //on ready
+    $(function () {
+        //hien thi tom tat cart
+        var check_cart = setInterval(function () {
+            if(showCartSummary()) clearInterval(check_cart);
+        }, 3000);
+    })
+
+
+    //show cart summary
+    function showCartSummary() {
+        var $status_container = $("#count_shopping_cart_store");
+
+        if(!Hura.Cart.isReady()) return false;
+
+        var cart_summary = Hura.Cart.getSummary();
+        //console.log("cart_summary = " + JSON.stringify(cart_summary, true, 4));
+        $status_container.html(cart_summary.item);
+
+        return true;
+    }
+</script>
+
+<script type="text/javascript">
+    $(window).scroll(function(){
+        if($(window).scrollTop() > 540) $("#nav-hori").addClass("fixed");
+        else $("#nav-hori").removeClass("fixed");
+    });
+    $(document).ready(function(){
+        var curr_text = "";
+        var count_select = 0;
+        var curr_element="";
+        $("#text_search").keyup(function(b){
+
+            if (b.keyCode != 38 && b.keyCode != 40) {
+                inputString = $(this).val();
+                if(inputString.trim() !=''){
+                    $(".autocomplete-suggestions").show();
+                    $(".autocomplete-suggestions").load("/ajax/get_product_list.php?q="+encodeURIComponent(inputString));
+                }else  {
+                    $(".autocomplete-suggestions").hide();
+                    count_select=0;
+                }
+            }
+        });
+        $('body').click(function(){$(".autocomplete-suggestions").hide();});
+    });
+</script>
+{if="$module.name=='home'"}
+<script type="text/javascript">
+    $(function(){
+        $("#main-menu").hover(function(){
+            $("#main-menu ul li.li-hide").show();
+            $(".sub-nav").css("min-height",$("#main-menu .menu").height()+8);
+        },function(){
+            $("#main-menu ul li.li-hide").hide();
+        });
+    })
+</script>
+{else}
+<script type="text/javascript">
+    $(function(){
+        $("#main-menu").hover(function(){
+            $("#main-menu .menu").show();
+            $(".sub-nav").css("min-height",$("#main-menu .menu").height()+8);
+        },function(){
+            $("#main-menu .menu").hide();
+        });
+    })
+</script>
+{/if}

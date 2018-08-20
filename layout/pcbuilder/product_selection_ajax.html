@@ -1,0 +1,88 @@
+{if="!$pcbuilder.pc_part"}
+	
+    <p>Bạn đã xây dựng xong. Vui lòng <a href="javascript:pcbuilder_viewpc();">Click vào đây</a> để xem và in cấu hình</p>
+    
+{else}
+    <div class="process-title"><p>Bước {$pcbuilder.step} - chọn {$pcbuilder.pc_part} - <a href="javascript:pcbuilder_next_step()">Bỏ qua</a></p></div>    
+    <input type="hidden" id="pc_part_name" value="{$pcbuilder.pc_part}" />    
+    <table border="0" cellpadding="0" cellspacing="0" style="width:100%;">
+    	<tr>
+        	<td style="vertical-align:top" class="process-filter clearUl">
+            	
+                <h2>Khoảng giá</h2>
+            	<ul>
+                {loop="price_filter_list"}
+                    <li>
+                        <a href="javascript:loadAjaxContent('pc_part_process','{$value.url}')"><span class="symbol">&nbsp;</span> {$value.name}</a> ({$value.count})<br />
+                    </li>
+                {/loop}
+                </ul>   
+              
+                <h2>Hãng sản xuất</h2>
+                <ul>
+                {loop="brand_filter_list"}
+                    <li>
+                	    <a href="javascript:loadAjaxContent('pc_part_process','{$value.url}')"><span class="symbol">&nbsp;</span> {$value.name}</a> ({$value.count})<br />
+                    </li>
+                {/loop}
+                </ul>
+                
+                {loop="attribute_filter_list"}
+                    <h2>{$value.attributeName}</h2>
+                    <ul>
+                    {loop="value.filterList"}
+                        <li>
+                            <a href="javascript:loadAjaxContent('pc_part_process','{$value.url}')"><span class="symbol">&nbsp;</span> {$value.name}</a> ({$value.count})<br>
+                        </li>
+                    {/loop}
+                	</ul>
+                {/loop}
+            </td>
+            <td style="vertical-align:top" class="process-right">
+                    <table border="0" cellpadding="5" cellspacing="0" style="width:100%;">
+                        <tr class="bTitle">
+                            <td class="bTitle-cols1">STT</td>
+                            <td class="bTitle-cols2">Ảnh</td>
+                            <td class="bTitle-cols3">Sản phẩm</td>
+                            <td class="bTitle-cols4">Lựa chọn</td>
+                        </tr>
+                        {loop="product_list"}
+                            <tr class="bList">
+                                <td class="bList-cols1">{$counter+1}</td>
+                                <td class="bList-cols2 cssImg">
+                                    {if="strlen($value.productImage.medium) > 4"}
+                                    <img src='{$value.productImage.medium}' alt="{$value.productName}" />
+                                    {else}
+                                    -
+                                    {/if}
+                                </td>
+                                <td class="bList-cols3">
+                                    <p class="cssName">
+                                        <a href="{$value.productUrl}">{$value.productName}</a>
+                                    </p>
+                                    <p class="cssSummary">{$value.productSummary}</p>
+                                </td>
+                                <td class="bList-cols4">
+                                    <p class="cssPrice">{$value.price|format_price}</p>
+                                    <p class="cssSelect">
+                                        <a href="javascript:pcbuilder_select_part('{$value.id}', '{$pcbuilder.cat_id}', '{$pcbuilder.step}', '{$pcbuilder.pc_part}')">Chọn sản phẩm</a>
+                                    </p>
+                                    <input type="hidden" id="price_{$value.id}" value="{$value.price}" />
+                                    <input type="hidden" id="name_{$value.id}" value="{$value.productName}" />
+                                    <input type="hidden" id="url_{$value.id}" value="{$value.productUrl}" />
+                                </td>
+                            </tr>
+                        {else}    
+                            <tr>
+                                <td colspan="4" class="bList-other"><p>Không có sản phẩm nào thõa mãn. Vui lòng <a href="javascript:pcbuilder_next_step()">bỏ qua</a> bước này hoặc <a href="/xay-dung-may-tinh">làm lại từ đầu</a></p></td>
+                            </tr>
+                        {/loop}
+                    </table>
+
+                   <div class="pageding">{$paging} </div>
+                   <div class="clear10px"></div>
+            </td>
+        </tr>
+    </table>
+    
+{/if}

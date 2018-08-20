@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BuildPC</title>
+</head>
+<body>
+
+<p>File này dùng để gửi bạn bè, export ra excel và export ra ảnh! Sửa nhé</p>
+
+<div style="max-width: 700px; margin-left: auto; margin-right: auto;">
+    {loop="$pc_config"}
+        <h3>{$value.info.name}</h3>
+        <table width="100%">
+            {loop="$value.items"}
+            <tr>
+                <td style="width: 120px">
+                    <img src="{$value.image}" style="max-width: 100px">
+                </td>
+                <td>
+                    <div>{$value.name}</div>
+                    <div>{$value.description}</div>
+                    <div>Giá: {$value.price|format_price} VND</div>
+                    <div>SL: {$value.quantity}</div>
+                </td>
+            </tr>
+            {/loop}
+        </table>
+    {/loop}
+</div>
+
+</body>
+</html>

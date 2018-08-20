@@ -1,0 +1,101 @@
+<div class="category_path">
+    <a href="/">Trang chủ</a> > Liên hệ </div>
+<div class="line_x"></div>
+
+<br />   
+
+<div class="support-content">
+        <h1> Liên hệ</h1>
+          
+      
+
+
+        <div class="page-nd">
+            <!---->
+                <div>
+                    {$store_address}
+                </div>
+
+            {if="$send_success=='yes'"}
+
+            <h2>Cảm ơn quý khách đã liên hệ.</h2>
+
+            <p>Chúng tôi đã nhận được thông tin và sẽ liên hệ với quý khách trong thời gian sớm nhất</p>
+
+                {else}
+
+            <br />
+            <style type="text/css">
+                .require { font-weight:bold; color:#F00}
+            </style>
+            <div style="font-weight:bold;">Quý khách vui lòng gửi thông tin theo form sau :</div>
+
+            <br />
+          <form method="post" enctype="multipart/form-data" action="/ajax/customer_contact.php">
+                <table>
+                    <tr>
+                        <td>Tên đầy đủ <span class="require">*</span></td>
+                        <td><input type="text" size="40" name="contact_name" id="contact_name" /></td>
+                    </tr>
+                    <tr>
+                        <td>Email <span class="require">*</span></td>
+                        <td><input type="text" size="40" name="contact_email" id="contact_email" /></td>
+                    </tr>
+                    <tr>
+                        <td>Điện thoại</td>
+                        <td><input type="text" size="40" name="contact_tel" id="contact_tel" /></td>
+                    </tr>
+                    <tr>
+                        <td>Thông tin liên hệ <span class="require">*</span></td>
+                        <td><textarea cols="50" rows="8" name="contact_message" id="contact_message"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Mã bảo vệ <span class="require">*</span></td>
+                        <td><img src="/includes/captcha/captcha.php?v=" id='captchar_holder' /> <a href="javascript:change_captcha('captchar_holder')">đổi mã khác</a> <br /><input type="text" size="10" id='captcha' name="captcha" /></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <br />
+                            <input type="submit" value="Gửi liên hệ" onclick="return check_form();" />
+                        </td>
+                    </tr>
+                </table>
+                <input type="hidden" value="send" name="action" />
+                <input type="hidden" name="return_url" value="{$return_url}" />
+            </form>
+            {/if}
+
+            <script type="text/javascript">
+                function check_form(){
+                    var error = "";
+                    var check_name = document.getElementById('contact_name').value;
+                    var check_email = document.getElementById('contact_email').value;
+                    var check_message = document.getElementById('contact_message').value;
+                    var check_captcha = document.getElementById('captcha').value;
+              
+                    if(check_name.length < 4) error += "- Bạn chưa nhập tên\n";
+                    if(check_email.length < 4) error += "- Bạn chưa nhập email\n";
+                    if(check_message.length < 4) error += "- Bạn chưa nhập nội dung\n";
+                    if(check_captcha.length < 4) error += "- Bạn chưa nhập Mã bảo vệ\n";
+
+                    if(error == "") return true;
+                    else alert(error);
+                    return false;
+                }
+              
+               
+                function change_captcha(holder){
+                  var unixtime_ms = new Date().getTime();
+                  $("#"+holder).attr("src","/includes/captcha/captcha.php?v="+unixtime_ms);
+                }
+  
+            </script>
+            <!---->
+     
+        </div>
+      
+</div>
+    <div class="clear10px"></div>
+<!--end-wrap-->
+
